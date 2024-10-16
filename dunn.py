@@ -84,9 +84,8 @@ def dunn_index(data, labels):
     inter_cluster_distances = []
     intra_cluster_distances = []
 
-    # Calcolare le distanze tra tutti i punti
-    dist_matrix = pairwise_distances(data)
-    print(dist_matrix)
+    #Calcolare le distanze tra tutti i punti
+    #dist_matrix = pairwise_distances(data)
 
     for i in range(len(labels)):
         if(unique_labels[0] == labels[i]):
@@ -98,15 +97,22 @@ def dunn_index(data, labels):
     # Distanze inter-cluster
     for i in range(len(cluster_i)):
          for j in range(len(cluster_j)):
-              distanza = pairwise_distances(min([data[i]], [data[j]]))[0][0]
+              distanza = pairwise_distances([data[i]], [data[j]])[0][0]
               inter_cluster_distances.append((distanza))
+              inter_cluster_distances = list(map(float, inter_cluster_distances))
     print("inter", inter_cluster_distances)
-    # Distanze intra-cluster
-    for i in range(len(cluster_i)):
-        distanza = pairwise_distances(max([data[i]], [data[i+1]]))[0][0]
+    # Distanze intra-cluster_
+    for i in range(len(cluster_i)-1):
+        distanza = pairwise_distances([data[i]], [data[i+1]])[0][0]
         intra_cluster_distances.append(distanza)
-
+    for i in range(len(cluster_j)-1):
+        distanza = pairwise_distances([data[j]], [data[j+1]])[0][0] #da rivedere
+        intra_cluster_distances.append(distanza)
+        intra_cluster_distances = list(map(float, intra_cluster_distances))
+    print("intra", intra_cluster_distances)
     #metrica dunn
     return min(inter_cluster_distances) / max(intra_cluster_distances)
+
 dunn = dunn_index(matrix1, etichette1)
+print(dunn)
 
