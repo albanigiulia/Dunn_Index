@@ -1,7 +1,7 @@
 import random
 from random import randint
 # per intallare il pacchetto clusteval esegui "pip intstall clusteval"
-#from clusteval import clusteval
+# from clusteval import clusteval
 from sklearn.cluster import KMeans
 from sklearn.metrics import pairwise_distances
 #from random import randint
@@ -73,6 +73,40 @@ etichette4 = kmeans4.labels_
 
 # Inizializzare Clusteval con la metrica Dunn
 #ce = clusteval(metric='dunn')
-#results = ce.evaluate(matrix_zero_uno_or, kmeans)
-#print("risultati:", results)
+#results1 = ce.evaluate(matrix1, etichette1)
+#print("risultati:", results1)
+
+
+def dunn_index(data, labels):
+    unique_labels = np.unique(labels)
+    cluster_i = []
+    cluster_j = []
+    inter_cluster_distances = []
+    intra_cluster_distances = []
+
+    # Calcolare le distanze tra tutti i punti
+    dist_matrix = pairwise_distances(data)
+    print(dist_matrix)
+
+    for i in range(len(labels)):
+        if(unique_labels[0] == labels[i]):
+                cluster_i.append(i)
+        if(unique_labels[1] == labels[i]):
+                cluster_j.append(i)
+    print("cluster i", cluster_i)
+    print("cluster j",cluster_j)
+    # Distanze inter-cluster
+    for i in range(len(cluster_i)):
+         for j in range(len(cluster_j)):
+              distanza = pairwise_distances(min([data[i]], [data[j]]))[0][0]
+              inter_cluster_distances.append((distanza))
+    print("inter", inter_cluster_distances)
+    # Distanze intra-cluster
+    for i in range(len(cluster_i)):
+        distanza = pairwise_distances(max([data[i]], [data[i+1]]))[0][0]
+        intra_cluster_distances.append(distanza)
+
+    #metrica dunn
+    return min(inter_cluster_distances) / max(intra_cluster_distances)
+dunn = dunn_index(matrix1, etichette1)
 
