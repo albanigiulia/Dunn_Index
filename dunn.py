@@ -101,8 +101,8 @@ def dunn_index(data, labels):
          for j in range(len(cluster_j)):
              # ipotizzare contenuto di datai e dataj
              # stamperei data[i] e data[j]
-              print("DATA[i]", data[cluster_i[i]])
-              print("DATA[j]", data[cluster_j[j]])
+             # print("DATA[i]", data[cluster_i[i]])
+             # print("DATA[j]", data[cluster_j[j]])
               distanza = euclidean(data[cluster_i[i]], data[cluster_j[j]]) 
               inter_cluster_distances.append((distanza))
               inter_cluster_distances = list(map(float, inter_cluster_distances))
@@ -119,6 +119,6 @@ def dunn_index(data, labels):
     #metrica dunn
     return min(inter_cluster_distances) / max(intra_cluster_distances)
 
-dunn = dunn_index(matrix1, etichette1)
+dunn = dunn_index(matrix2, etichette2)
 print("dunn", dunn)
 
