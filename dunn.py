@@ -6,6 +6,7 @@ from sklearn.cluster import KMeans
 from sklearn.metrics import pairwise_distances
 #from random import randint
 import numpy as np
+from scipy.spatial.distance import euclidean
 
 #creo una matrice di 0 e 1 ordinati
 matrix1= [[0,0,0,0], [0,0,0,0], [1,1,1,1], [1,1,1,1]]
@@ -85,28 +86,33 @@ def dunn_index(data, labels):
     intra_cluster_distances = []
 
     #Calcolare le distanze tra tutti i punti
-    #dist_matrix = pairwise_distances(data)
+    dist_matrix = pairwise_distances(data, metric='euclidean')
+    print("distance", dist_matrix)
 
     for i in range(len(labels)):
         if(unique_labels[0] == labels[i]):
                 cluster_i.append(i)
         if(unique_labels[1] == labels[i]):
                 cluster_j.append(i)
-    print("cluster i", cluster_i)
+    print("cluster i", cluster_i) #contiene le righe della matrice "data" che appartengono al primo cluster
     print("cluster j",cluster_j)
-    # Distanze inter-cluster
+    # Distanze inter-cluster 
     for i in range(len(cluster_i)):
          for j in range(len(cluster_j)):
-              distanza = pairwise_distances([data[i]], [data[j]])[0][0]
+             # ipotizzare contenuto di datai e dataj
+             # stamperei data[i] e data[j]
+              print("DATA[i]", data[cluster_i[i]])
+              print("DATA[j]", data[cluster_j[j]])
+              distanza = euclidean(data[cluster_i[i]], data[cluster_j[j]]) 
               inter_cluster_distances.append((distanza))
               inter_cluster_distances = list(map(float, inter_cluster_distances))
     print("inter", inter_cluster_distances)
     # Distanze intra-cluster_
     for i in range(len(cluster_i)-1):
-        distanza = pairwise_distances([data[i]], [data[i+1]])[0][0]
+        distanza = euclidean(data[cluster_i[i]], data[cluster_i[i+1]])
         intra_cluster_distances.append(distanza)
-    for i in range(len(cluster_j)-1):
-        distanza = pairwise_distances([data[j]], [data[j+1]])[0][0] #da rivedere
+    for j in range(len(cluster_j)-1):
+        distanza = euclidean(data[cluster_j[j]], data[cluster_j[j+1]])
         intra_cluster_distances.append(distanza)
         intra_cluster_distances = list(map(float, intra_cluster_distances))
     print("intra", intra_cluster_distances)
@@ -114,5 +120,5 @@ def dunn_index(data, labels):
     return min(inter_cluster_distances) / max(intra_cluster_distances)
 
 dunn = dunn_index(matrix1, etichette1)
-print(dunn)
+print("dunn", dunn)
 
