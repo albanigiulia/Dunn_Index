@@ -10,6 +10,7 @@ from scipy.spatial.distance import euclidean
 
 #creo una matrice di 0 e 1 ordinati
 matrix1= [[0,0,0,0], [0,0,0,0], [1,1,1,1], [1,1,1,1]]
+matrix5 = [[1, 2], [3, 4], [5, 6], [7, 8]]
 
 #creo una matrice di 0 e 1
 matrix2 = []
@@ -58,19 +59,26 @@ print("Centri dei cluster:", kmeans2.cluster_centers_)
 print("Etichette assegnate:", kmeans2.labels_) #Ogni riga della matrice M è assegnata a uno dei due cluster (0 o 1).
 etichette2 = kmeans2.labels_
 
-# Applicare KMeans con k=3 ai dati della matrice matrix3
+# Applicare KMeans con k=2 ai dati della matrice matrix3
 kmeans3 = KMeans(n_clusters=2)
 kmeans3.fit(matrix3)
 print("Centri dei cluster:", kmeans3.cluster_centers_)
 print("Etichette assegnate:", kmeans3.labels_) #Ogni riga della matrice M è assegnata a uno dei due cluster (0 o 1).
 etichette3 = kmeans3.labels_
 
-# Applicare KMeans con k=4 ai dati della matrice matrix3
+# Applicare KMeans con k=2 ai dati della matrice matrix4
 kmeans4 = KMeans(n_clusters=2)
 kmeans4.fit(matrix4)
 print("Centri dei cluster:", kmeans4.cluster_centers_)
 print("Etichette assegnate:", kmeans4.labels_) #Ogni riga della matrice M è assegnata a uno dei due cluster (0 o 1).
 etichette4 = kmeans4.labels_
+
+# Applicare KMeans con k=2 ai dati della matrice matrix5
+kmeans5 = KMeans(n_clusters=2)
+kmeans5.fit(matrix5)
+print("Centri dei cluster:", kmeans5.cluster_centers_)
+print("Etichette assegnate 5:", kmeans5.labels_) #Ogni riga della matrice M è assegnata a uno dei due cluster (0 o 1).
+etichette5 = kmeans5.labels_
 
 # Inizializzare Clusteval con la metrica Dunn
 #ce = clusteval(metric='dunn')
@@ -101,11 +109,11 @@ def dunn_index(data, labels):
          for j in range(len(cluster_j)):
              # ipotizzare contenuto di datai e dataj
              # stamperei data[i] e data[j]
-             # print("DATA[i]", data[cluster_i[i]])
-             # print("DATA[j]", data[cluster_j[j]])
-              distanza = euclidean(data[cluster_i[i]], data[cluster_j[j]]) 
-              inter_cluster_distances.append((distanza))
-              inter_cluster_distances = list(map(float, inter_cluster_distances))
+             print("DATA[i]", data[cluster_i[i]])
+             print("DATA[j]", data[cluster_j[j]])
+             distanza = euclidean(data[cluster_i[i]], data[cluster_j[j]]) 
+             inter_cluster_distances.append((distanza))
+             inter_cluster_distances = list(map(float, inter_cluster_distances))
     print("inter", inter_cluster_distances)
     # Distanze intra-cluster_
     for i in range(len(cluster_i)-1):
@@ -119,6 +127,6 @@ def dunn_index(data, labels):
     #metrica dunn
     return min(inter_cluster_distances) / max(intra_cluster_distances)
 
-dunn = dunn_index(matrix2, etichette2)
+dunn = dunn_index(matrix5, etichette5)
 print("dunn", dunn)
 
