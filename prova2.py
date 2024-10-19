@@ -1,7 +1,36 @@
 import numpy as np
 from permetrics import ClusteringMetric
 from sklearn.cluster import KMeans
+import csv
 
+filename = "file1.csv"
+
+# initializing the titles and rows list
+fields = []
+rows = []
+
+with open(filename, 'r') as csvfile:
+    # creating a csv reader object
+    csvreader = csv.reader(csvfile)
+
+    # extracting field names through first row
+    fields = next(csvreader)
+
+    # extracting each data row one by one
+    for row in csvreader:
+        rows.append(row)
+    # get total number of rows
+    print("Total no. of rows: %d" % (csvreader.line_num))
+
+# printing the field names
+print('Field names are:' + ', '.join(field for field in fields))
+
+# printing first 5 rows
+
+#print(rows)
+
+# Stampa la matrice risultante
+#print(matrix4)
 
 # matrici di prova
 matrix1= [[0, 0, 0, 0], [0, 0, 0, 0], [1, 1, 1, 1], [1, 1, 1, 1], [1, 1, 1, 1]]
@@ -10,7 +39,7 @@ matrix3= [[3.74718949, 8.57980992, 8.33612174, 2.24941705, 3.97734191, 2.8071900
 
 # calcolo labels
 def label(matrix):
-    kmeans = KMeans(n_clusters=2)
+    kmeans = KMeans(n_clusters=2, random_state=0, n_init="auto")
     kmeans.fit(matrix)
     return kmeans.labels_
 
@@ -26,10 +55,10 @@ def dunnIndex(matrix, labels):
 labels1= label(matrix1)
 dunnIndex(matrix1, labels1)
 
-labels2= [0, 1, 1, 1, 1, 0, 1, 1, 1, 0] #label(matrix2)
+labels2= label(matrix2)
 print(labels2)
 dunnIndex(matrix2, labels2)
 
-labels3= [1, 1, 1, 0, 0, 0, 0, 1, 0, 1]#label(matrix3)
+labels3= label(matrix3)
 print(labels3)
 dunnIndex(matrix3, labels3)
