@@ -3,34 +3,86 @@ from permetrics import ClusteringMetric
 from sklearn.cluster import KMeans
 import csv
 
-filename = "file1.csv"
 
-# initializing the titles and rows list
+filename = "file1.csv"
 fields = []
 rows = []
-
 with open(filename, 'r') as csvfile:
-    # creating a csv reader object
     csvreader = csv.reader(csvfile)
-
-    # extracting field names through first row
     fields = next(csvreader)
-
-    # extracting each data row one by one
     for row in csvreader:
         rows.append(row)
-    # get total number of rows
-    print("Total no. of rows: %d" % (csvreader.line_num))
 
-# printing the field names
-print('Field names are:' + ', '.join(field for field in fields))
+matrix4 = []
+for riga in rows:
+    nuova_riga = []
+    for elemento in riga:
+        nuova_riga.append(float(elemento))
+    matrix4.append(nuova_riga)
 
-# printing first 5 rows
+filename = "file2.csv"
+fields = []
+rows = []
+with open(filename, 'r') as csvfile:
+    csvreader = csv.reader(csvfile)
+    fields = next(csvreader)
+    for row in csvreader:
+        rows.append(row)
 
-#print(rows)
+matrix5 = []
+for riga in rows:
+    nuova_riga = []
+    for elemento in riga:
+        nuova_riga.append(float(elemento))
+    matrix5.append(nuova_riga)
 
-# Stampa la matrice risultante
-#print(matrix4)
+filename = "file3.csv"
+fields = []
+rows = []
+with open(filename, 'r') as csvfile:
+    csvreader = csv.reader(csvfile)
+    fields = next(csvreader)
+    for row in csvreader:
+        rows.append(row)
+
+matrix6 = []
+for riga in rows:
+    nuova_riga = []
+    for elemento in riga:
+        nuova_riga.append(float(elemento))
+    matrix6.append(nuova_riga)
+
+filename = "file4.csv"
+fields = []
+rows = []
+with open(filename, 'r') as csvfile:
+    csvreader = csv.reader(csvfile)
+    fields = next(csvreader)
+    for row in csvreader:
+        rows.append(row)
+
+matrix7 = []
+for riga in rows:
+    nuova_riga = []
+    for elemento in riga:
+        nuova_riga.append(float(elemento))
+    matrix7.append(nuova_riga)
+
+filename = "file5.csv"
+fields = []
+rows = []
+with open(filename, 'r') as csvfile:
+    csvreader = csv.reader(csvfile)
+    fields = next(csvreader)
+    for row in csvreader:
+        rows.append(row)
+
+matrix8 = []
+for riga in rows:
+    nuova_riga = []
+    for elemento in riga:
+        nuova_riga.append(float(elemento))
+    matrix8.append(nuova_riga)
 
 # matrici di prova
 matrix1= [[0, 0, 0, 0], [0, 0, 0, 0], [1, 1, 1, 1], [1, 1, 1, 1], [1, 1, 1, 1]]
@@ -62,3 +114,19 @@ dunnIndex(matrix2, labels2)
 labels3= label(matrix3)
 print(labels3)
 dunnIndex(matrix3, labels3)
+
+labels4= label(matrix4) # -> 10_7717_peerj_5665_dataYM2018_neuroblastoma -> file 1
+print(labels4)
+dunnIndex(matrix4, labels4)
+
+labels5= label(matrix5) #-> journal.pone.0175818_S1Dataset_Spain_cardiac_arrest_EDITED. -> file 2
+print("label 5:", labels5)
+#dunnIndex(matrix5, labels5)
+
+labels6= label(matrix6)
+print(labels6)
+dunnIndex(matrix6, labels6)
+
+labels8= label(matrix8)
+print(labels8)
+dunnIndex(matrix8, labels8)
