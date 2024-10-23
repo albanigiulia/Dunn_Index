@@ -46,35 +46,35 @@ for i in range(4):
 print(matrix4)
 
 # Applicare KMeans con k=2 ai dati della matrice matrix1
-kmeans1 = KMeans(n_clusters=2)
+kmeans1 = KMeans(n_clusters=2, random_state=0, n_init="auto")
 kmeans1.fit(matrix1)
 print("Centri dei cluster:", kmeans1.cluster_centers_)
 print("Etichette assegnate:", kmeans1.labels_) 
 etichette1 = kmeans1.labels_
 
 # Applicare KMeans con k=2 ai dati della matrice matrix2
-kmeans2 = KMeans(n_clusters=2)
+kmeans2 = KMeans(n_clusters=2, random_state=0, n_init="auto")
 kmeans2.fit(matrix2)
 print("Centri dei cluster:", kmeans2.cluster_centers_)
 print("Etichette assegnate:", kmeans2.labels_) #Ogni riga della matrice M è assegnata a uno dei due cluster (0 o 1).
 etichette2 = kmeans2.labels_
 
 # Applicare KMeans con k=2 ai dati della matrice matrix3
-kmeans3 = KMeans(n_clusters=2)
+kmeans3 = KMeans(n_clusters=2, random_state=0, n_init="auto")
 kmeans3.fit(matrix3)
 print("Centri dei cluster:", kmeans3.cluster_centers_)
 print("Etichette assegnate:", kmeans3.labels_) #Ogni riga della matrice M è assegnata a uno dei due cluster (0 o 1).
 etichette3 = kmeans3.labels_
 
 # Applicare KMeans con k=2 ai dati della matrice matrix4
-kmeans4 = KMeans(n_clusters=2)
+kmeans4 = KMeans(n_clusters=2, random_state=0, n_init="auto")
 kmeans4.fit(matrix4)
 print("Centri dei cluster:", kmeans4.cluster_centers_)
 print("Etichette assegnate:", kmeans4.labels_) #Ogni riga della matrice M è assegnata a uno dei due cluster (0 o 1).
 etichette4 = kmeans4.labels_
 
 # Applicare KMeans con k=2 ai dati della matrice matrix5
-kmeans5 = KMeans(n_clusters=2)
+kmeans5 = KMeans(n_clusters=2, random_state=0, n_init="auto")
 kmeans5.fit(matrix5)
 print("Centri dei cluster:", kmeans5.cluster_centers_)
 print("Etichette assegnate 5:", kmeans5.labels_) #Ogni riga della matrice M è assegnata a uno dei due cluster (0 o 1).
