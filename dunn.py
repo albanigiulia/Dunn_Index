@@ -8,6 +8,7 @@ from sklearn.metrics import pairwise_distances
 import numpy as np
 from scipy.spatial.distance import euclidean
 
+
 #creo una matrice di 0 e 1 ordinati
 matrix1= [[0,0,0,0], [0,0,0,0], [1,1,1,1], [1,1,1,1]]
 matrix5 = [[1, 2], [3, 4], [5, 6], [7, 8]]
