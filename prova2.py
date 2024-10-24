@@ -253,12 +253,3 @@ plt.ylabel('Y')
 plt.title('Grafico di dispersione a due dimensioni')
 plt.grid()
 plt.show()
-
-# Esempio di utilizzo torch
-#data = [[0, 0, 0], [0.5, 0, 0], [1, 0, 1], [0.5, 1, 1], [4,8, 9]]
-#data = torch.tensor(data)
-#labels = torch.tensor(label(data))
-#dunn_index = DunnIndex(p=2)
-#result = dunn_index(data, labels).item()
-#print(result)
-
