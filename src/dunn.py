@@ -7,7 +7,18 @@ import matplotlib.pyplot as plt
 import torch
 from torchmetrics.clustering import DunnIndex
 from sklearn.cluster import AgglomerativeClustering
+from sklearn.cluster import DBSCAN
+###############################
 
+# calcolo indice Dunn
+def dunnIndex(matrix, labels):
+    data = np.array(matrix)
+    y_pred = np.array(labels)
+    cm = ClusteringMetric(X=data, y_pred=y_pred)
+
+    print(cm.dunn_index())
+
+###############################
 filename = "C:\\Users\\giuli\\OneDrive\\Desktop\\py\\dataset\\file1.csv"
 fields = []
 rows = []
@@ -88,7 +99,18 @@ for riga in rows:
         nuova_riga.append(float(elemento))
     matrix8.append(nuova_riga)
 
-
+#DBSCAN -> cambia matrice a seconda del val da calcolare
+matrix = matrix4
+filtered_X = []
+clustering = DBSCAN(eps=3, min_samples=10).fit(matrix)
+lab = clustering.labels_
+print(lab)
+for i in range(len(lab)):
+    if lab[i] != -1:  # Se lab[i] non è -1, mantieni la riga
+        filtered_X.append(matrix[i])
+filtered_labels = lab[lab != -1]
+print("DBSCAN MATRIX 4")
+dunnIndex(filtered_X, filtered_labels)
 
 # calcolo labels kmeans
 def label(matrix):
@@ -97,20 +119,13 @@ def label(matrix):
     return kmeans.labels_
 
 #calcolo labels hierarchical
-def label2(matrix, n_clusters=2, linkage='ward'):
+def label_hi(matrix, n_clusters=3, linkage='average'):
     model = AgglomerativeClustering(n_clusters=n_clusters, linkage=linkage)
     labels = model.fit_predict(matrix)
     return labels
 
-# calcolo indice Dunn
-def dunnIndex(matrix, labels):
-    data = np.array(matrix)
-    y_pred = np.array(labels)
-    cm = ClusteringMetric(X=data, y_pred=y_pred)
 
-    print(cm.dunn_index())
-
-
+#######################
 labels4= label(matrix4) # -> 10_7717_peerj_5665_dataYM2018_neuroblastoma -> file 1
 #print("label 4: ", labels4)
 print("\n dunnIndex matrix4: ")
@@ -126,15 +141,16 @@ labels6= label(matrix6)
 print("\n dunnIndex matrix6: ")
 dunnIndex(matrix6, labels6)
 
+labels8= label(matrix8)
+#print("label 8: ", labels8)
+print("\n dunnIndex matrix8: ")
+dunnIndex(matrix8, labels8)
+
 labels7= label(matrix7)
 #print("label 7: ", labels7)
 print("\n dunnIndex matrix7: ")
 dunnIndex(matrix7, labels7)
 
-labels8= label(matrix8)
-#print("label 8: ", labels8)
-print("\n dunnIndex matrix8: ")
-dunnIndex(matrix8, labels8)
 
 
 ############################
