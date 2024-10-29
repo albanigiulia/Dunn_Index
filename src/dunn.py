@@ -102,7 +102,7 @@ for riga in rows:
 #DBSCAN -> cambia matrice a seconda del val da calcolare
 matrix = matrix4
 filtered_X = []
-clustering = DBSCAN(eps=3, min_samples=10).fit(matrix)
+clustering = DBSCAN(eps=3, min_samples=2).fit(matrix)
 lab = clustering.labels_
 print(lab)
 for i in range(len(lab)):
@@ -127,12 +127,12 @@ def label_hi(matrix, n_clusters=3, linkage='average'):
 
 #######################
 labels4= label(matrix4) # -> 10_7717_peerj_5665_dataYM2018_neuroblastoma -> file 1
-#print("label 4: ", labels4)
+print("label 4: ", labels4)
 print("\n dunnIndex matrix4: ")
 dunnIndex(matrix4, labels4)
 
 labels5= label(matrix5) #-> journal.pone.0175818_S1Dataset_Spain_cardiac_arrest_EDITED. -> file 2
-#print("label 5: ", labels5)
+print("label 5: ", labels5)
 print("\n dunnIndex matrix5: ")
 dunnIndex(matrix5, labels5)
 
@@ -183,7 +183,7 @@ for i in range(len(lista)):
     result = dunn_index(lista2, labels_lista).item()
     lista_dunn.append(result)
 
-#grafico
+#grafico righe implementate
 x = range(len(lista_dunn))
 # Creazione del grafico con solo punti, senza linee
 plt.plot(x, lista_dunn, 'o-', color='black', markersize=3)  # 'o' specifica solo i punti
