@@ -19,7 +19,7 @@ def dunnIndex(matrix, labels):
     print(cm.dunn_index())
 
 ###############################
-filename = "C:\\Users\\giuli\\OneDrive\\Desktop\\py\\dataset\\file1.csv"
+filename = "C:\\Users\\giuli\\OneDrive\\Desktop\\DunnIndex\\dataset\\file1.csv"
 fields = []
 rows = []
 with open(filename, 'r') as csvfile:
@@ -35,7 +35,7 @@ for riga in rows:
         nuova_riga.append(float(elemento))
     matrix4.append(nuova_riga)
 
-filename = "C:\\Users\\giuli\\OneDrive\\Desktop\\py\\dataset\\file2_0.csv"
+filename = "C:\\Users\\giuli\\OneDrive\\Desktop\\DunnIndex\\dataset\\file2_0.csv"
 fields = []
 rows = []
 with open(filename, 'r') as csvfile:
@@ -51,7 +51,7 @@ for riga in rows:
         nuova_riga.append(float(elemento))
     matrix5.append(nuova_riga)
 
-filename = "C:\\Users\\giuli\\OneDrive\\Desktop\\py\\dataset\\file3.csv"
+filename = "C:\\Users\\giuli\\OneDrive\\Desktop\\DunnIndex\\dataset\\file3.csv"
 fields = []
 rows = []
 with open(filename, 'r') as csvfile:
@@ -67,7 +67,7 @@ for riga in rows:
         nuova_riga.append(float(elemento))
     matrix6.append(nuova_riga)
 
-filename = "C:\\Users\\giuli\\OneDrive\\Desktop\\py\\dataset\\file4.csv"
+filename = "C:\\Users\\giuli\\OneDrive\\Desktop\\DunnIndex\\dataset\\file4.csv"
 fields = []
 rows = []
 with open(filename, 'r') as csvfile:
@@ -83,7 +83,7 @@ for riga in rows:
         nuova_riga.append(float(elemento))
     matrix7.append(nuova_riga)
 
-filename = "C:\\Users\\giuli\\OneDrive\\Desktop\\py\\dataset\\file5.csv"
+filename = "C:\\Users\\giuli\\OneDrive\\Desktop\\DunnIndex\\dataset\\file5.csv"
 fields = []
 rows = []
 with open(filename, 'r') as csvfile:
@@ -113,13 +113,13 @@ print("DBSCAN MATRIX 4")
 dunnIndex(filtered_X, filtered_labels)
 
 # calcolo labels kmeans
-def label(matrix):
+def label_km(matrix):
     kmeans = KMeans(n_clusters=2, random_state=0, n_init="auto")
     kmeans.fit(matrix)
     return kmeans.labels_
 
 #calcolo labels hierarchical
-def label_hi(matrix, n_clusters=3, linkage='average'):
+def label(matrix, n_clusters=2, linkage='ward'):
     model = AgglomerativeClustering(n_clusters=n_clusters, linkage=linkage)
     labels = model.fit_predict(matrix)
     return labels
@@ -127,12 +127,12 @@ def label_hi(matrix, n_clusters=3, linkage='average'):
 
 #######################
 labels4= label(matrix4) # -> 10_7717_peerj_5665_dataYM2018_neuroblastoma -> file 1
-print("label 4: ", labels4)
+#print("label 4: ", labels4)
 print("\n dunnIndex matrix4: ")
 dunnIndex(matrix4, labels4)
 
 labels5= label(matrix5) #-> journal.pone.0175818_S1Dataset_Spain_cardiac_arrest_EDITED. -> file 2
-print("label 5: ", labels5)
+#print("label 5: ", labels5)
 print("\n dunnIndex matrix5: ")
 dunnIndex(matrix5, labels5)
 
@@ -169,7 +169,6 @@ dunnIndex(lista, labels_lista)
 
 #sostituzioni
 lista_dunn= []
-lista_dunn.append(5)
 for i in range(len(lista)):
     # Sostituisci la riga con 4 valori casuali tra 0 e 1
     lista[i] = [random.uniform(0, 1) for _ in range(4)]
