@@ -25,10 +25,10 @@ def label(matrix):
 #valori 
 colonne = 5
 decimali = 2
-lower_limit1 = 7.5
-upper_limit1 = 9.5
-lower_limit2 = 0.5
-upper_limit2 = 3
+lower_limit1 = 100
+upper_limit1 = 150
+lower_limit2 = 1
+upper_limit2 = 50
 n = 100
 
 #matrice due cluster separati
@@ -66,7 +66,7 @@ dunnIndex(ordinata, labels_ordinata)
 #valori 
 colonne = 5
 lower_limit = 0
-upper_limit = 10
+upper_limit = 10000
 n = 100
 
 #matrice valori sparsi
