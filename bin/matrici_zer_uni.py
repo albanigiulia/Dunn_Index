@@ -38,10 +38,6 @@ lista_dunn= []
 for i in range(len(lista)):
     # Sostituisci la riga con 4 valori casuali tra 0 e 1
     lista[i] = [random.uniform(0, 1) for _ in range(4)]
-    #print(lista)
-    #labels_lista= label(lista)
-    #dunnIndex(lista, labels_lista)
-    #print(lista_dunn)
     lista2 = torch.tensor(lista)
     labels_lista = torch.tensor(label(lista2))
     dunn_index = DunnIndex(p=2)

@@ -197,6 +197,7 @@ def label_hi9(matrix, n_clusters=4, linkage='average'):
 #DBSCAN
 def dbscan(matrix, ep, ms):
     filtered_X = []
+    dunn_index = DunnIndex(p=2)
     clustering = DBSCAN(eps=ep, min_samples=ms).fit(matrix)
     lab = clustering.labels_
 #print(lab)
@@ -204,17 +205,19 @@ def dbscan(matrix, ep, ms):
         if lab[i] != -1:  # Se lab[i] non è -1, mantieni la riga
             filtered_X.append(matrix[i])
     filtered_labels = lab[lab != -1]
-    print("DBSCAN MATRIX 1")
-    dunnIndex(filtered_X, filtered_labels)
+    #print(lab)
+    M2 = torch.tensor(filtered_X)
+    labels = torch.tensor(filtered_labels)
+    result = dunn_index(M2, labels).item()
+    print(result)
+    graf.append(result)
+    return result
 ###############################
 
 graf = []
 M = matrix1
 M2 = torch.tensor(M)
 dunn_index = DunnIndex(p=2)
-
-print("\n DBSCAN: ")
-dbscan(M, 3, 2)
 
 print("\n k-means, euclidean: ")
 labels = torch.tensor(label_km2(M2))
@@ -290,6 +293,10 @@ result = dunn_index(M2, labels).item()
 print(result)
 graf.append(result)
 
+print("\n DBSCAN: ")
+dbscan(M, 3, 2)
+#dbscan(M, 5, 2)
+dbscan(M, 3, 5)
 ###############################
 
 #grafico
