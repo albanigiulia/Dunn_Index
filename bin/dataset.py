@@ -304,10 +304,10 @@ print("\n DBSCAN: ")
 #dbscan(M, 0.01, 2)
 #dbscan(M, 0.05, 2)
 #dbscan(M, 0.1, 2)
-dbscan(M, 1, 2) #funziona per file 1 2 e 4
-dbscan(M, 2, 2) #funziona per file 1 2 e 4
-dbscan(M, 3, 2) #funziona per file 1 2 e 4
-dbscan(M, 4, 2) #funziona per file 1 2 e 4
+#dbscan(M, 1, 2) #funziona per file 1 2 e 4
+#dbscan(M, 2, 2) #funziona per file 1 2 e 4
+#dbscan(M, 3, 2) #funziona per file 1 2 e 4
+#dbscan(M, 4, 2) #funziona per file 1 2 e 4
 #dbscan(M, 1, 3) #funziona per file 1
 #dbscan(M, 2, 3) #funziona per file 1
 #dbscan(M, 3, 3) #funziona per file 1 e 2
@@ -319,13 +319,12 @@ dbscan(M, 4, 2) #funziona per file 1 2 e 4
 #dbscan(M, 4, 12) #funziona per file 1 e 2
 #dbscan(M, 4, 20) #funziona per file 1 e 2
 ###############################
-variabile = False
+variabile = True
 #grafico
 if variabile == True:
     print("\n valori dunn: ", graf)
     etichette = ["K-M \nk=2 \nEU", "K-M \nk=3 \nEU", "K-M \nk=4 \nEU", "K-M \nk=2 \nCOS", "K-M \nk=3 \nCOS", "K-M \nk=4 \nCOS", "HI \nk=2 \nward", "HI \nk=3 \nward", 
-             "HI \nk=4 \nward", "HI \nk=2 \nCOM", "HI \nk=3 \nCOM", "HI \nk=4 \nCOM", "HI \nk=2 \nAVE", "HI \nk=3 \nAVE", "HI \nk=4 \nAVE", 
-             "DB \neps=3 \nminS=2", "DB \neps=3 \nminS=5"]  # Le etichette corrispondenti
+             "HI \nk=4 \nward", "HI \nk=2 \nCOM", "HI \nk=3 \nCOM", "HI \nk=4 \nCOM", "HI \nk=2 \nAVE", "HI \nk=3 \nAVE", "HI \nk=4 \nAVE"]  # Le etichette corrispondenti
     plt.figure(figsize=(12, 7))
     plt.bar(range(len(graf)), graf, color='skyblue', width=1, edgecolor='black')
     plt.xlabel('Algoritmi')
