@@ -1,1 +1,1 @@
-Gli scripts vengono lamciati da terminale
+Gli scripts vengono lanciati da terminale
