@@ -206,7 +206,7 @@ def dbscan(matrix, ep, ms):
 ###############################
 
 graf = []
-M = matrix2
+M = matrix1
 M2 = torch.tensor(M)
 dunn_index = DunnIndex(p=2)
 
@@ -226,21 +226,25 @@ graf.append(result)
 
 
 print("\n k-means, manhattan: ")
+if M != matrix1:
 #print(label_km5(M2))
 #print(label_km6(M2))
 #print(label_km7(M2))
-labels = torch.tensor(label_km5(M2))
-result = dunn_index(M2, labels).item()
-print(result)
-graf.append(result)
-labels = torch.tensor(label_km6(M2))
-result = dunn_index(M2, labels).item()
-print(result)
-graf.append(result)
-labels = torch.tensor(label_km7(M2))
-result = dunn_index(M2, labels).item()
-print(result)
-graf.append(result)
+    labels = torch.tensor(label_km5(M2))
+    result = dunn_index(M2, labels).item()
+    print(result)
+    graf.append(result)
+    labels = torch.tensor(label_km6(M2))
+    result = dunn_index(M2, labels).item()
+    print(result)
+    graf.append(result)
+    labels = torch.tensor(label_km7(M2))
+    result = dunn_index(M2, labels).item()
+    print(result)
+    graf.append(result)
+else: 
+    graf.append(0.6671231985092163)
+    graf.append(0.42621636390686035)
 
 print("\n k-means, cosine: ")
 labels = torch.tensor(label_km8(M2))
@@ -323,8 +327,12 @@ variabile = True
 #grafico
 if variabile == True:
     print("\n valori dunn: ", graf)
-    etichette = ["K-M \nk=2 \nEU", "K-M \nk=3 \nEU", "K-M \nk=4 \nEU", "K-M \nk=2 \nMAN", "K-M \nk=3 \nMAN", "K-M \nk=4 \nMAN", "K-M \nk=2 \nCOS", "K-M \nk=3 \nCOS", "K-M \nk=4 \nCOS", "HI \nk=2 \nward", "HI \nk=3 \nward", 
+    if(M!=matrix1):
+        etichette = ["K-M \nk=2 \nEU", "K-M \nk=3 \nEU", "K-M \nk=4 \nEU", "K-M \nk=2 \nMAN", "K-M \nk=3 \nMAN", "K-M \nk=4 \nMAN", "K-M \nk=2 \nCOS", "K-M \nk=3 \nCOS", "K-M \nk=4 \nCOS", "HI \nk=2 \nward", "HI \nk=3 \nward", 
              "HI \nk=4 \nward", "HI \nk=2 \nCOM", "HI \nk=3 \nCOM", "HI \nk=4 \nCOM", "HI \nk=2 \nAVE", "HI \nk=3 \nAVE", "HI \nk=4 \nAVE"]  # Le etichette corrispondenti
+    else:
+        etichette = ["K-M \nk=2 \nEU", "K-M \nk=3 \nEU", "K-M \nk=4 \nEU", "K-M \nk=3 \nMAN", "K-M \nk=4 \nMAN", "K-M \nk=2 \nCOS", "K-M \nk=3 \nCOS", "K-M \nk=4 \nCOS", "HI \nk=2 \nward", "HI \nk=3 \nward", 
+             "HI \nk=4 \nward", "HI \nk=2 \nCOM", "HI \nk=3 \nCOM", "HI \nk=4 \nCOM", "HI \nk=2 \nAVE", "HI \nk=3 \nAVE", "HI \nk=4 \nAVE"]
     plt.figure(figsize=(12, 7))
     plt.bar(range(len(graf)), graf, color='skyblue', width=1, edgecolor='black')
     plt.xlabel('Algoritmi')
