@@ -206,7 +206,7 @@ def dbscan(matrix, ep, ms):
 ###############################
 
 graf = []
-M = matrix4
+M = matrix2
 M2 = torch.tensor(M)
 dunn_index = DunnIndex(p=2)
 
@@ -226,21 +226,21 @@ graf.append(result)
 
 
 print("\n k-means, manhattan: ")
-print(label_km5(M2))
-print(label_km6(M2))
-print(label_km7(M2))
-#labels = torch.tensor(label_km5(M2))
-#result = dunn_index(M2, labels).item()
-#print(result)
-#graf.append(result)
-#labels = torch.tensor(label_km6(M2))
-#result = dunn_index(M2, labels).item()
-#print(result)
-#graf.append(result)
-#labels = torch.tensor(label_km7(M2))
-#result = dunn_index(M2, labels).item()
-#print(result)
-#graf.append(result)
+#print(label_km5(M2))
+#print(label_km6(M2))
+#print(label_km7(M2))
+labels = torch.tensor(label_km5(M2))
+result = dunn_index(M2, labels).item()
+print(result)
+graf.append(result)
+labels = torch.tensor(label_km6(M2))
+result = dunn_index(M2, labels).item()
+print(result)
+graf.append(result)
+labels = torch.tensor(label_km7(M2))
+result = dunn_index(M2, labels).item()
+print(result)
+graf.append(result)
 
 print("\n k-means, cosine: ")
 labels = torch.tensor(label_km8(M2))
@@ -319,7 +319,7 @@ print("\n DBSCAN: ")
 #dbscan(M, 4, 12) #funziona per file 1 e 2
 #dbscan(M, 4, 20) #funziona per file 1 e 2
 ###############################
-variabile = True
+variabile = False
 #grafico
 if variabile == True:
     print("\n valori dunn: ", graf)
