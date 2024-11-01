@@ -1,19 +1,9 @@
 import numpy as np
-from permetrics import ClusteringMetric
 from sklearn.cluster import KMeans
 import random
 import matplotlib.pyplot as plt
 import torch
 from torchmetrics.clustering import DunnIndex
-###############################
-
-# calcolo indice Dunn
-def dunnIndex(matrix, labels):
-    data = np.array(matrix)
-    y_pred = np.array(labels)
-    cm = ClusteringMetric(X=data, y_pred=y_pred)
-
-    print(cm.dunn_index())
 ###############################
 
 # calcolo labels kmeans

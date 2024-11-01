@@ -1,6 +1,5 @@
 import numpy as np
 import random
-from permetrics import ClusteringMetric
 from sklearn.cluster import KMeans
 import csv
 import matplotlib.pyplot as plt
@@ -9,15 +8,7 @@ from torchmetrics.clustering import DunnIndex
 from sklearn.cluster import AgglomerativeClustering
 from sklearn.cluster import DBSCAN
 from sklearn_extra.cluster import KMedoids
-###############################
 
-#calcolo indice Dunn
-def dunnIndex(matrix, labels):
-    data = np.array(matrix)
-    y_pred = np.array(labels)
-    cm = ClusteringMetric(X=data, y_pred=y_pred)
-
-    print(cm.dunn_index())
 ###############################
 
 #dataset
@@ -200,7 +191,7 @@ def dbscan(matrix, ep, ms):
     dunn_index = DunnIndex(p=2)
     clustering = DBSCAN(eps=ep, min_samples=ms).fit(matrix)
     lab = clustering.labels_
-#print(lab)
+    #print(lab)
     for i in range(len(lab)):
         if lab[i] != -1:  # Se lab[i] non è -1, mantieni la riga
             filtered_X.append(matrix[i])
@@ -215,7 +206,7 @@ def dbscan(matrix, ep, ms):
 ###############################
 
 graf = []
-M = matrix1
+M = matrix4
 M2 = torch.tensor(M)
 dunn_index = DunnIndex(p=2)
 
@@ -235,7 +226,21 @@ graf.append(result)
 
 
 print("\n k-means, manhattan: ")
-#non va
+print(label_km5(M2))
+print(label_km6(M2))
+print(label_km7(M2))
+#labels = torch.tensor(label_km5(M2))
+#result = dunn_index(M2, labels).item()
+#print(result)
+#graf.append(result)
+#labels = torch.tensor(label_km6(M2))
+#result = dunn_index(M2, labels).item()
+#print(result)
+#graf.append(result)
+#labels = torch.tensor(label_km7(M2))
+#result = dunn_index(M2, labels).item()
+#print(result)
+#graf.append(result)
 
 print("\n k-means, cosine: ")
 labels = torch.tensor(label_km8(M2))
@@ -294,21 +299,44 @@ print(result)
 graf.append(result)
 
 print("\n DBSCAN: ")
-dbscan(M, 3, 2)
-#dbscan(M, 5, 2)
-dbscan(M, 3, 5)
+
+#dbscan(M, 0.001, 2)
+#dbscan(M, 0.01, 2)
+#dbscan(M, 0.05, 2)
+#dbscan(M, 0.1, 2)
+dbscan(M, 1, 2) #funziona per file 1 2 e 4
+dbscan(M, 2, 2) #funziona per file 1 2 e 4
+dbscan(M, 3, 2) #funziona per file 1 2 e 4
+dbscan(M, 4, 2) #funziona per file 1 2 e 4
+#dbscan(M, 1, 3) #funziona per file 1
+#dbscan(M, 2, 3) #funziona per file 1
+#dbscan(M, 3, 3) #funziona per file 1 e 2
+#dbscan(M, 4, 3) #funziona per file 1 e 2
+#dbscan(M, 3, 4) #funziona per file 1 e 2
+#dbscan(M, 3, 5) #funziona per file 1 e 2
+#dbscan(M, 4, 5) #funziona per file 1 e 2
+#dbscan(M, 4, 6) #funziona per file 1 e 2
+#dbscan(M, 4, 12) #funziona per file 1 e 2
+#dbscan(M, 4, 20) #funziona per file 1 e 2
 ###############################
-
+variabile = False
 #grafico
-print("\n valori dunn: ", graf)
-plt.figure(figsize=(10, 6))
-plt.bar(range(len(graf)), graf, color='skyblue')
-plt.xlabel('Algoritmi')
-plt.ylabel('Dunn Index')
-plt.title('Grafico a Barre dei Valori')
-plt.xticks(range(len(graf)), range(1, len(graf) + 1))  # Assegna numeri agli indici
-plt.grid(axis='y')
-
-# Mostra il grafico
-plt.tight_layout()
-plt.show()
+if variabile == True:
+    print("\n valori dunn: ", graf)
+    etichette = ["K-M \nk=2 \nEU", "K-M \nk=3 \nEU", "K-M \nk=4 \nEU", "K-M \nk=2 \nCOS", "K-M \nk=3 \nCOS", "K-M \nk=4 \nCOS", "HI \nk=2 \nward", "HI \nk=3 \nward", 
+             "HI \nk=4 \nward", "HI \nk=2 \nCOM", "HI \nk=3 \nCOM", "HI \nk=4 \nCOM", "HI \nk=2 \nAVE", "HI \nk=3 \nAVE", "HI \nk=4 \nAVE", 
+             "DB \neps=3 \nminS=2", "DB \neps=3 \nminS=5"]  # Le etichette corrispondenti
+    plt.figure(figsize=(12, 7))
+    plt.bar(range(len(graf)), graf, color='skyblue', width=1, edgecolor='black')
+    plt.xlabel('Algoritmi')
+    plt.ylabel('Dunn Index')
+    plt.title('Grafico a Barre dei Valori')
+    plt.xticks(range(len(graf)), etichette)  # Usa le etichette al posto dei numeri
+    plt.grid(axis='y')
+    # Imposta i limiti per rimuovere il bordo a destra e a sinistra
+    plt.xlim(-0.5, len(graf) - 0.5)
+    # Ottimizza il layout
+    plt.tight_layout()
+    # Mostra il grafico
+    plt.tight_layout()
+    plt.show()

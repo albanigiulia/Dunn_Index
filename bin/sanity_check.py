@@ -1,18 +1,13 @@
 import numpy as np
 import random
-from permetrics import ClusteringMetric
 from sklearn.cluster import KMeans
-import csv
 import matplotlib.pyplot as plt
+import torch
+from torchmetrics.clustering import DunnIndex
 ###############################
 
 # calcolo indice Dunn
-def dunnIndex(matrix, labels):
-    data = np.array(matrix)
-    y_pred = np.array(labels)
-    cm = ClusteringMetric(X=data, y_pred=y_pred)
-
-    print(cm.dunn_index())
+dunn_index = DunnIndex(p=2)
 ###############################
 
 # calcolo labels kmeans
@@ -23,13 +18,14 @@ def label(matrix):
 ###############################
 
 #valori 
-colonne = 5
-decimali = 2
-lower_limit1 = 100
-upper_limit1 = 150
-lower_limit2 = 1
-upper_limit2 = 50
+colonne = 5 
+decimali = 2 
+lower_limit1 = 9990
+upper_limit1 = 10000
+lower_limit2 = 1 
+upper_limit2 = 10
 n = 100
+
 
 #matrice due cluster separati
 def create_list(n):
@@ -60,13 +56,16 @@ plt.show()
 #dunn
 print("Dunn index - matrice cluster separati: ")
 labels_ordinata= label(ordinata)
-dunnIndex(ordinata, labels_ordinata)
+M2 = torch.tensor(ordinata)
+labels = torch.tensor(labels_ordinata)
+result = dunn_index(M2, labels).item()
+print(result)
 ###############################
 
 #valori 
 colonne = 5
 lower_limit = 0
-upper_limit = 10000
+upper_limit = 1000
 n = 100
 
 #matrice valori sparsi
@@ -91,4 +90,7 @@ plt.show()
 #dunn
 print("Dunn index - matrice valori sparsi: ")
 labels_random = label(matrice_random)
-dunnIndex(matrice_random, labels_random)
+M2 = torch.tensor(matrice_random)
+labels = torch.tensor(labels_random)
+result = dunn_index(M2, labels).item()
+print(result)
