@@ -206,7 +206,7 @@ def dbscan(matrix, ep, ms):
 ###############################
 
 graf = []
-M = matrix3 #da cambiare qui
+M = matrix5 #da cambiare qui
 M2 = torch.tensor(M)
 dunn_index = DunnIndex(p=2)
 
@@ -336,6 +336,7 @@ if (M==matrix5):
 
 ###############################
 variabile = True
+salva_dati = True 
 print("\n valori dunn: ", graf)
 #grafico
 if variabile == True:
@@ -369,4 +370,22 @@ if variabile == True:
     plt.tight_layout()
     # Mostra il grafico
     plt.tight_layout()
-    plt.show()
+
+    if (salva_dati and M==matrix1):
+        plt.savefig('C:\\Users\\giuli\\OneDrive\\Desktop\\DunnIndex\\results\\Immagini\\grafico_matrix1.png')
+        print("Dati salvati: il grafico è stato salvato come 'grafico_matrix1.png'")
+    elif(salva_dati and M==matrix2):
+        plt.savefig('C:\\Users\\giuli\\OneDrive\\Desktop\\DunnIndex\\results\\Immagini\\grafico_matrix2.png')
+        print("Dati salvati: il grafico è stato salvato come 'grafico_matrix2.png'")
+    elif(salva_dati and M==matrix3):
+        plt.savefig('C:\\Users\\giuli\\OneDrive\\Desktop\\DunnIndex\\results\\Immagini\\grafico_matrix3.png')
+        print("Dati salvati: il grafico è stato salvato come 'grafico_matrix3.png'")
+    elif(salva_dati and M==matrix4):
+        plt.savefig('C:\\Users\\giuli\\OneDrive\\Desktop\\DunnIndex\\results\\Immagini\\grafico_matrix4.png')
+        print("Dati salvati: il grafico è stato salvato come 'grafico_matrix4.png'")
+    elif(salva_dati and M==matrix5):
+        plt.savefig('C:\\Users\\giuli\\OneDrive\\Desktop\\DunnIndex\\results\\Immagini\\grafico_matrix5.png')
+        print("Dati salvati: il grafico è stato salvato come 'grafico_matrix5.png'")
+    else:
+        print("Dati non salvati")
+plt.show()
