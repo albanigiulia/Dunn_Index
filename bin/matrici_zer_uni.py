@@ -35,7 +35,8 @@ for i in range(len(lista)):
     lista_dunn.append(result)
 ###############################
 
-#grafico righe implementate
+#grafico zeri_uni
+salva_dati = False
 x = range(len(lista_dunn))
 # Creazione del grafico con solo punti, senza linee
 plt.plot(x, lista_dunn, 'o-', color='black', markersize=3)  # 'o' specifica solo i punti
@@ -50,4 +51,7 @@ labels = [1] + [i + 1 for i in range(step-1, len(lista_dunn), step)]  # Prima et
 plt.xticks(ticks=ticks, labels=labels)
 # Mostra il grafico
 plt.grid()
+if (salva_dati):
+    plt.savefig('C:\\Users\\giuli\\OneDrive\\Desktop\\DunnIndex\\results\\Immagini\\grafico_zeri_uni1.png')
+    print("Dati salvati: il grafico è stato salvato come 'grafico_zeri_uni1.png'")
 plt.show()

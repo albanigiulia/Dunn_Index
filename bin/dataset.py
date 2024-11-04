@@ -368,8 +368,6 @@ if variabile == True:
     plt.xlim(-0.5, len(graf) - 0.5)
     # Ottimizza il layout
     plt.tight_layout()
-    # Mostra il grafico
-    plt.tight_layout()
 
     if (salva_dati and M==matrix1):
         plt.savefig('C:\\Users\\giuli\\OneDrive\\Desktop\\DunnIndex\\results\\Immagini\\grafico_matrix1.png')

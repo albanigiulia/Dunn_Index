@@ -20,10 +20,10 @@ def label(matrix):
 #valori 
 colonne = 5 
 decimali = 2 
-lower_limit1 = 9990
+lower_limit1 = 9000
 upper_limit1 = 10000
 lower_limit2 = 1 
-upper_limit2 = 10
+upper_limit2 = 1000
 n = 100
 
 
@@ -44,14 +44,20 @@ def create_list(n):
 ordinata = create_list(n)
 
 # grafico
-x = [item[0] for item in ordinata]
-y = [item[1] for item in ordinata]
-plt.scatter(x, y, s=10, color='black', marker='o')
-plt.xlabel('X')
-plt.ylabel('Y')
-plt.title('Grafico di dispersione a due dimensioni')
-plt.grid()
-plt.show()
+variabile1 = True
+if(variabile1==True):
+    salva_dati1 = False
+    x = [item[0] for item in ordinata]
+    y = [item[1] for item in ordinata]
+    plt.scatter(x, y, s=10, color='black', marker='o')
+    plt.xlabel('X')
+    plt.ylabel('Y')
+    plt.title('Grafico di dispersione a due dimensioni')
+    plt.grid()
+    if (salva_dati1):
+        plt.savefig('C:\\Users\\giuli\\OneDrive\\Desktop\\DunnIndex\\results\\Immagini\\grafico_separati1.png')
+        print("Dati salvati: il grafico è stato salvato come 'grafico_separati1.png'")
+    plt.show()
 
 #dunn
 print("Dunn index - matrice cluster separati: ")
@@ -77,16 +83,6 @@ matrice_random = crea_matrice(n)
 # Creazione della lista degli indici (x)
 x = range(n)  # Indici per le righe
 
-# grafico
-x = [item[0] for item in matrice_random]
-y = [item[1] for item in matrice_random]
-plt.scatter(x, y, s=10, color='black', marker='o')
-plt.xlabel('X')
-plt.ylabel('Y')
-plt.title('Grafico di dispersione a due dimensioni')
-plt.grid()
-plt.show()
-
 #dunn
 print("Dunn index - matrice valori sparsi: ")
 labels_random = label(matrice_random)
@@ -94,3 +90,19 @@ M2 = torch.tensor(matrice_random)
 labels = torch.tensor(labels_random)
 result = dunn_index(M2, labels).item()
 print(result)
+
+# grafico
+variabile2 = True
+if(variabile2==True):
+    salva_dati2 = False
+    x = [item[0] for item in matrice_random]
+    y = [item[1] for item in matrice_random]
+    plt.scatter(x, y, s=10, color='black', marker='o')
+    plt.xlabel('X')
+    plt.ylabel('Y')
+    plt.title('Grafico di dispersione a due dimensioni')
+    plt.grid()
+    if (salva_dati2):
+        plt.savefig('C:\\Users\\giuli\\OneDrive\\Desktop\\DunnIndex\\results\\Immagini\\grafico_sparsi1.png')
+        print("Dati salvati: il grafico è stato salvato come 'grafico_sparsi1.png'")
+    plt.show()
