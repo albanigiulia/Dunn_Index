@@ -206,7 +206,7 @@ def dbscan(matrix, ep, ms):
 ###############################
 
 graf = []
-M = matrix5 #da cambiare qui
+M = matrix1 #da cambiare qui
 M2 = torch.tensor(M)
 dunn_index = DunnIndex(p=2)
 
@@ -334,6 +334,10 @@ if (M==matrix5):
     dbscan(M, 40, 2)
     dbscan(M, 50, 2)
 
+def ordina_decrescente(lista):
+    return sorted(lista, reverse=True)
+
+
 ###############################
 variabile = True
 salva_dati = True 
@@ -357,18 +361,20 @@ if variabile == True:
     elif(M==matrix5):
         etichette = ["K-M \nk=2 \nEU", "K-M \nk=3 \nEU", "K-M \nk=4 \nEU", "K-M \nk=2 \nMAN", "K-M \nk=3 \nMAN", "K-M \nk=4 \nMAN", "K-M \nk=2 \nCOS", "K-M \nk=3 \nCOS", "K-M \nk=4 \nCOS", "HI \nk=2 \nward", "HI \nk=3 \nward", 
              "HI \nk=4 \nward", "HI \nk=2 \nCOM", "HI \nk=3 \nCOM", "HI \nk=4 \nCOM", "HI \nk=2 \nAVE", "HI \nk=3 \nAVE", "HI \nk=4 \nAVE", "DB \neps=12 \nmin=2", "DB \neps=13 \nmin=3", "DB \neps=13 \nmin=2", "DB \neps=16 \nmin=2", "DB \neps=16 \nmin=3", "DB \neps=31 \nmin=2", "DB \neps=6 \nmin=2", "DB \neps=40 \nmin=2", "DB \neps=50 \nmin=2"]
+    # Ordina i valori in ordine decrescente insieme alle etichette
+    dati_ordinati = sorted(zip(graf, etichette), key=lambda x: x[0], reverse=True)
+    graf_ordinato, etichette_ordinate = zip(*dati_ordinati)
     plt.figure(figsize=(20, 7))
-    plt.bar(range(len(graf)), graf, color='skyblue', width=1, edgecolor='black')
+    plt.bar(range(len(graf_ordinato)), graf_ordinato, color='skyblue', width=1, edgecolor='black')
     plt.xlabel('Algoritmi')
     plt.ylabel('Dunn Index')
-    plt.title('Grafico a Barre dei Valori')
-    plt.xticks(range(len(graf)), etichette)  # Usa le etichette al posto dei numeri sull'asse x
-    plt.grid(axis='y')
-    # Imposta i limiti per rimuovere il bordo a destra e a sinistra
-    plt.xlim(-0.5, len(graf) - 0.5)
-    # Ottimizza il layout
-    plt.tight_layout()
+    plt.title('Grafico a Barre dei Valori Ordinati in Ordine Decrescente')
 
+    # Imposta le etichette in orizzontale con una dimensione del font ridotta
+    plt.xticks(range(len(graf_ordinato)), etichette_ordinate, rotation=0, ha='center', fontsize=10)
+    plt.grid(axis='y')
+    plt.xlim(-0.5, len(graf_ordinato) - 0.5)
+    plt.tight_layout()
     if (salva_dati and M==matrix1):
         plt.savefig('C:\\Users\\giuli\\OneDrive\\Desktop\\DunnIndex\\results\\Immagini\\grafico_matrix1.png')
         print("Dati salvati: il grafico è stato salvato come 'grafico_matrix1.png'")
