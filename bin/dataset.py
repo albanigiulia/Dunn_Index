@@ -206,7 +206,7 @@ def dbscan(matrix, ep, ms):
 ###############################
 
 graf = []
-M = matrix1
+M = matrix3 #da cambiare qui
 M2 = torch.tensor(M)
 dunn_index = DunnIndex(p=2)
 
@@ -304,41 +304,64 @@ graf.append(result)
 
 print("\n DBSCAN: ")
 
-#dbscan(M, 0.001, 2)
-#dbscan(M, 0.01, 2)
-#dbscan(M, 0.05, 2)
-#dbscan(M, 0.1, 2)
-#dbscan(M, 1, 2) #funziona per file 1 2 e 4
-#dbscan(M, 2, 2) #funziona per file 1 2 e 4
-#dbscan(M, 3, 2) #funziona per file 1 2 e 4
-#dbscan(M, 4, 2) #funziona per file 1 2 e 4
-#dbscan(M, 1, 3) #funziona per file 1
-#dbscan(M, 2, 3) #funziona per file 1
-#dbscan(M, 3, 3) #funziona per file 1 e 2
-#dbscan(M, 4, 3) #funziona per file 1 e 2
-#dbscan(M, 3, 4) #funziona per file 1 e 2
-#dbscan(M, 3, 5) #funziona per file 1 e 2
-#dbscan(M, 4, 5) #funziona per file 1 e 2
-#dbscan(M, 4, 6) #funziona per file 1 e 2
-#dbscan(M, 4, 12) #funziona per file 1 e 2
-#dbscan(M, 4, 20) #funziona per file 1 e 2
+if (M==matrix1 or M==matrix2 or M==matrix4):
+    dbscan(M, 1, 2) 
+    dbscan(M, 2, 2) 
+    dbscan(M, 3, 2) 
+    dbscan(M, 4, 2)
+if (M==matrix1 or M==matrix2):
+    dbscan(M, 3, 3)
+    dbscan(M, 4, 3)
+    dbscan(M, 3, 4)
+    dbscan(M, 3, 5)
+    dbscan(M, 4, 5)
+    dbscan(M, 4, 6)
+    dbscan(M, 4, 12)
+    dbscan(M, 4, 20)
+
+#funziona per file 3 e 5
+if (M==matrix3 or M==matrix5):
+    dbscan(M, 12, 2) 
+    dbscan(M, 13, 3) 
+    dbscan(M, 13, 2) 
+    dbscan(M, 16, 2)
+    dbscan(M, 16, 3)
+    dbscan(M, 31, 2)
+
+
+if (M==matrix5):
+    dbscan(M, 6, 2)
+    dbscan(M, 40, 2)
+    dbscan(M, 50, 2)
+
 ###############################
 variabile = True
+print("\n valori dunn: ", graf)
 #grafico
 if variabile == True:
-    print("\n valori dunn: ", graf)
-    if(M!=matrix1):
+    if(M==matrix1):
+        etichette = ["K-M \nk=2 \nEU", "K-M \nk=3 \nEU", "K-M \nk=4 \nEU",  "K-M \nk=3 \nMAN", "K-M \nk=4 \nMAN", "K-M \nk=2 \nCOS", "K-M \nk=3 \nCOS", "K-M \nk=4 \nCOS", "HI \nk=2 \nward", "HI \nk=3 \nward", 
+             "HI \nk=4 \nward", "HI \nk=2 \nCOM", "HI \nk=3 \nCOM", "HI \nk=4 \nCOM", "HI \nk=2 \nAVE", "HI \nk=3 \nAVE", "HI \nk=4 \nAVE", "DB \neps=1 \nmin=2", "DB \neps=2 \nmin=2", "DB \neps=3 \nmin=2", "DB \neps=4 \nmin=2",
+             "DB \neps=3 \nmin=3", "DB \neps=4 \nmin=3", "DB \neps=3 \nmin=4", "DB \neps=3 \nmin=5", "DB \neps=4 \nmin=5", "DB \neps=4 \nmin=6", "DB \neps=4 \nmin=12", "DB \neps=4 \nmin=20"]   # Le etichette corrispondenti
+    elif(M==matrix2):
         etichette = ["K-M \nk=2 \nEU", "K-M \nk=3 \nEU", "K-M \nk=4 \nEU", "K-M \nk=2 \nMAN", "K-M \nk=3 \nMAN", "K-M \nk=4 \nMAN", "K-M \nk=2 \nCOS", "K-M \nk=3 \nCOS", "K-M \nk=4 \nCOS", "HI \nk=2 \nward", "HI \nk=3 \nward", 
-             "HI \nk=4 \nward", "HI \nk=2 \nCOM", "HI \nk=3 \nCOM", "HI \nk=4 \nCOM", "HI \nk=2 \nAVE", "HI \nk=3 \nAVE", "HI \nk=4 \nAVE"]  # Le etichette corrispondenti
-    else:
-        etichette = ["K-M \nk=2 \nEU", "K-M \nk=3 \nEU", "K-M \nk=4 \nEU", "K-M \nk=3 \nMAN", "K-M \nk=4 \nMAN", "K-M \nk=2 \nCOS", "K-M \nk=3 \nCOS", "K-M \nk=4 \nCOS", "HI \nk=2 \nward", "HI \nk=3 \nward", 
-             "HI \nk=4 \nward", "HI \nk=2 \nCOM", "HI \nk=3 \nCOM", "HI \nk=4 \nCOM", "HI \nk=2 \nAVE", "HI \nk=3 \nAVE", "HI \nk=4 \nAVE"]
-    plt.figure(figsize=(12, 7))
+             "HI \nk=4 \nward", "HI \nk=2 \nCOM", "HI \nk=3 \nCOM", "HI \nk=4 \nCOM", "HI \nk=2 \nAVE", "HI \nk=3 \nAVE", "HI \nk=4 \nAVE", "DB \neps=1 \nmin=2", "DB \neps=2 \nmin=2", "DB \neps=3 \nmin=2", "DB \neps=4 \nmin=2",
+             "DB \neps=3 \nmin=3", "DB \neps=4 \nmin=3", "DB \neps=3 \nmin=4", "DB \neps=3 \nmin=5", "DB \neps=4 \nmin=5", "DB \neps=4 \nmin=6", "DB \neps=4 \nmin=12", "DB \neps=4 \nmin=20"]
+    elif(M==matrix3):
+        etichette = ["K-M \nk=2 \nEU", "K-M \nk=3 \nEU", "K-M \nk=4 \nEU", "K-M \nk=2 \nMAN", "K-M \nk=3 \nMAN", "K-M \nk=4 \nMAN", "K-M \nk=2 \nCOS", "K-M \nk=3 \nCOS", "K-M \nk=4 \nCOS", "HI \nk=2 \nward", "HI \nk=3 \nward", 
+             "HI \nk=4 \nward", "HI \nk=2 \nCOM", "HI \nk=3 \nCOM", "HI \nk=4 \nCOM", "HI \nk=2 \nAVE", "HI \nk=3 \nAVE", "HI \nk=4 \nAVE", "DB \neps=12 \nmin=2", "DB \neps=13 \nmin=3", "DB \neps=13 \nmin=2", "DB \neps=16 \nmin=2", "DB \neps=16 \nmin=3", "DB \neps=31 \nmin=2"]
+    elif(M==matrix4):
+        etichette = ["K-M \nk=2 \nEU", "K-M \nk=3 \nEU", "K-M \nk=4 \nEU", "K-M \nk=2 \nMAN", "K-M \nk=3 \nMAN", "K-M \nk=4 \nMAN", "K-M \nk=2 \nCOS", "K-M \nk=3 \nCOS", "K-M \nk=4 \nCOS", "HI \nk=2 \nward", "HI \nk=3 \nward", 
+             "HI \nk=4 \nward", "HI \nk=2 \nCOM", "HI \nk=3 \nCOM", "HI \nk=4 \nCOM", "HI \nk=2 \nAVE", "HI \nk=3 \nAVE", "HI \nk=4 \nAVE", "DB \neps=1 \nmin=2", "DB \neps=2 \nmin=2", "DB \neps=3 \nmin=2", "DB \neps=4 \nmin=2"]
+    elif(M==matrix5):
+        etichette = ["K-M \nk=2 \nEU", "K-M \nk=3 \nEU", "K-M \nk=4 \nEU", "K-M \nk=2 \nMAN", "K-M \nk=3 \nMAN", "K-M \nk=4 \nMAN", "K-M \nk=2 \nCOS", "K-M \nk=3 \nCOS", "K-M \nk=4 \nCOS", "HI \nk=2 \nward", "HI \nk=3 \nward", 
+             "HI \nk=4 \nward", "HI \nk=2 \nCOM", "HI \nk=3 \nCOM", "HI \nk=4 \nCOM", "HI \nk=2 \nAVE", "HI \nk=3 \nAVE", "HI \nk=4 \nAVE", "DB \neps=12 \nmin=2", "DB \neps=13 \nmin=3", "DB \neps=13 \nmin=2", "DB \neps=16 \nmin=2", "DB \neps=16 \nmin=3", "DB \neps=31 \nmin=2", "DB \neps=6 \nmin=2", "DB \neps=40 \nmin=2", "DB \neps=50 \nmin=2"]
+    plt.figure(figsize=(20, 7))
     plt.bar(range(len(graf)), graf, color='skyblue', width=1, edgecolor='black')
     plt.xlabel('Algoritmi')
     plt.ylabel('Dunn Index')
     plt.title('Grafico a Barre dei Valori')
-    plt.xticks(range(len(graf)), etichette)  # Usa le etichette al posto dei numeri
+    plt.xticks(range(len(graf)), etichette)  # Usa le etichette al posto dei numeri sull'asse x
     plt.grid(axis='y')
     # Imposta i limiti per rimuovere il bordo a destra e a sinistra
     plt.xlim(-0.5, len(graf) - 0.5)
