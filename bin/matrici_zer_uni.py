@@ -4,6 +4,9 @@ import random
 import matplotlib.pyplot as plt
 import torch
 from torchmetrics.clustering import DunnIndex
+import time
+# Memorizziamo il tempo iniziale
+start_time = time.time()
 ###############################
 
 # calcolo labels kmeans
@@ -39,12 +42,12 @@ for i in range(len(lista)):
 salva_dati = False
 x = range(len(lista_dunn))
 # Creazione del grafico con solo punti, senza linee
-plt.plot(x, lista_dunn, 'o-', color='black', markersize=3)  # 'o' specifica solo i punti
+plt.plot(x, lista_dunn, 'o-', color='black', markersize=3)
 # Aggiunta dei titoli e delle etichette
 plt.title('Grafico dei dati')
 plt.xlabel('# Righe manipolate')
 plt.ylabel('Dunn index')
-# Imposta le etichette dell'asse x per mostrare 1, 100, 200, 300, ecc.
+# Imposta le etichette dell'asse x:
 step = int(input("Inserisci il numero di step: "))
 ticks = [0] + list(range(step-1, len(lista_dunn), step))  # Inizia con 0 e poi ogni step
 labels = [1] + [i + 1 for i in range(step-1, len(lista_dunn), step)]  # Prima etichetta è 1, poi ogni step
@@ -55,3 +58,8 @@ if (salva_dati):
     plt.savefig('C:\\Users\\giuli\\OneDrive\\Desktop\\DunnIndex\\results\\Immagini\\grafico_zeri_uni1.png')
     print("Dati salvati: il grafico è stato salvato come 'grafico_zeri_uni1.png'")
 plt.show()
+
+# Calcola il tempo di esecuzione
+end_time = time.time()
+execution_time = end_time - start_time
+print(f"Tempo di esecuzione: {execution_time} secondi")
