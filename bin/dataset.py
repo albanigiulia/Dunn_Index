@@ -16,7 +16,7 @@ start_time = time.time()
 ###############################
 
 #dataset
-filename = "C:\\Users\\giuli\\OneDrive\\Desktop\\DunnIndex\\dataset\\file1.csv"
+filename = "C:\\Users\\giuli\\OneDrive\\Desktop\\DunnIndex\\dataset\\neuroblastoma.csv"
 fields = []
 rows = []
 with open(filename, 'r') as csvfile:
@@ -32,7 +32,7 @@ for riga in rows:
         nuova_riga.append(float(elemento))
     dataset_neuroblastoma.append(nuova_riga)
 
-filename = "C:\\Users\\giuli\\OneDrive\\Desktop\\DunnIndex\\dataset\\file2_0.csv"
+filename = "C:\\Users\\giuli\\OneDrive\\Desktop\\DunnIndex\\dataset\\cardiac_arrest.csv"
 fields = []
 rows = []
 with open(filename, 'r') as csvfile:
@@ -48,7 +48,7 @@ for riga in rows:
         nuova_riga.append(float(elemento))
     dataset_cardiac_arrest.append(nuova_riga)
 
-filename = "C:\\Users\\giuli\\OneDrive\\Desktop\\DunnIndex\\dataset\\file3.csv"
+filename = "C:\\Users\\giuli\\OneDrive\\Desktop\\DunnIndex\\dataset\\diabetes.csv"
 fields = []
 rows = []
 with open(filename, 'r') as csvfile:
@@ -64,7 +64,7 @@ for riga in rows:
         nuova_riga.append(float(elemento))
     dataset_diabetes.append(nuova_riga)
 
-filename = "C:\\Users\\giuli\\OneDrive\\Desktop\\DunnIndex\\dataset\\file4.csv"
+filename = "C:\\Users\\giuli\\OneDrive\\Desktop\\DunnIndex\\dataset\\sepsis.csv"
 fields = []
 rows = []
 with open(filename, 'r') as csvfile:
@@ -80,7 +80,7 @@ for riga in rows:
         nuova_riga.append(float(elemento))
     dataset_sepsis.append(nuova_riga)
 
-filename = "C:\\Users\\giuli\\OneDrive\\Desktop\\DunnIndex\\dataset\\file5.csv"
+filename = "C:\\Users\\giuli\\OneDrive\\Desktop\\DunnIndex\\dataset\\heart.csv"
 fields = []
 rows = []
 with open(filename, 'r') as csvfile:
