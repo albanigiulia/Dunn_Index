@@ -25,12 +25,12 @@ with open(filename, 'r') as csvfile:
     for row in csvreader:
         rows.append(row)
 
-matrix1 = []
+dataset_neuroblastoma = []
 for riga in rows:
     nuova_riga = []
     for elemento in riga:
         nuova_riga.append(float(elemento))
-    matrix1.append(nuova_riga)
+    dataset_neuroblastoma.append(nuova_riga)
 
 filename = "C:\\Users\\giuli\\OneDrive\\Desktop\\DunnIndex\\dataset\\file2_0.csv"
 fields = []
@@ -41,12 +41,12 @@ with open(filename, 'r') as csvfile:
     for row in csvreader:
         rows.append(row)
 
-matrix2 = []
+dataset_cardiac_arrest = []
 for riga in rows:
     nuova_riga = []
     for elemento in riga:
         nuova_riga.append(float(elemento))
-    matrix2.append(nuova_riga)
+    dataset_cardiac_arrest.append(nuova_riga)
 
 filename = "C:\\Users\\giuli\\OneDrive\\Desktop\\DunnIndex\\dataset\\file3.csv"
 fields = []
@@ -57,12 +57,12 @@ with open(filename, 'r') as csvfile:
     for row in csvreader:
         rows.append(row)
 
-matrix3 = []
+dataset_diabetes = []
 for riga in rows:
     nuova_riga = []
     for elemento in riga:
         nuova_riga.append(float(elemento))
-    matrix3.append(nuova_riga)
+    dataset_diabetes.append(nuova_riga)
 
 filename = "C:\\Users\\giuli\\OneDrive\\Desktop\\DunnIndex\\dataset\\file4.csv"
 fields = []
@@ -73,12 +73,12 @@ with open(filename, 'r') as csvfile:
     for row in csvreader:
         rows.append(row)
 
-matrix4 = []
+dataset_sepsis = []
 for riga in rows:
     nuova_riga = []
     for elemento in riga:
         nuova_riga.append(float(elemento))
-    matrix4.append(nuova_riga)
+    dataset_sepsis.append(nuova_riga)
 
 filename = "C:\\Users\\giuli\\OneDrive\\Desktop\\DunnIndex\\dataset\\file5.csv"
 fields = []
@@ -89,12 +89,12 @@ with open(filename, 'r') as csvfile:
     for row in csvreader:
         rows.append(row)
 
-matrix5 = []
+dataset_heart = []
 for riga in rows:
     nuova_riga = []
     for elemento in riga:
         nuova_riga.append(float(elemento))
-    matrix5.append(nuova_riga)
+    dataset_heart.append(nuova_riga)
 
 
 # calcolo labels kmeans
@@ -210,7 +210,7 @@ def dbscan(matrix, ep, ms):
 ###############################
 
 graf = []
-M = matrix1 #da cambiare qui
+M = dataset_neuroblastoma #da cambiare qui
 M2 = torch.tensor(M)
 dunn_index = DunnIndex(p=2)
 
@@ -230,7 +230,7 @@ graf.append(result)
 
 
 print("\n k-means, manhattan: ")
-if M != matrix1:
+if M != dataset_neuroblastoma:
 #print(label_km5(M2))
 #print(label_km6(M2))
 #print(label_km7(M2))
@@ -308,12 +308,12 @@ graf.append(result)
 
 print("\n DBSCAN: ")
 
-if (M==matrix1 or M==matrix2 or M==matrix4):
+if (M==dataset_neuroblastoma or M==dataset_cardiac_arrest or M==dataset_sepsis):
     dbscan(M, 1, 2) 
     dbscan(M, 2, 2) 
     dbscan(M, 3, 2) 
     dbscan(M, 4, 2)
-if (M==matrix1 or M==matrix2):
+if (M==dataset_neuroblastoma or M==dataset_cardiac_arrest):
     dbscan(M, 3, 3)
     dbscan(M, 4, 3)
     dbscan(M, 3, 4)
@@ -324,7 +324,7 @@ if (M==matrix1 or M==matrix2):
     dbscan(M, 4, 20)
 
 #funziona per file 3 e 5
-if (M==matrix3 or M==matrix5):
+if (M==dataset_diabetes or M==dataset_heart):
     dbscan(M, 12, 2) 
     dbscan(M, 13, 3) 
     dbscan(M, 13, 2) 
@@ -333,7 +333,7 @@ if (M==matrix3 or M==matrix5):
     dbscan(M, 31, 2)
 
 
-if (M==matrix5):
+if (M==dataset_heart):
     dbscan(M, 6, 2)
     dbscan(M, 40, 2)
     dbscan(M, 50, 2)
@@ -348,21 +348,21 @@ salva_dati = True
 print("\n valori dunn: ", graf)
 #grafico
 if variabile == True:
-    if(M==matrix1):
+    if(M==dataset_neuroblastoma):
         etichette = ["K-M \nk=2 \nEU", "K-M \nk=3 \nEU", "K-M \nk=4 \nEU",  "K-M \nk=3 \nMAN", "K-M \nk=4 \nMAN", "K-M \nk=2 \nCOS", "K-M \nk=3 \nCOS", "K-M \nk=4 \nCOS", "HC \nk=2 \nward", "HC \nk=3 \nward", 
              "HC \nk=4 \nward", "HC \nk=2 \nCOM", "HC \nk=3 \nCOM", "HC \nk=4 \nCOM", "HC \nk=2 \nAVE", "HC \nk=3 \nAVE", "HC \nk=4 \nAVE", "DB \neps=1 \nmin=2", "DB \neps=2 \nmin=2", "DB \neps=3 \nmin=2", "DB \neps=4 \nmin=2",
              "DB \neps=3 \nmin=3", "DB \neps=4 \nmin=3", "DB \neps=3 \nmin=4", "DB \neps=3 \nmin=5", "DB \neps=4 \nmin=5", "DB \neps=4 \nmin=6", "DB \neps=4 \nmin=12", "DB \neps=4 \nmin=20"]   # Le etichette corrispondenti
-    elif(M==matrix2):
+    elif(M==dataset_cardiac_arrest):
         etichette = ["K-M \nk=2 \nEU", "K-M \nk=3 \nEU", "K-M \nk=4 \nEU", "K-M \nk=2 \nMAN", "K-M \nk=3 \nMAN", "K-M \nk=4 \nMAN", "K-M \nk=2 \nCOS", "K-M \nk=3 \nCOS", "K-M \nk=4 \nCOS", "HC \nk=2 \nward", "HC \nk=3 \nward", 
              "HC \nk=4 \nward", "HC \nk=2 \nCOM", "HC \nk=3 \nCOM", "HC \nk=4 \nCOM", "HC \nk=2 \nAVE", "HC \nk=3 \nAVE", "HC \nk=4 \nAVE", "DB \neps=1 \nmin=2", "DB \neps=2 \nmin=2", "DB \neps=3 \nmin=2", "DB \neps=4 \nmin=2",
              "DB \neps=3 \nmin=3", "DB \neps=4 \nmin=3", "DB \neps=3 \nmin=4", "DB \neps=3 \nmin=5", "DB \neps=4 \nmin=5", "DB \neps=4 \nmin=6", "DB \neps=4 \nmin=12", "DB \neps=4 \nmin=20"]
-    elif(M==matrix3):
+    elif(M==dataset_diabetes):
         etichette = ["K-M \nk=2 \nEU", "K-M \nk=3 \nEU", "K-M \nk=4 \nEU", "K-M \nk=2 \nMAN", "K-M \nk=3 \nMAN", "K-M \nk=4 \nMAN", "K-M \nk=2 \nCOS", "K-M \nk=3 \nCOS", "K-M \nk=4 \nCOS", "HC \nk=2 \nward", "HC \nk=3 \nward", 
              "HC \nk=4 \nward", "HC \nk=2 \nCOM", "HC \nk=3 \nCOM", "HC \nk=4 \nCOM", "HC \nk=2 \nAVE", "HC \nk=3 \nAVE", "HC \nk=4 \nAVE", "DB \neps=12 \nmin=2", "DB \neps=13 \nmin=3", "DB \neps=13 \nmin=2", "DB \neps=16 \nmin=2", "DB \neps=16 \nmin=3", "DB \neps=31 \nmin=2"]
-    elif(M==matrix4):
+    elif(M==dataset_sepsis):
         etichette = ["K-M \nk=2 \nEU", "K-M \nk=3 \nEU", "K-M \nk=4 \nEU", "K-M \nk=2 \nMAN", "K-M \nk=3 \nMAN", "K-M \nk=4 \nMAN", "K-M \nk=2 \nCOS", "K-M \nk=3 \nCOS", "K-M \nk=4 \nCOS", "HC \nk=2 \nward", "HC \nk=3 \nward", 
              "HC \nk=4 \nward", "HC \nk=2 \nCOM", "HC \nk=3 \nCOM", "HC \nk=4 \nCOM", "HC \nk=2 \nAVE", "HC \nk=3 \nAVE", "HC \nk=4 \nAVE", "DB \neps=1 \nmin=2", "DB \neps=2 \nmin=2", "DB \neps=3 \nmin=2", "DB \neps=4 \nmin=2"]
-    elif(M==matrix5):
+    elif(M==dataset_heart):
         etichette = ["K-M \nk=2 \nEU", "K-M \nk=3 \nEU", "K-M \nk=4 \nEU", "K-M \nk=2 \nMAN", "K-M \nk=3 \nMAN", "K-M \nk=4 \nMAN", "K-M \nk=2 \nCOS", "K-M \nk=3 \nCOS", "K-M \nk=4 \nCOS", "HC \nk=2 \nward", "HC \nk=3 \nward", 
              "HC \nk=4 \nward", "HC \nk=2 \nCOM", "HC \nk=3 \nCOM", "HC \nk=4 \nCOM", "HC \nk=2 \nAVE", "HC \nk=3 \nAVE", "HC \nk=4 \nAVE", "DB \neps=12 \nmin=2", "DB \neps=13 \nmin=3", "DB \neps=13 \nmin=2", "DB \neps=16 \nmin=2", "DB \neps=16 \nmin=3", "DB \neps=31 \nmin=2", "DB \neps=6 \nmin=2", "DB \neps=40 \nmin=2", "DB \neps=50 \nmin=2"]
     
@@ -380,21 +380,21 @@ if variabile == True:
     plt.grid(axis='y')
     plt.xlim(-0.5, len(graf_ordinato) - 0.5)
     plt.tight_layout()
-    if (salva_dati and M==matrix1):
-        plt.savefig('C:\\Users\\giuli\\OneDrive\\Desktop\\DunnIndex\\results\\Immagini\\grafico_matrix1.png')
-        print("Dati salvati: il grafico è stato salvato come 'grafico_matrix1.png'")
-    elif(salva_dati and M==matrix2):
-        plt.savefig('C:\\Users\\giuli\\OneDrive\\Desktop\\DunnIndex\\results\\Immagini\\grafico_matrix2.png')
-        print("Dati salvati: il grafico è stato salvato come 'grafico_matrix2.png'")
-    elif(salva_dati and M==matrix3):
-        plt.savefig('C:\\Users\\giuli\\OneDrive\\Desktop\\DunnIndex\\results\\Immagini\\grafico_matrix3.png')
-        print("Dati salvati: il grafico è stato salvato come 'grafico_matrix3.png'")
-    elif(salva_dati and M==matrix4):
-        plt.savefig('C:\\Users\\giuli\\OneDrive\\Desktop\\DunnIndex\\results\\Immagini\\grafico_matrix4.png')
-        print("Dati salvati: il grafico è stato salvato come 'grafico_matrix4.png'")
-    elif(salva_dati and M==matrix5):
-        plt.savefig('C:\\Users\\giuli\\OneDrive\\Desktop\\DunnIndex\\results\\Immagini\\grafico_matrix5.png')
-        print("Dati salvati: il grafico è stato salvato come 'grafico_matrix5.png'")
+    if (salva_dati and M==dataset_neuroblastoma):
+        plt.savefig('C:\\Users\\giuli\\OneDrive\\Desktop\\DunnIndex\\results\\Immagini\\grafico_neuroblastoma.png')
+        print("Dati salvati: il grafico è stato salvato come 'grafico_neuroblastoma.png'")
+    elif(salva_dati and M==dataset_cardiac_arrest):
+        plt.savefig('C:\\Users\\giuli\\OneDrive\\Desktop\\DunnIndex\\results\\Immagini\\dataset_cardiac_arrest.png')
+        print("Dati salvati: il grafico è stato salvato come 'dataset_cardiac_arrest.png'")
+    elif(salva_dati and M==dataset_diabetes):
+        plt.savefig('C:\\Users\\giuli\\OneDrive\\Desktop\\DunnIndex\\results\\Immagini\\dataset_diabetes.png')
+        print("Dati salvati: il grafico è stato salvato come 'dataset_diabetes.png'")
+    elif(salva_dati and M==dataset_sepsis):
+        plt.savefig('C:\\Users\\giuli\\OneDrive\\Desktop\\DunnIndex\\results\\Immagini\\dataset_sepsis.png')
+        print("Dati salvati: il grafico è stato salvato come 'dataset_sepsis.png'")
+    elif(salva_dati and M==dataset_heart):
+        plt.savefig('C:\\Users\\giuli\\OneDrive\\Desktop\\DunnIndex\\results\\Immagini\\dataset_heart.png')
+        print("Dati salvati: il grafico è stato salvato come 'dataset_heart.png'")
     else:
         print("Dati non salvati")
 plt.show()
