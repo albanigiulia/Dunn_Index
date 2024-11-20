@@ -234,12 +234,12 @@ def hdbscan_(matrix, ep, ms):
     labels = torch.tensor(filtered_labels)
     result = dunn_index(M2, labels).item()
     print(result)
-    #graf.append(result)
+    graf.append(result)
     return result
 ###############################
 
 graf = []
-M = dataset_heart #da cambiare qui
+M = dataset_sepsis #da cambiare qui
 M2 = torch.tensor(M)
 dunn_index = DunnIndex(p=2)
 
@@ -336,45 +336,32 @@ print(result)
 graf.append(result)
 
 print("\n DBSCAN: ")
-
-if (M==dataset_neuroblastoma or M==dataset_cardiac_arrest or M==dataset_sepsis):
+if(M==dataset_neuroblastoma):
     dbscan(M, 1, 2) 
-    dbscan(M, 2, 2) 
-    dbscan(M, 3, 2) 
-    dbscan(M, 4, 2)
-if (M==dataset_neuroblastoma or M==dataset_cardiac_arrest):
-    dbscan(M, 3, 3)
-    dbscan(M, 4, 3)
-    dbscan(M, 3, 4)
     dbscan(M, 3, 5)
-    dbscan(M, 4, 5)
-    dbscan(M, 4, 6)
     dbscan(M, 4, 12)
     dbscan(M, 4, 20)
-
-#funziona per file 3 e 5
-if (M==dataset_diabetes or M==dataset_heart):
+if (M==dataset_sepsis):
+    dbscan(M, 1, 2) 
+    dbscan(M, 2, 2)
+    dbscan(M, 3, 2) 
+    dbscan(M, 4, 2)
+if (M==dataset_cardiac_arrest):
+    dbscan(M, 1, 2) 
+    dbscan(M, 4, 12)
+    dbscan(M, 4, 20)
+if (M==dataset_diabetes):
     dbscan(M, 12, 2) 
     dbscan(M, 13, 3) 
     dbscan(M, 13, 2) 
     dbscan(M, 16, 2)
-    dbscan(M, 16, 3)
-    dbscan(M, 31, 2)
-
-
 if (M==dataset_heart):
+    dbscan(M, 12, 2) 
+    dbscan(M, 13, 3) 
     dbscan(M, 6, 2)
-    dbscan(M, 40, 2)
-    dbscan(M, 50, 2)
 
 def ordina_decrescente(lista):
     return sorted(lista, reverse=True)
-
-print("\n Mean-shift: ")
-labels = torch.tensor(label_mean_shift(M2))
-result = dunn_index(M2, labels).item()
-print(result)
-#graf.append(result)
 
 print("\n HDBSCAN: ")
 if (M==dataset_sepsis):
@@ -384,14 +371,23 @@ if (M==dataset_sepsis):
 if (M==dataset_diabetes):
     hdbscan_(M, 2, 2)
     hdbscan_(M, 3, 2) 
-if (M==dataset_heart or M==dataset_neuroblastoma):
+if (M==dataset_neuroblastoma):
     hdbscan_(M, 5, 3)
+    hdbscan_(M, 30, 7)
 if (M==dataset_cardiac_arrest):
     hdbscan_(M, 2, 2)
     hdbscan_(M, 10, 7)
     hdbscan_(M, 30, 7)
 if(M==dataset_heart):
+    hdbscan_(M, 5, 3)
     hdbscan_(M, 50, 2) 
+
+
+print("\n Mean-Shift: ")
+labels = torch.tensor(label_mean_shift(M2))
+result = dunn_index(M2, labels).item()
+print(result)
+graf.append(result)
 
 ###############################
 variabile = True
@@ -405,28 +401,29 @@ if variabile == True:
         color_dataset = "lightgreen"
         title = 'dataset neuroblastoma'
         etichette = ["K-M \nk=2 \nEU", "K-M \nk=3 \nEU", "K-M \nk=4 \nEU",  "K-M \nk=3 \nMAN", "K-M \nk=4 \nMAN", "K-M \nk=2 \nCOS", "K-M \nk=3 \nCOS", "K-M \nk=4 \nCOS", "HC \nk=2 \nward", "HC \nk=3 \nward", 
-             "HC \nk=4 \nward", "HC \nk=2 \nCOM", "HC \nk=3 \nCOM", "HC \nk=4 \nCOM", "HC \nk=2 \nAVE", "HC \nk=3 \nAVE", "HC \nk=4 \nAVE", "DB \neps=1 \nmin=2", "DB \neps=2 \nmin=2", "DB \neps=3 \nmin=2", "DB \neps=4 \nmin=2",
-             "DB \neps=3 \nmin=3", "DB \neps=4 \nmin=3", "DB \neps=3 \nmin=4", "DB \neps=3 \nmin=5", "DB \neps=4 \nmin=5", "DB \neps=4 \nmin=6", "DB \neps=4 \nmin=12", "DB \neps=4 \nmin=20"]   # Le etichette corrispondenti
+             "HC \nk=4 \nward", "HC \nk=2 \nCOM", "HC \nk=3 \nCOM", "HC \nk=4 \nCOM", "HC \nk=2 \nAVE", "HC \nk=3 \nAVE", "HC \nk=4 \nAVE", "DB \neps=1 \nmin=2",
+             "DB \neps=3 \nmin=5", "DB \neps=4 \nmin=12", "DB \neps=4 \nmin=20","HDB \neps=5 \nmin=3", "HDB \neps=30 \nmin=7", "M-S"] 
     elif(M==dataset_cardiac_arrest):
         color_dataset = "darkred"
         title = 'dataset cardiac arrest'
         etichette = ["K-M \nk=2 \nEU", "K-M \nk=3 \nEU", "K-M \nk=4 \nEU", "K-M \nk=2 \nMAN", "K-M \nk=3 \nMAN", "K-M \nk=4 \nMAN", "K-M \nk=2 \nCOS", "K-M \nk=3 \nCOS", "K-M \nk=4 \nCOS", "HC \nk=2 \nward", "HC \nk=3 \nward", 
-             "HC \nk=4 \nward", "HC \nk=2 \nCOM", "HC \nk=3 \nCOM", "HC \nk=4 \nCOM", "HC \nk=2 \nAVE", "HC \nk=3 \nAVE", "HC \nk=4 \nAVE", "DB \neps=1 \nmin=2", "DB \neps=2 \nmin=2", "DB \neps=3 \nmin=2", "DB \neps=4 \nmin=2",
-             "DB \neps=3 \nmin=3", "DB \neps=4 \nmin=3", "DB \neps=3 \nmin=4", "DB \neps=3 \nmin=5", "DB \neps=4 \nmin=5", "DB \neps=4 \nmin=6", "DB \neps=4 \nmin=12", "DB \neps=4 \nmin=20"]
+             "HC \nk=4 \nward", "HC \nk=2 \nCOM", "HC \nk=3 \nCOM", "HC \nk=4 \nCOM", "HC \nk=2 \nAVE", "HC \nk=3 \nAVE", "HC \nk=4 \nAVE", "DB \neps=1 \nmin=2", "DB \neps=4 \nmin=12", "DB \neps=4 \nmin=20", "HDB \neps=2 \nmin=2",
+             "HDB \neps=10 \nmin=7", "HDB \neps=30 \nmin=7", "M-S"]
     elif(M==dataset_diabetes):
         title = 'dataset diabetes'
         color_dataset = "orange"
         etichette = ["K-M \nk=2 \nEU", "K-M \nk=3 \nEU", "K-M \nk=4 \nEU", "K-M \nk=2 \nMAN", "K-M \nk=3 \nMAN", "K-M \nk=4 \nMAN", "K-M \nk=2 \nCOS", "K-M \nk=3 \nCOS", "K-M \nk=4 \nCOS", "HC \nk=2 \nward", "HC \nk=3 \nward", 
-             "HC \nk=4 \nward", "HC \nk=2 \nCOM", "HC \nk=3 \nCOM", "HC \nk=4 \nCOM", "HC \nk=2 \nAVE", "HC \nk=3 \nAVE", "HC \nk=4 \nAVE", "DB \neps=12 \nmin=2", "DB \neps=13 \nmin=3", "DB \neps=13 \nmin=2", "DB \neps=16 \nmin=2", "DB \neps=16 \nmin=3", "DB \neps=31 \nmin=2"]
+             "HC \nk=4 \nward", "HC \nk=2 \nCOM", "HC \nk=3 \nCOM", "HC \nk=4 \nCOM", "HC \nk=2 \nAVE", "HC \nk=3 \nAVE", "HC \nk=4 \nAVE", "DB \neps=12 \nmin=2", "DB \neps=13 \nmin=3", "DB \neps=13 \nmin=2", "DB \neps=16 \nmin=2", "HDB \neps=2 \nmin=2", "HDB \neps=3 \nmin=2", "M-S"]
     elif(M==dataset_sepsis):
         title = 'dataset sepsis'
         color_dataset = "purple"
         etichette = ["K-M \nk=2 \nEU", "K-M \nk=3 \nEU", "K-M \nk=4 \nEU", "K-M \nk=2 \nMAN", "K-M \nk=3 \nMAN", "K-M \nk=4 \nMAN", "K-M \nk=2 \nCOS", "K-M \nk=3 \nCOS", "K-M \nk=4 \nCOS", "HC \nk=2 \nward", "HC \nk=3 \nward", 
-             "HC \nk=4 \nward", "HC \nk=2 \nCOM", "HC \nk=3 \nCOM", "HC \nk=4 \nCOM", "HC \nk=2 \nAVE", "HC \nk=3 \nAVE", "HC \nk=4 \nAVE", "DB \neps=1 \nmin=2", "DB \neps=2 \nmin=2", "DB \neps=3 \nmin=2", "DB \neps=4 \nmin=2"]
+             "HC \nk=4 \nward", "HC \nk=2 \nCOM", "HC \nk=3 \nCOM", "HC \nk=4 \nCOM", "HC \nk=2 \nAVE", "HC \nk=3 \nAVE", "HC \nk=4 \nAVE", "DB \neps=1 \nmin=2", "DB \neps=2 \nmin=2", "DB \neps=3 \nmin=2", "DB \neps=4 \nmin=2", 
+             "HDB \neps=2 \nmin=2", "HDB \neps=30 \nmin=7", "HDB \neps=50 \nmin=2", "M-S"]
     elif(M==dataset_heart):
         title = 'dataset heart'
         etichette = ["K-M \nk=2 \nEU", "K-M \nk=3 \nEU", "K-M \nk=4 \nEU", "K-M \nk=2 \nMAN", "K-M \nk=3 \nMAN", "K-M \nk=4 \nMAN", "K-M \nk=2 \nCOS", "K-M \nk=3 \nCOS", "K-M \nk=4 \nCOS", "HC \nk=2 \nward", "HC \nk=3 \nward", 
-             "HC \nk=4 \nward", "HC \nk=2 \nCOM", "HC \nk=3 \nCOM", "HC \nk=4 \nCOM", "HC \nk=2 \nAVE", "HC \nk=3 \nAVE", "HC \nk=4 \nAVE", "DB \neps=12 \nmin=2", "DB \neps=13 \nmin=3", "DB \neps=13 \nmin=2", "DB \neps=16 \nmin=2", "DB \neps=16 \nmin=3", "DB \neps=31 \nmin=2", "DB \neps=6 \nmin=2", "DB \neps=40 \nmin=2", "DB \neps=50 \nmin=2"]
+             "HC \nk=4 \nward", "HC \nk=2 \nCOM", "HC \nk=3 \nCOM", "HC \nk=4 \nCOM", "HC \nk=2 \nAVE", "HC \nk=3 \nAVE", "HC \nk=4 \nAVE", "DB \neps=12 \nmin=2", "DB \neps=13 \nmin=3", "DB \neps=6 \nmin=2","HDB \neps=5 \nmin=3", "HDB \neps=50 \nmin=2", "M-S"]
     
     # Ordina i valori in ordine decrescente insieme alle etichette
     dati_ordinati = sorted(zip(graf, etichette), key=lambda x: x[0], reverse=True)
@@ -445,8 +442,6 @@ if variabile == True:
     plt.tight_layout()
 
     #timestamp
-    timestamp = datetime.datetime.now()
-    print(timestamp)
     current_datetime = datetime.datetime.now()
     # Formatta la data e l'ora
     formatted_datetime = current_datetime.strftime("%Y-%m-%d %H:%M:%S")
