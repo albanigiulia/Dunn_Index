@@ -58,7 +58,7 @@ print(result)
 # grafico
 variabile1 = True
 if variabile1:
-    salva_dati1 = True
+    salva_dati1 = False
     x = [item[0] for item in ordinata]
     y = [item[1] for item in ordinata]
 

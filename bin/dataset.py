@@ -1,4 +1,4 @@
-import numpy as np
+import numpy as np #da togliere
 import random
 from sklearn.cluster import KMeans
 import csv
@@ -8,7 +8,10 @@ from torchmetrics.clustering import DunnIndex
 from sklearn.cluster import AgglomerativeClustering
 from sklearn.cluster import DBSCAN
 from sklearn_extra.cluster import KMedoids
+from sklearn.cluster import MeanShift
 import time
+import datetime
+import hdbscan
 
 # Memorizziamo il tempo iniziale
 start_time = time.time()
@@ -189,6 +192,13 @@ def label_hi9(matrix, n_clusters=4, linkage='average'):
     labels = model.fit_predict(matrix)
     return labels
 
+#mean-shift
+def label_mean_shift(matrix):
+    mean_shift = MeanShift()
+    mean_shift.fit(matrix)
+    return mean_shift.labels_
+
+
 #DBSCAN
 def dbscan(matrix, ep, ms):
     filtered_X = []
@@ -207,10 +217,29 @@ def dbscan(matrix, ep, ms):
     print(result)
     graf.append(result)
     return result
+
+#HDBSCAN
+def hdbscan_(matrix, ep, ms):
+    filtered_X = []
+    dunn_index = DunnIndex(p=2)
+    clustering = hdbscan.HDBSCAN(min_cluster_size=ep, min_samples=ms).fit(matrix)
+    lab = clustering.labels_
+    #print(lab)
+    for i in range(len(lab)):
+        if lab[i] != -1:  # Se lab[i] non è -1, mantieni la riga
+            filtered_X.append(matrix[i])
+    filtered_labels = lab[lab != -1]
+    #print(lab)
+    M2 = torch.tensor(filtered_X)
+    labels = torch.tensor(filtered_labels)
+    result = dunn_index(M2, labels).item()
+    print(result)
+    #graf.append(result)
+    return result
 ###############################
 
 graf = []
-M = dataset_neuroblastoma #da cambiare qui
+M = dataset_heart #da cambiare qui
 M2 = torch.tensor(M)
 dunn_index = DunnIndex(p=2)
 
@@ -341,28 +370,61 @@ if (M==dataset_heart):
 def ordina_decrescente(lista):
     return sorted(lista, reverse=True)
 
+print("\n Mean-shift: ")
+labels = torch.tensor(label_mean_shift(M2))
+result = dunn_index(M2, labels).item()
+print(result)
+#graf.append(result)
+
+print("\n HDBSCAN: ")
+if (M==dataset_sepsis):
+    hdbscan_(M, 2, 2)
+    hdbscan_(M, 30, 7)
+    hdbscan_(M, 50, 2) 
+if (M==dataset_diabetes):
+    hdbscan_(M, 2, 2)
+    hdbscan_(M, 3, 2) 
+if (M==dataset_heart or M==dataset_neuroblastoma):
+    hdbscan_(M, 5, 3)
+if (M==dataset_cardiac_arrest):
+    hdbscan_(M, 2, 2)
+    hdbscan_(M, 10, 7)
+    hdbscan_(M, 30, 7)
+if(M==dataset_heart):
+    hdbscan_(M, 50, 2) 
 
 ###############################
 variabile = True
-salva_dati = True 
+salva_dati = False 
+color_dataset = 'skyblue'
+title = 'nothing'
 print("\n valori dunn: ", graf)
 #grafico
 if variabile == True:
     if(M==dataset_neuroblastoma):
+        color_dataset = "lightgreen"
+        title = 'dataset neuroblastoma'
         etichette = ["K-M \nk=2 \nEU", "K-M \nk=3 \nEU", "K-M \nk=4 \nEU",  "K-M \nk=3 \nMAN", "K-M \nk=4 \nMAN", "K-M \nk=2 \nCOS", "K-M \nk=3 \nCOS", "K-M \nk=4 \nCOS", "HC \nk=2 \nward", "HC \nk=3 \nward", 
              "HC \nk=4 \nward", "HC \nk=2 \nCOM", "HC \nk=3 \nCOM", "HC \nk=4 \nCOM", "HC \nk=2 \nAVE", "HC \nk=3 \nAVE", "HC \nk=4 \nAVE", "DB \neps=1 \nmin=2", "DB \neps=2 \nmin=2", "DB \neps=3 \nmin=2", "DB \neps=4 \nmin=2",
              "DB \neps=3 \nmin=3", "DB \neps=4 \nmin=3", "DB \neps=3 \nmin=4", "DB \neps=3 \nmin=5", "DB \neps=4 \nmin=5", "DB \neps=4 \nmin=6", "DB \neps=4 \nmin=12", "DB \neps=4 \nmin=20"]   # Le etichette corrispondenti
     elif(M==dataset_cardiac_arrest):
+        color_dataset = "darkred"
+        title = 'dataset cardiac arrest'
         etichette = ["K-M \nk=2 \nEU", "K-M \nk=3 \nEU", "K-M \nk=4 \nEU", "K-M \nk=2 \nMAN", "K-M \nk=3 \nMAN", "K-M \nk=4 \nMAN", "K-M \nk=2 \nCOS", "K-M \nk=3 \nCOS", "K-M \nk=4 \nCOS", "HC \nk=2 \nward", "HC \nk=3 \nward", 
              "HC \nk=4 \nward", "HC \nk=2 \nCOM", "HC \nk=3 \nCOM", "HC \nk=4 \nCOM", "HC \nk=2 \nAVE", "HC \nk=3 \nAVE", "HC \nk=4 \nAVE", "DB \neps=1 \nmin=2", "DB \neps=2 \nmin=2", "DB \neps=3 \nmin=2", "DB \neps=4 \nmin=2",
              "DB \neps=3 \nmin=3", "DB \neps=4 \nmin=3", "DB \neps=3 \nmin=4", "DB \neps=3 \nmin=5", "DB \neps=4 \nmin=5", "DB \neps=4 \nmin=6", "DB \neps=4 \nmin=12", "DB \neps=4 \nmin=20"]
     elif(M==dataset_diabetes):
+        title = 'dataset diabetes'
+        color_dataset = "orange"
         etichette = ["K-M \nk=2 \nEU", "K-M \nk=3 \nEU", "K-M \nk=4 \nEU", "K-M \nk=2 \nMAN", "K-M \nk=3 \nMAN", "K-M \nk=4 \nMAN", "K-M \nk=2 \nCOS", "K-M \nk=3 \nCOS", "K-M \nk=4 \nCOS", "HC \nk=2 \nward", "HC \nk=3 \nward", 
              "HC \nk=4 \nward", "HC \nk=2 \nCOM", "HC \nk=3 \nCOM", "HC \nk=4 \nCOM", "HC \nk=2 \nAVE", "HC \nk=3 \nAVE", "HC \nk=4 \nAVE", "DB \neps=12 \nmin=2", "DB \neps=13 \nmin=3", "DB \neps=13 \nmin=2", "DB \neps=16 \nmin=2", "DB \neps=16 \nmin=3", "DB \neps=31 \nmin=2"]
     elif(M==dataset_sepsis):
+        title = 'dataset sepsis'
+        color_dataset = "purple"
         etichette = ["K-M \nk=2 \nEU", "K-M \nk=3 \nEU", "K-M \nk=4 \nEU", "K-M \nk=2 \nMAN", "K-M \nk=3 \nMAN", "K-M \nk=4 \nMAN", "K-M \nk=2 \nCOS", "K-M \nk=3 \nCOS", "K-M \nk=4 \nCOS", "HC \nk=2 \nward", "HC \nk=3 \nward", 
              "HC \nk=4 \nward", "HC \nk=2 \nCOM", "HC \nk=3 \nCOM", "HC \nk=4 \nCOM", "HC \nk=2 \nAVE", "HC \nk=3 \nAVE", "HC \nk=4 \nAVE", "DB \neps=1 \nmin=2", "DB \neps=2 \nmin=2", "DB \neps=3 \nmin=2", "DB \neps=4 \nmin=2"]
     elif(M==dataset_heart):
+        title = 'dataset heart'
         etichette = ["K-M \nk=2 \nEU", "K-M \nk=3 \nEU", "K-M \nk=4 \nEU", "K-M \nk=2 \nMAN", "K-M \nk=3 \nMAN", "K-M \nk=4 \nMAN", "K-M \nk=2 \nCOS", "K-M \nk=3 \nCOS", "K-M \nk=4 \nCOS", "HC \nk=2 \nward", "HC \nk=3 \nward", 
              "HC \nk=4 \nward", "HC \nk=2 \nCOM", "HC \nk=3 \nCOM", "HC \nk=4 \nCOM", "HC \nk=2 \nAVE", "HC \nk=3 \nAVE", "HC \nk=4 \nAVE", "DB \neps=12 \nmin=2", "DB \neps=13 \nmin=3", "DB \neps=13 \nmin=2", "DB \neps=16 \nmin=2", "DB \neps=16 \nmin=3", "DB \neps=31 \nmin=2", "DB \neps=6 \nmin=2", "DB \neps=40 \nmin=2", "DB \neps=50 \nmin=2"]
     
@@ -370,16 +432,28 @@ if variabile == True:
     dati_ordinati = sorted(zip(graf, etichette), key=lambda x: x[0], reverse=True)
     graf_ordinato, etichette_ordinate = zip(*dati_ordinati)
     plt.figure(figsize=(20, 7))
-    plt.bar(range(len(graf_ordinato)), graf_ordinato, color='skyblue', width=1, edgecolor='black')
+    plt.bar(range(len(graf_ordinato)), graf_ordinato, color=color_dataset, width=1, edgecolor='black')
     plt.xlabel('Algoritmi')
     plt.ylabel('Dunn Index')
-    plt.title('Grafico a Barre dei Valori Ordinati in Ordine Decrescente')
+    plt.title(title) 
 
     # Imposta le etichette in orizzontale con una dimensione del font ridotta
     plt.xticks(range(len(graf_ordinato)), etichette_ordinate, rotation=0, ha='center', fontsize=10)
     plt.grid(axis='y')
     plt.xlim(-0.5, len(graf_ordinato) - 0.5)
+    plt.yticks(fontsize=12)  # Modifica la dimensione dei numeri sull'asse y
     plt.tight_layout()
+
+    #timestamp
+    timestamp = datetime.datetime.now()
+    print(timestamp)
+    current_datetime = datetime.datetime.now()
+    # Formatta la data e l'ora
+    formatted_datetime = current_datetime.strftime("%Y-%m-%d %H:%M:%S")
+    # Sostituisci gli spazi con trattini bassi
+    formatted_datetime_with_underscore = formatted_datetime.replace(' ', '_')
+
+    #salvataggio
     if (salva_dati and M==dataset_neuroblastoma):
         plt.savefig('C:\\Users\\giuli\\OneDrive\\Desktop\\DunnIndex\\results\\Immagini\\grafico_neuroblastoma.png')
         print("Dati salvati: il grafico è stato salvato come 'grafico_neuroblastoma.png'")
@@ -397,9 +471,30 @@ if variabile == True:
         print("Dati salvati: il grafico è stato salvato come 'dataset_heart.png'")
     else:
         print("Dati non salvati")
+plt.tight_layout()
 plt.show()
 
 # Calcola il tempo di esecuzione
 end_time = time.time()
 execution_time = end_time - start_time
 print(f"Tempo di esecuzione: {execution_time} secondi")
+
+#Dataset sepsis: 4.355677604675293 secondi -> 1258 campioni 
+#Dataset neuroblastoma: 3.1053531169891357 secondi -> 170 campioni
+#Dataset heart: 2.908968687057495 secondi  -> 54 campioni
+#Dataset cardiac arrest: 3.254814863204956 secondi -> 420 campioni
+#Dataset diabetes: 3.0514817237854004 secondi  -> 68 campioni
+
+graph_time = [[2.908968687057495, 54], [3.0514817237854004, 68], [3.1053531169891357, 170], [3.254814863204956, 420], [4.355677604675293, 1258]]
+#AGGIUNGERE graph_time_after_MeanShift
+# Estrazione dei dati
+times = [item[0] for item in graph_time]
+samples = [item[1] for item in graph_time]
+# Creazione del grafico
+plt.figure(figsize=(10, 6))
+plt.plot(samples, times, color='black', marker='o', linestyle='-', markersize=8, alpha=1)
+plt.title("Tempo di elaborazione in funzione dei datset", fontsize=14)
+plt.xlabel("# punti", fontsize=12)
+plt.ylabel("Tempo", fontsize=12)
+plt.grid(alpha=0.4)
+plt.show()

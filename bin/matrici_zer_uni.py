@@ -55,11 +55,30 @@ plt.xticks(ticks=ticks, labels=labels)
 # Mostra il grafico
 plt.grid()
 if (salva_dati):
-    plt.savefig('C:\\Users\\giuli\\OneDrive\\Desktop\\DunnIndex\\results\\Immagini\\grafico_zeri_uni1.png')
-    print("Dati salvati: il grafico è stato salvato come 'grafico_zeri_uni1.png'")
+    plt.savefig('C:\\Users\\giuli\\OneDrive\\Desktop\\DunnIndex\\results\\Immagini\\grafico_zeri_uni.png')
+    print("Dati salvati: il grafico è stato salvato come 'grafico_zeri_uni.png'")
 plt.show()
 
 # Calcola il tempo di esecuzione
 end_time = time.time()
 execution_time = end_time - start_time
 print(f"Tempo di esecuzione: {execution_time} secondi")
+
+
+#Tempo di esecuzione con 50 campioni: 5.246044683456421 secondi
+#Tempo di esecuzione con 100 campioni: 5.266528606414795 secondi
+#Tempo di esecuzione con 500 campioni: 12.036033391952515 secondi
+#Tempo di esecuzione con 1000 campioni: 15.379289388656616 secondi
+
+graph_time = [[5.246044683456421, 50], [5.266528606414795, 100], [12.036033391952515, 500], [15.379289388656616, 1000]]
+# Estrazione dei dati
+times = [item[0] for item in graph_time]
+samples = [item[1] for item in graph_time]
+# Creazione del grafico
+plt.figure(figsize=(10, 6))
+plt.plot(samples, times, color='black', marker='o', linestyle='-', markersize=8, alpha=1)
+plt.title("Tempo di elaborazione in funzione del numero di campioni", fontsize=14)
+plt.xlabel("# punti", fontsize=12)
+plt.ylabel("Tempo", fontsize=12)
+plt.grid(alpha=0.4)
+plt.show()
