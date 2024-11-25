@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import torch
 from torchmetrics.clustering import DunnIndex
 import time
+import datetime
 
 # Memorizziamo il tempo iniziale
 start_time = time.time()
@@ -40,7 +41,7 @@ for i in range(len(data_list)):
 ###############################
 
 # Grafico zeri_uni
-save_data = False
+save_data = True
 x_values = range(len(dunn_index_list))
 # Creazione del grafico con solo punti, senza linee
 plt.plot(x_values, dunn_index_list, 'o-', color='black', markersize=3)
@@ -53,11 +54,21 @@ step_size = int(input("Inserisci il numero di step: "))
 ticks = [0] + list(range(step_size - 1, len(dunn_index_list), step_size))  # Inizia con 0 e poi ogni step_size
 labels = [1] + [i + 1 for i in range(step_size - 1, len(dunn_index_list), step_size)]  # Prima etichetta è 1, poi ogni step_size
 plt.xticks(ticks=ticks, labels=labels) # utilizzata per impostare i valori e le etichette sull'asse x 
-# Mostra il grafico
 plt.grid()
-if save_data:
-    plt.savefig('C:\\Users\\giuli\\OneDrive\\Desktop\\DunnIndex\\results\\Images\\grafico_zeri_uni.png')
-    print("Dati salvati: il grafico è stato salvato come 'grafico_zeri_uni.png'")
+
+#timestamp
+current_datetime = datetime.datetime.now()
+# Formatta la data e l'ora
+formatted_datetime = current_datetime.strftime("%Y-%m-%d_%H-%M-%S")+"_matrix_zero_one_"+str(num_rows)
+# Sostituisci gli spazi con trattini bassi
+formatted_datetime_with_underscore = formatted_datetime.replace(' ', '_')
+#print(formatted_datetime_with_underscore)
+
+if (save_data):
+    plt.savefig(f'C:\\Users\\giuli\\OneDrive\\Desktop\\DunnIndex\\results\\Immagini\\{formatted_datetime_with_underscore}.png')
+    print(f"Dati salvati: il grafico è stato salvato come {formatted_datetime_with_underscore}")
+else:
+    print("Dati non salvati")
 plt.show()
 
 # Calcola il tempo di esecuzione

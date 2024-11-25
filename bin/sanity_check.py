@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import torch
 from torchmetrics.clustering import DunnIndex
 import time
+import datetime
 
 # Memorizziamo il tempo iniziale
 start_time = time.time()
@@ -22,12 +23,13 @@ def compute_labels(matrix):
 ###############################
 
 # valori 
+title = "matrix_clusters_saparated"
 columns = 5
 decimals = 2
-lower_limit_first_half = 100
-upper_limit_first_half = 150
+lower_limit_first_half = 9990
+upper_limit_first_half = 10000
 lower_limit2_second_half = 1
-upper_limit2_second_half = 50
+upper_limit2_second_half = 10
 rows = 100
 
 # matrice due cluster separati
@@ -58,7 +60,7 @@ print(dunn_result)
 # grafico
 graph_clusters_saparated = True
 if graph_clusters_saparated:
-    save_clusters_separated = False
+    save_clusters_separated = True
     first_cluster_values = [item[0] for item in clustered_matrix] #valore appartenenti al primo cluster
     second_cluster_values = [item[1] for item in clustered_matrix] #valore appartenenti al secondo cluster
 
@@ -71,17 +73,30 @@ if graph_clusters_saparated:
     plt.title('Grafico di dispersione a due dimensioni')
     plt.grid()
 
-    if save_clusters_separated:
-        plt.savefig('C:\\Users\\giuli\\OneDrive\\Desktop\\DunnIndex\\results\\Images\\clustered_plot.png')
-        print("Dati salvati: il grafico è stato salvato come 'clustered_plot.png'")
+    #timestamp
+    current_datetime = datetime.datetime.now()
+    # Formatta la data e l'ora
+    formatted_datetime = current_datetime.strftime("%Y-%m-%d_%H-%M-%S")+"_"+title
+    # Sostituisci gli spazi con trattini bassi
+    formatted_datetime_with_underscore = formatted_datetime.replace(' ', '_')
+    #print(formatted_datetime_with_underscore)
+
+    #salvataggio
+    if (save_clusters_separated):
+        plt.savefig(f'C:\\Users\\giuli\\OneDrive\\Desktop\\DunnIndex\\results\\Immagini\\{formatted_datetime_with_underscore}.png')
+        print(f"Dati salvati: il grafico è stato salvato come {formatted_datetime_with_underscore}")
+    else:
+        print("Dati non salvati")
+    plt.show()
 
     plt.show()
 ###############################
 
 # valori 
+title = "matrix_random"
 columns = 5
 lower_limit = 0
-upper_limit = 100
+upper_limit = 10
 rows = 100
 
 # matrice valori sparsi
@@ -118,11 +133,20 @@ if graph_random:
     plt.ylabel('Y')
     plt.title('Grafico di dispersione a due dimensioni')
     plt.grid()
+    #timestamp
+    current_datetime = datetime.datetime.now()
+    # Formatta la data e l'ora
+    formatted_datetime = current_datetime.strftime("%Y-%m-%d_%H-%M-%S")+"_"+title+"_"+str(upper_limit)+"_upper_limit"
+    # Sostituisci gli spazi con trattini bassi
+    formatted_datetime_with_underscore = formatted_datetime.replace(' ', '_')
+    #print(formatted_datetime_with_underscore)
 
-    if save_random:
-        plt.savefig('C:\\Users\\giuli\\OneDrive\\Desktop\\DunnIndex\\results\\Images\\random_plot.png')
-        print("Dati salvati: il grafico è stato salvato come 'random_plot.png'")
-
+    #salvataggio
+    if (save_random):
+        plt.savefig(f'C:\\Users\\giuli\\OneDrive\\Desktop\\DunnIndex\\results\\Immagini\\{formatted_datetime_with_underscore}.png')
+        print(f"Dati salvati: il grafico è stato salvato come {formatted_datetime_with_underscore}")
+    else:
+        print("Dati non salvati")
     plt.show()
 
 # Calcola il tempo di esecuzione
