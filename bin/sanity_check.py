@@ -26,10 +26,10 @@ def compute_labels(matrix):
 title = "matrix_clusters_saparated"
 columns = 5
 decimals = 2
-lower_limit_first_half = 9990
-upper_limit_first_half = 10000
+lower_limit_first_half = 100
+upper_limit_first_half = 150
 lower_limit2_second_half = 1
-upper_limit2_second_half = 10
+upper_limit2_second_half = 50
 rows = 100
 
 # matrice due cluster separati
@@ -58,9 +58,9 @@ dunn_result = dunn_index(tensor_matrix, labels_tensor).item()
 print(dunn_result)
 
 # grafico
-graph_clusters_saparated = True
+graph_clusters_saparated = False
 if graph_clusters_saparated:
-    save_clusters_separated = True
+    save_clusters_separated = False
     first_cluster_values = [item[0] for item in clustered_matrix] #valore appartenenti al primo cluster
     second_cluster_values = [item[1] for item in clustered_matrix] #valore appartenenti al secondo cluster
 
@@ -87,11 +87,15 @@ if graph_clusters_saparated:
         print(f"Dati salvati: il grafico è stato salvato come {formatted_datetime_with_underscore}")
     else:
         print("Dati non salvati")
-    plt.show()
 
+    # Calcola il tempo di esecuzione
+    end_time = time.time()
+    execution_time = end_time - start_time
+    print(f"Tempo di esecuzione: {execution_time} secondi")
     plt.show()
 ###############################
-
+# Memorizziamo il tempo iniziale
+start_time = time.time()
 # valori 
 title = "matrix_random"
 columns = 5
@@ -147,9 +151,8 @@ if graph_random:
         print(f"Dati salvati: il grafico è stato salvato come {formatted_datetime_with_underscore}")
     else:
         print("Dati non salvati")
+    # Calcola il tempo di esecuzione
+    end_time = time.time()
+    execution_time = end_time - start_time
+    print(f"Tempo di esecuzione: {execution_time} secondi")
     plt.show()
-
-# Calcola il tempo di esecuzione
-end_time = time.time()
-execution_time = end_time - start_time
-print(f"Tempo di esecuzione: {execution_time} secondi")

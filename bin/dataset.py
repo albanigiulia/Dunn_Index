@@ -9,6 +9,7 @@ from sklearn.cluster import AgglomerativeClustering
 from sklearn.cluster import DBSCAN
 from sklearn_extra.cluster import KMedoids
 from sklearn.cluster import MeanShift
+from sklearn.cluster import Birch
 import time
 import datetime
 import hdbscan
@@ -70,6 +71,12 @@ def label_mean_shift(matrix):
     mean_shift.fit(matrix)
     return mean_shift.labels_
 
+# calcolo labels birch
+def label_birch(matrix, n_clusters):
+    model = Birch(n_clusters=n_clusters)
+    labels = model.fit_predict(matrix)
+    return labels
+
 # calcolo labels DBSCAN
 def dbscan(matrix, ep, ms):
     filtered_X = []
@@ -110,7 +117,7 @@ def hdbscan_(matrix, ep, ms):
 ###############################
 
 dunn_list = []
-dataset = neuroblastoma_dataset #da cambiare qui
+dataset = sepsis_dataset #da cambiare qui
 dataset_torch = torch.tensor(dataset)
 dunn_index = DunnIndex(p=2)
 
@@ -224,15 +231,25 @@ if (dataset==heart_dataset):
     hdbscan_(dataset, 50, 2) 
 
 print("\n Mean-Shift: ")
-labels = torch.tensor(label_mean_shift(dataset_torch))
-result = dunn_index(dataset_torch, labels).item()
+result = dunn_index(dataset_torch, torch.tensor(label_mean_shift(dataset_torch))).item()
+print(result)
+dunn_list.append(result)
+
+print("\n Birch: ")
+result = dunn_index(dataset_torch, torch.tensor(label_birch(dataset_torch, 2))).item()
+print(result)
+dunn_list.append(result)
+result = dunn_index(dataset_torch, torch.tensor(label_birch(dataset_torch, 3))).item()
+print(result)
+dunn_list.append(result)
+result = dunn_index(dataset_torch, torch.tensor(label_birch(dataset_torch, 4))).item()
 print(result)
 dunn_list.append(result)
 
 ###############################
 #grafico
 graph = True
-save_data = True 
+save_data = False 
 color_dataset = 'skyblue'
 print("\n valori dunn: ", dunn_list)
 if graph == True:
@@ -241,28 +258,28 @@ if graph == True:
         title = 'dataset neuroblastoma'
         etichette = ["K-M \nk=2 \nEU", "K-M \nk=3 \nEU", "K-M \nk=4 \nEU",  "K-M \nk=3 \nMAN", "K-M \nk=4 \nMAN", "K-M \nk=2 \nCOS", "K-M \nk=3 \nCOS", "K-M \nk=4 \nCOS", "HC \nk=2 \nward", "HC \nk=3 \nward", 
              "HC \nk=4 \nward", "HC \nk=2 \nCOM", "HC \nk=3 \nCOM", "HC \nk=4 \nCOM", "HC \nk=2 \nAVE", "HC \nk=3 \nAVE", "HC \nk=4 \nAVE", "DB \neps=1 \nmin=2",
-             "DB \neps=3 \nmin=5", "DB \neps=4 \nmin=12", "DB \neps=4 \nmin=20","HDB \neps=5 \nmin=3", "HDB \neps=30 \nmin=7", "M-S"] 
+             "DB \neps=3 \nmin=5", "DB \neps=4 \nmin=12", "DB \neps=4 \nmin=20","HDB \neps=5 \nmin=3", "HDB \neps=30 \nmin=7", "M-S", "Birch \nk=2", "Birch \nk=3", "Birch \nk=4"]
     elif(dataset==cardiac_arrest_dataset):
         color_dataset = "darkred"
         title = 'dataset cardiac arrest'
         etichette = ["K-M \nk=2 \nEU", "K-M \nk=3 \nEU", "K-M \nk=4 \nEU", "K-M \nk=2 \nMAN", "K-M \nk=3 \nMAN", "K-M \nk=4 \nMAN", "K-M \nk=2 \nCOS", "K-M \nk=3 \nCOS", "K-M \nk=4 \nCOS", "HC \nk=2 \nward", "HC \nk=3 \nward", 
              "HC \nk=4 \nward", "HC \nk=2 \nCOM", "HC \nk=3 \nCOM", "HC \nk=4 \nCOM", "HC \nk=2 \nAVE", "HC \nk=3 \nAVE", "HC \nk=4 \nAVE", "DB \neps=1 \nmin=2", "DB \neps=4 \nmin=12", "DB \neps=4 \nmin=20", "HDB \neps=2 \nmin=2",
-             "HDB \neps=10 \nmin=7", "HDB \neps=30 \nmin=7", "M-S"]
+             "HDB \neps=10 \nmin=7", "HDB \neps=30 \nmin=7", "M-S", "Birch \nk=2", "Birch \nk=3", "Birch \nk=4"]
     elif(dataset==diabetes_dataset):
         title = 'dataset diabetes'
         color_dataset = "orange"
         etichette = ["K-M \nk=2 \nEU", "K-M \nk=3 \nEU", "K-M \nk=4 \nEU", "K-M \nk=2 \nMAN", "K-M \nk=3 \nMAN", "K-M \nk=4 \nMAN", "K-M \nk=2 \nCOS", "K-M \nk=3 \nCOS", "K-M \nk=4 \nCOS", "HC \nk=2 \nward", "HC \nk=3 \nward", 
-             "HC \nk=4 \nward", "HC \nk=2 \nCOM", "HC \nk=3 \nCOM", "HC \nk=4 \nCOM", "HC \nk=2 \nAVE", "HC \nk=3 \nAVE", "HC \nk=4 \nAVE", "DB \neps=12 \nmin=2", "DB \neps=13 \nmin=3", "DB \neps=13 \nmin=2", "DB \neps=16 \nmin=2", "HDB \neps=2 \nmin=2", "HDB \neps=3 \nmin=2", "M-S"]
+             "HC \nk=4 \nward", "HC \nk=2 \nCOM", "HC \nk=3 \nCOM", "HC \nk=4 \nCOM", "HC \nk=2 \nAVE", "HC \nk=3 \nAVE", "HC \nk=4 \nAVE", "DB \neps=12 \nmin=2", "DB \neps=13 \nmin=3", "DB \neps=13 \nmin=2", "DB \neps=16 \nmin=2", "HDB \neps=2 \nmin=2", "HDB \neps=3 \nmin=2", "M-S", "Birch \nk=2", "Birch \nk=3", "Birch \nk=4"]
     elif(dataset==sepsis_dataset):
         title = 'dataset sepsis'
         color_dataset = "purple"
         etichette = ["K-M \nk=2 \nEU", "K-M \nk=3 \nEU", "K-M \nk=4 \nEU", "K-M \nk=2 \nMAN", "K-M \nk=3 \nMAN", "K-M \nk=4 \nMAN", "K-M \nk=2 \nCOS", "K-M \nk=3 \nCOS", "K-M \nk=4 \nCOS", "HC \nk=2 \nward", "HC \nk=3 \nward", 
              "HC \nk=4 \nward", "HC \nk=2 \nCOM", "HC \nk=3 \nCOM", "HC \nk=4 \nCOM", "HC \nk=2 \nAVE", "HC \nk=3 \nAVE", "HC \nk=4 \nAVE", "DB \neps=1 \nmin=2", "DB \neps=2 \nmin=2", "DB \neps=3 \nmin=2", "DB \neps=4 \nmin=2", 
-             "HDB \neps=2 \nmin=2", "HDB \neps=30 \nmin=7", "HDB \neps=50 \nmin=2", "M-S"]
+             "HDB \neps=2 \nmin=2", "HDB \neps=30 \nmin=7", "HDB \neps=50 \nmin=2", "M-S", "Birch \nk=2", "Birch \nk=3", "Birch \nk=4"]
     elif(dataset==heart_dataset):
         title = 'dataset heart'
         etichette = ["K-M \nk=2 \nEU", "K-M \nk=3 \nEU", "K-M \nk=4 \nEU", "K-M \nk=2 \nMAN", "K-M \nk=3 \nMAN", "K-M \nk=4 \nMAN", "K-M \nk=2 \nCOS", "K-M \nk=3 \nCOS", "K-M \nk=4 \nCOS", "HC \nk=2 \nward", "HC \nk=3 \nward", 
-             "HC \nk=4 \nward", "HC \nk=2 \nCOM", "HC \nk=3 \nCOM", "HC \nk=4 \nCOM", "HC \nk=2 \nAVE", "HC \nk=3 \nAVE", "HC \nk=4 \nAVE", "DB \neps=12 \nmin=2", "DB \neps=13 \nmin=3", "DB \neps=6 \nmin=2","HDB \neps=5 \nmin=3", "HDB \neps=50 \nmin=2", "M-S"]
+             "HC \nk=4 \nward", "HC \nk=2 \nCOM", "HC \nk=3 \nCOM", "HC \nk=4 \nCOM", "HC \nk=2 \nAVE", "HC \nk=3 \nAVE", "HC \nk=4 \nAVE", "DB \neps=12 \nmin=2", "DB \neps=13 \nmin=3", "DB \neps=6 \nmin=2","HDB \neps=5 \nmin=3", "HDB \neps=50 \nmin=2", "M-S", "Birch \nk=2", "Birch \nk=3", "Birch \nk=4"]
     
     # Ordina i valori in ordine decrescente insieme alle etichette
     data_originated = sorted(zip(dunn_list, etichette), key=lambda x: x[0], reverse=True)
@@ -286,17 +303,46 @@ if graph == True:
     formatted_datetime = current_datetime.strftime("%Y-%m-%d_%H-%M-%S")+"_"+title
     # Sostituisci gli spazi con trattini bassi
     formatted_datetime_with_underscore = formatted_datetime.replace(' ', '_')
-    #print(formatted_datetime_with_underscore)
 
     #salvataggio
     if (save_data):
-        plt.savefig(f'C:\\Users\\giuli\\OneDrive\\Desktop\\DunnIndex\\results\\Immagini\\{formatted_datetime_with_underscore}.png')
+        plt.savefig(f'C:\\Users\\giuli\\OneDrive\\Desktop\\DunnIndex\\results\\images\\{formatted_datetime_with_underscore}.png')
         print(f"Dati salvati: il grafico è stato salvato come {formatted_datetime_with_underscore}")
     else:
         print("Dati non salvati")
 
-plt.show()
 # Calcola il tempo di esecuzione
 end_time = time.time()
 execution_time = end_time - start_time
 print(f"Tempo di esecuzione: {execution_time} secondi")
+plt.show()
+
+graph_time = [[0.5378162860870361, 54], [0.4418458938598633, 68], [0.4759237766265869, 170], [0.5769999027252197, 420], [1.352464199066162, 1258]]
+graph_time_after_MeanShift = [[1.1574926376342773, 54], [1.399263858795166, 68], [0.7626731395721436, 170], [2.0230109691619873, 420], [43.162283420562744, 1258]]
+
+# Estrazione dei dati
+times = [item[0] for item in graph_time_after_MeanShift]
+samples = [item[1] for item in graph_time_after_MeanShift]
+# Creazione del grafico
+plt.figure(figsize=(10, 6))
+plt.plot(samples, times, color='black', marker='o', linestyle='-', markersize=8, alpha=1)
+plt.title("Tempo di elaborazione in funzione dei datset", fontsize=14)
+plt.xlabel("# punti", fontsize=12)
+plt.ylabel("Tempo (secondi)", fontsize=12)
+plt.grid(alpha=0.4)
+
+#timestamp
+current_datetime = datetime.datetime.now()
+# Formatta la data e l'ora
+formatted_datetime = current_datetime.strftime("%Y-%m-%d_%H-%M-%S")+"_dataset_time"
+# Sostituisci gli spazi con trattini bassi
+formatted_datetime_with_underscore = formatted_datetime.replace(' ', '_')
+#print(formatted_datetime_with_underscore)
+
+save_time = False
+if (save_time):
+    plt.savefig(f'C:\\Users\\giuli\\OneDrive\\Desktop\\DunnIndex\\results\\images\\{formatted_datetime_with_underscore}.png')
+    print(f"Dati salvati: il grafico è stato salvato come {formatted_datetime_with_underscore}")
+else:
+    print("Dati non salvati")
+plt.show()
