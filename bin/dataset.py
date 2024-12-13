@@ -10,9 +10,11 @@ from sklearn.cluster import DBSCAN
 from sklearn_extra.cluster import KMedoids
 from sklearn.cluster import MeanShift
 from sklearn.cluster import Birch
+from sklearn.cluster import estimate_bandwidth
 import time
 import datetime
 import hdbscan
+
 
 # Memorizziamo il tempo iniziale
 start_time = time.time()
@@ -66,8 +68,8 @@ def label_hierarchical(matrix, n_clusters, linkage):
     return labels
 
 # calcolo labels mean-shift
-def label_mean_shift(matrix):
-    mean_shift = MeanShift()
+def label_mean_shift(matrix, bandwidth, bin_seeding, min_bin_freq=1, cluster_all=True):
+    mean_shift = MeanShift(bandwidth = bandwidth, bin_seeding = bin_seeding, min_bin_freq=min_bin_freq, cluster_all=cluster_all)
     mean_shift.fit(matrix)
     return mean_shift.labels_
 
@@ -117,7 +119,7 @@ def hdbscan_(matrix, ep, ms):
 ###############################
 
 dunn_list = []
-dataset = sepsis_dataset #da cambiare qui
+dataset = neuroblastoma_dataset #da cambiare qui
 dataset_torch = torch.tensor(dataset)
 dunn_index = DunnIndex(p=2)
 
@@ -207,8 +209,7 @@ if (dataset==sepsis_dataset):
     hdbscan_(dataset, 30, 7)
     hdbscan_(dataset, 50, 2) 
 if (dataset==cardiac_arrest_dataset):
-    dbscan(dataset, 1, 2) 
-    dbscan(dataset, 4, 12)
+    dbscan(dataset, 1, 2)
     dbscan(dataset, 4, 20)
     print("\n HDBSCAN: ")
     hdbscan_(dataset, 2, 2)
@@ -218,7 +219,6 @@ if (dataset==diabetes_dataset):
     dbscan(dataset, 12, 2) 
     dbscan(dataset, 13, 3) 
     dbscan(dataset, 13, 2) 
-    dbscan(dataset, 16, 2)
     print("\n HDBSCAN: ")
     hdbscan_(dataset, 2, 2)
     hdbscan_(dataset, 3, 2) 
@@ -231,9 +231,18 @@ if (dataset==heart_dataset):
     hdbscan_(dataset, 50, 2) 
 
 print("\n Mean-Shift: ")
-result = dunn_index(dataset_torch, torch.tensor(label_mean_shift(dataset_torch))).item()
+result = dunn_index(dataset_torch, torch.tensor(label_mean_shift(dataset_torch, bandwidth=None, bin_seeding=False))).item()
 print(result)
 dunn_list.append(result)
+# Calcola il bandwidth
+calculated_bandwidth = estimate_bandwidth(dataset_torch.numpy(), quantile=0.2, n_samples=500)
+result = dunn_index(dataset_torch, torch.tensor(label_mean_shift(dataset_torch, bandwidth=calculated_bandwidth, bin_seeding=False))).item()
+print(result)
+dunn_list.append(result)
+if(dataset!=diabetes_dataset):
+    result = dunn_index(dataset_torch, torch.tensor(label_mean_shift(dataset_torch, bandwidth=calculated_bandwidth, bin_seeding=True))).item()
+    print(result)
+    dunn_list.append(result)
 
 print("\n Birch: ")
 result = dunn_index(dataset_torch, torch.tensor(label_birch(dataset_torch, 2))).item()
@@ -249,37 +258,39 @@ dunn_list.append(result)
 ###############################
 #grafico
 graph = True
-save_data = False 
+save_data = False
 color_dataset = 'skyblue'
 print("\n valori dunn: ", dunn_list)
 if graph == True:
     if(dataset==neuroblastoma_dataset):
         color_dataset = "lightgreen"
         title = 'dataset neuroblastoma'
-        etichette = ["K-M \nk=2 \nEU", "K-M \nk=3 \nEU", "K-M \nk=4 \nEU",  "K-M \nk=3 \nMAN", "K-M \nk=4 \nMAN", "K-M \nk=2 \nCOS", "K-M \nk=3 \nCOS", "K-M \nk=4 \nCOS", "HC \nk=2 \nward", "HC \nk=3 \nward", 
+        etichette = ["K-Means \nk=2 \nEU", "K-Means \nk=3 \nEU", "K-Means\nk=4 \nEU",  "K-Means \nk=3 \nMAN", "K-Means \nk=4 \nMAN", "K-Means \nk=2 \nCOS", "K-Means \nk=3 \nCOS", "K-Means \nk=4 \nCOS", "HC \nk=2 \nward", "HC \nk=3 \nward", 
              "HC \nk=4 \nward", "HC \nk=2 \nCOM", "HC \nk=3 \nCOM", "HC \nk=4 \nCOM", "HC \nk=2 \nAVE", "HC \nk=3 \nAVE", "HC \nk=4 \nAVE", "DB \neps=1 \nmin=2",
-             "DB \neps=3 \nmin=5", "DB \neps=4 \nmin=12", "DB \neps=4 \nmin=20","HDB \neps=5 \nmin=3", "HDB \neps=30 \nmin=7", "M-S", "Birch \nk=2", "Birch \nk=3", "Birch \nk=4"]
+             "DB \neps=3 \nmin=5", "DB \neps=4 \nmin=12", "DB \neps=4 \nmin=20","HDB \neps=5 \nmin=3", "HDB \neps=30 \nmin=7","M-S \nbv=NONE \nbs=False", "M-S \nbv=estimate \nbs=False", "M-S \nbv=estimate \nbs=True","Birch \nk=2", "Birch \nk=3", "Birch \nk=4"]
     elif(dataset==cardiac_arrest_dataset):
         color_dataset = "darkred"
         title = 'dataset cardiac arrest'
         etichette = ["K-M \nk=2 \nEU", "K-M \nk=3 \nEU", "K-M \nk=4 \nEU", "K-M \nk=2 \nMAN", "K-M \nk=3 \nMAN", "K-M \nk=4 \nMAN", "K-M \nk=2 \nCOS", "K-M \nk=3 \nCOS", "K-M \nk=4 \nCOS", "HC \nk=2 \nward", "HC \nk=3 \nward", 
-             "HC \nk=4 \nward", "HC \nk=2 \nCOM", "HC \nk=3 \nCOM", "HC \nk=4 \nCOM", "HC \nk=2 \nAVE", "HC \nk=3 \nAVE", "HC \nk=4 \nAVE", "DB \neps=1 \nmin=2", "DB \neps=4 \nmin=12", "DB \neps=4 \nmin=20", "HDB \neps=2 \nmin=2",
-             "HDB \neps=10 \nmin=7", "HDB \neps=30 \nmin=7", "M-S", "Birch \nk=2", "Birch \nk=3", "Birch \nk=4"]
+             "HC \nk=4 \nward", "HC \nk=2 \nCOM", "HC \nk=3 \nCOM", "HC \nk=4 \nCOM", "HC \nk=2 \nAVE", "HC \nk=3 \nAVE", "HC \nk=4 \nAVE", "DB \neps=1 \nmin=2","DB \neps=4 \nmin=20", "HDB \neps=2 \nmin=2",
+             "HDB \neps=10 \nmin=7", "HDB \neps=30 \nmin=7", "M-S \nbv=NONE \nbs=False", "M-S \nbv=estimate \nbs=False", "M-S \nbv=estimate \nbs=True", "Birch \nk=2", "Birch \nk=3", "Birch \nk=4"]
     elif(dataset==diabetes_dataset):
         title = 'dataset diabetes'
         color_dataset = "orange"
         etichette = ["K-M \nk=2 \nEU", "K-M \nk=3 \nEU", "K-M \nk=4 \nEU", "K-M \nk=2 \nMAN", "K-M \nk=3 \nMAN", "K-M \nk=4 \nMAN", "K-M \nk=2 \nCOS", "K-M \nk=3 \nCOS", "K-M \nk=4 \nCOS", "HC \nk=2 \nward", "HC \nk=3 \nward", 
-             "HC \nk=4 \nward", "HC \nk=2 \nCOM", "HC \nk=3 \nCOM", "HC \nk=4 \nCOM", "HC \nk=2 \nAVE", "HC \nk=3 \nAVE", "HC \nk=4 \nAVE", "DB \neps=12 \nmin=2", "DB \neps=13 \nmin=3", "DB \neps=13 \nmin=2", "DB \neps=16 \nmin=2", "HDB \neps=2 \nmin=2", "HDB \neps=3 \nmin=2", "M-S", "Birch \nk=2", "Birch \nk=3", "Birch \nk=4"]
+             "HC \nk=4 \nward", "HC \nk=2 \nCOM", "HC \nk=3 \nCOM", "HC \nk=4 \nCOM", "HC \nk=2 \nAVE", "HC \nk=3 \nAVE", "HC \nk=4 \nAVE", "DB \neps=12 \nmin=2", "DB \neps=13 \nmin=3", "DB \neps=13 \nmin=2","HDB \neps=2 \nmin=2", "HDB \neps=3 \nmin=2", 
+              "M-S \nbv=NONE \nbs=False", "M-S \nbv=estimate \nbs=False", "M-S \nbv=estimate \nbs=True", "Birch \nk=2", "Birch \nk=3", "Birch \nk=4"]
     elif(dataset==sepsis_dataset):
         title = 'dataset sepsis'
         color_dataset = "purple"
         etichette = ["K-M \nk=2 \nEU", "K-M \nk=3 \nEU", "K-M \nk=4 \nEU", "K-M \nk=2 \nMAN", "K-M \nk=3 \nMAN", "K-M \nk=4 \nMAN", "K-M \nk=2 \nCOS", "K-M \nk=3 \nCOS", "K-M \nk=4 \nCOS", "HC \nk=2 \nward", "HC \nk=3 \nward", 
              "HC \nk=4 \nward", "HC \nk=2 \nCOM", "HC \nk=3 \nCOM", "HC \nk=4 \nCOM", "HC \nk=2 \nAVE", "HC \nk=3 \nAVE", "HC \nk=4 \nAVE", "DB \neps=1 \nmin=2", "DB \neps=2 \nmin=2", "DB \neps=3 \nmin=2", "DB \neps=4 \nmin=2", 
-             "HDB \neps=2 \nmin=2", "HDB \neps=30 \nmin=7", "HDB \neps=50 \nmin=2", "M-S", "Birch \nk=2", "Birch \nk=3", "Birch \nk=4"]
+             "HDB \neps=2 \nmin=2", "HDB \neps=30 \nmin=7", "HDB \neps=50 \nmin=2", "M-S \nbv=NONE \nbs=False", "M-S \nbv=estimate \nbs=False", "M-S \nbv=estimate \nbs=True", "Birch \nk=2", "Birch \nk=3", "Birch \nk=4"]
     elif(dataset==heart_dataset):
         title = 'dataset heart'
         etichette = ["K-M \nk=2 \nEU", "K-M \nk=3 \nEU", "K-M \nk=4 \nEU", "K-M \nk=2 \nMAN", "K-M \nk=3 \nMAN", "K-M \nk=4 \nMAN", "K-M \nk=2 \nCOS", "K-M \nk=3 \nCOS", "K-M \nk=4 \nCOS", "HC \nk=2 \nward", "HC \nk=3 \nward", 
-             "HC \nk=4 \nward", "HC \nk=2 \nCOM", "HC \nk=3 \nCOM", "HC \nk=4 \nCOM", "HC \nk=2 \nAVE", "HC \nk=3 \nAVE", "HC \nk=4 \nAVE", "DB \neps=12 \nmin=2", "DB \neps=13 \nmin=3", "DB \neps=6 \nmin=2","HDB \neps=5 \nmin=3", "HDB \neps=50 \nmin=2", "M-S", "Birch \nk=2", "Birch \nk=3", "Birch \nk=4"]
+             "HC \nk=4 \nward", "HC \nk=2 \nCOM", "HC \nk=3 \nCOM", "HC \nk=4 \nCOM", "HC \nk=2 \nAVE", "HC \nk=3 \nAVE", "HC \nk=4 \nAVE", "DB \neps=12 \nmin=2", "DB \neps=13 \nmin=3", "DB \neps=6 \nmin=2","HDB \neps=5 \nmin=3", "HDB \neps=50 \nmin=2", 
+             "M-S \nbv=NONE \nbs=False", "M-S \nbv=estimate \nbs=False", "M-S \nbv=estimate \nbs=True", "Birch \nk=2", "Birch \nk=3", "Birch \nk=4"]
     
     # Ordina i valori in ordine decrescente insieme alle etichette
     data_originated = sorted(zip(dunn_list, etichette), key=lambda x: x[0], reverse=True)
@@ -291,7 +302,7 @@ if graph == True:
     plt.title(title) 
 
     # Imposta le etichette in orizzontale con una dimensione del font ridotta
-    plt.xticks(range(len(decreasing_graph)), decreasing_labels, rotation=0, ha='center', fontsize=10)
+    plt.xticks(range(len(decreasing_graph)), decreasing_labels, rotation=90, ha='center', fontsize=13)
     plt.grid(axis='y')
     plt.xlim(-0.5, len(decreasing_graph) - 0.5)
     plt.yticks(fontsize=12)  # Modifica la dimensione dei numeri sull'asse y
@@ -318,7 +329,7 @@ print(f"Tempo di esecuzione: {execution_time} secondi")
 plt.show()
 
 graph_time = [[0.5378162860870361, 54], [0.4418458938598633, 68], [0.4759237766265869, 170], [0.5769999027252197, 420], [1.352464199066162, 1258]]
-graph_time_after_MeanShift = [[1.1574926376342773, 54], [1.399263858795166, 68], [0.7626731395721436, 170], [2.0230109691619873, 420], [43.162283420562744, 1258]]
+graph_time_after_MeanShift = [[1.1574926376342773, 54], [1.399263858795166, 68], [0.7626731395721436, 170], [2.0230109691619873, 420], [92.08143591880798, 1258]] #NB
 
 # Estrazione dei dati
 times = [item[0] for item in graph_time_after_MeanShift]
