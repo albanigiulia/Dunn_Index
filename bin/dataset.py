@@ -36,7 +36,7 @@ filepaths = {
     "cardiac_arrest": "C:\\Users\\giuli\\OneDrive\\Desktop\\DunnIndex\\dataset\\cardiac_arrest.csv",
     "diabetes": "C:\\Users\\giuli\\OneDrive\\Desktop\\DunnIndex\\dataset\\diabetes.csv",
     "sepsis": "C:\\Users\\giuli\\OneDrive\\Desktop\\DunnIndex\\dataset\\sepsis.csv",
-    "heart": "C:\\Users\\giuli\\OneDrive\\Desktop\\DunnIndex\\dataset\\heart.csv"
+    "heart": "C:\\Users\\giuli\\OneDrive\\Desktop\\DunnIndex\\dataset\\heart_failure.csv"
 }
 
 # Caricamento dei dataset
@@ -119,208 +119,236 @@ def hdbscan_(matrix, ep, ms):
 ###############################
 
 dunn_list = []
-dataset = neuroblastoma_dataset #da cambiare qui
-dataset_torch = torch.tensor(dataset)
-dunn_index = DunnIndex(p=2)
-
-print("\n k-means, euclidean: ")
-result = dunn_index(dataset_torch, torch.tensor(label_kmeans(dataset_torch, 2))).item()
-print(result)
-dunn_list.append(result)
-result = dunn_index(dataset_torch, torch.tensor(label_kmeans(dataset_torch, 3))).item()
-print(result)
-dunn_list.append(result)
-result = dunn_index(dataset_torch, torch.tensor(label_kmeans(dataset_torch, 4))).item()
-print(result)
-dunn_list.append(result)
-
-print("\n k-means, manhattan: ")
-if dataset != neuroblastoma_dataset: #non funziona il dunn index perchè viene identificato un solo cluster 
-    result = dunn_index(dataset_torch, torch.tensor(label_KMedoids(dataset_torch, 2, 'manhattan'))).item()
+datasets = [neuroblastoma_dataset] #QUI
+for dataset in datasets:
+    dataset_torch = torch.tensor(dataset)
+    dunn_index = DunnIndex(p=2)
+    print("\n k-means, euclidean: ")
+    result = dunn_index(dataset_torch, torch.tensor(label_kmeans(dataset_torch, 2))).item()
     print(result)
     dunn_list.append(result)
-result = dunn_index(dataset_torch, torch.tensor(label_KMedoids(dataset_torch, 3, 'manhattan'))).item()
-print(result)
-dunn_list.append(result)
-result = dunn_index(dataset_torch, torch.tensor(label_KMedoids(dataset_torch, 4, 'manhattan'))).item()
-print(result)
-dunn_list.append(result)
-
-print("\n k-means, cosine: ")
-result = dunn_index(dataset_torch, torch.tensor(label_KMedoids(dataset_torch, 2, 'cosine'))).item()
-print(result)
-dunn_list.append(result)
-result = dunn_index(dataset_torch, torch.tensor(label_KMedoids(dataset_torch, 3, 'cosine'))).item()
-print(result)
-dunn_list.append(result)
-result = dunn_index(dataset_torch, torch.tensor(label_KMedoids(dataset_torch, 4, 'cosine'))).item()
-print(result)
-dunn_list.append(result)
-
-print("\n hierarchical, ward: ")
-result = dunn_index(dataset_torch, torch.tensor(label_hierarchical(dataset_torch, 2, 'ward'))).item()
-print(result)
-dunn_list.append(result)
-result = dunn_index(dataset_torch, torch.tensor(label_hierarchical(dataset_torch, 3, 'ward'))).item()
-print(result)
-dunn_list.append(result)
-result = dunn_index(dataset_torch, torch.tensor(label_hierarchical(dataset_torch, 4, 'ward'))).item()
-print(result)
-dunn_list.append(result)
-
-print("\n hierarchical, complete: ")
-result = dunn_index(dataset_torch, torch.tensor(label_hierarchical(dataset_torch, 2, 'complete'))).item()
-print(result)
-dunn_list.append(result)
-result = dunn_index(dataset_torch, torch.tensor(label_hierarchical(dataset_torch, 3, 'complete'))).item()
-print(result)
-dunn_list.append(result)
-result = dunn_index(dataset_torch, torch.tensor(label_hierarchical(dataset_torch, 4, 'complete'))).item()
-print(result)
-dunn_list.append(result)
-
-print("\n hierarchical, average: ")
-result = dunn_index(dataset_torch, torch.tensor(label_hierarchical(dataset_torch, 2, 'average'))).item()
-print(result)
-dunn_list.append(result)
-result = dunn_index(dataset_torch, torch.tensor(label_hierarchical(dataset_torch, 3, 'average'))).item()
-print(result)
-dunn_list.append(result)
-result = dunn_index(dataset_torch, torch.tensor(label_hierarchical(dataset_torch, 4, 'average'))).item()
-print(result)
-dunn_list.append(result)
-
-print("\n DBSCAN: ")
-if(dataset==neuroblastoma_dataset):
-    dbscan(dataset, 1, 2) 
-    dbscan(dataset, 3, 5)
-    dbscan(dataset, 4, 12)
-    dbscan(dataset, 4, 20)
-    print("\n HDBSCAN: ")
-    hdbscan_(dataset, 5, 3)
-    hdbscan_(dataset, 30, 7)
-if (dataset==sepsis_dataset):
-    dbscan(dataset, 1, 2) 
-    dbscan(dataset, 2, 2)
-    dbscan(dataset, 3, 2) 
-    dbscan(dataset, 4, 2)
-    print("\n HDBSCAN: ")
-    hdbscan_(dataset, 2, 2)
-    hdbscan_(dataset, 30, 7)
-    hdbscan_(dataset, 50, 2) 
-if (dataset==cardiac_arrest_dataset):
-    dbscan(dataset, 1, 2)
-    dbscan(dataset, 4, 20)
-    print("\n HDBSCAN: ")
-    hdbscan_(dataset, 2, 2)
-    hdbscan_(dataset, 10, 7)
-    hdbscan_(dataset, 30, 7)
-if (dataset==diabetes_dataset):
-    dbscan(dataset, 12, 2) 
-    dbscan(dataset, 13, 3) 
-    dbscan(dataset, 13, 2) 
-    print("\n HDBSCAN: ")
-    hdbscan_(dataset, 2, 2)
-    hdbscan_(dataset, 3, 2) 
-if (dataset==heart_dataset):
-    dbscan(dataset, 12, 2) 
-    dbscan(dataset, 13, 3) 
-    dbscan(dataset, 6, 2)
-    print("\n HDBSCAN: ")
-    hdbscan_(dataset, 5, 3)
-    hdbscan_(dataset, 50, 2) 
-
-print("\n Mean-Shift: ")
-result = dunn_index(dataset_torch, torch.tensor(label_mean_shift(dataset_torch, bandwidth=None, bin_seeding=False))).item()
-print(result)
-dunn_list.append(result)
-# Calcola il bandwidth
-calculated_bandwidth = estimate_bandwidth(dataset_torch.numpy(), quantile=0.2, n_samples=500)
-result = dunn_index(dataset_torch, torch.tensor(label_mean_shift(dataset_torch, bandwidth=calculated_bandwidth, bin_seeding=False))).item()
-print(result)
-dunn_list.append(result)
-if(dataset!=diabetes_dataset):
-    result = dunn_index(dataset_torch, torch.tensor(label_mean_shift(dataset_torch, bandwidth=calculated_bandwidth, bin_seeding=True))).item()
+    result = dunn_index(dataset_torch, torch.tensor(label_kmeans(dataset_torch, 3))).item()
+    print(result)
+    dunn_list.append(result)
+    result = dunn_index(dataset_torch, torch.tensor(label_kmeans(dataset_torch, 4))).item()
     print(result)
     dunn_list.append(result)
 
-print("\n Birch: ")
-result = dunn_index(dataset_torch, torch.tensor(label_birch(dataset_torch, 2))).item()
-print(result)
-dunn_list.append(result)
-result = dunn_index(dataset_torch, torch.tensor(label_birch(dataset_torch, 3))).item()
-print(result)
-dunn_list.append(result)
-result = dunn_index(dataset_torch, torch.tensor(label_birch(dataset_torch, 4))).item()
-print(result)
-dunn_list.append(result)
+    print("\n k-means, manhattan: ")
+    if dataset != neuroblastoma_dataset: #non funziona il dunn index perchè viene identificato un solo cluster 
+        result = dunn_index(dataset_torch, torch.tensor(label_KMedoids(dataset_torch, 2, 'manhattan'))).item()
+        print(result)
+        dunn_list.append(result)
+    result = dunn_index(dataset_torch, torch.tensor(label_KMedoids(dataset_torch, 3, 'manhattan'))).item()
+    print(result)
+    dunn_list.append(result)
+    result = dunn_index(dataset_torch, torch.tensor(label_KMedoids(dataset_torch, 4, 'manhattan'))).item()
+    print(result)
+    dunn_list.append(result)
 
-###############################
-#grafico
-graph = True
-save_data = False
-color_dataset = 'skyblue'
-print("\n valori dunn: ", dunn_list)
-if graph == True:
+    print("\n k-means, cosine: ")
+    result = dunn_index(dataset_torch, torch.tensor(label_KMedoids(dataset_torch, 2, 'cosine'))).item()
+    print(result)
+    dunn_list.append(result)
+    result = dunn_index(dataset_torch, torch.tensor(label_KMedoids(dataset_torch, 3, 'cosine'))).item()
+    print(result)
+    dunn_list.append(result)
+    result = dunn_index(dataset_torch, torch.tensor(label_KMedoids(dataset_torch, 4, 'cosine'))).item()
+    print(result)
+    dunn_list.append(result)
+
+    print("\n hierarchical, ward: ")
+    result = dunn_index(dataset_torch, torch.tensor(label_hierarchical(dataset_torch, 2, 'ward'))).item()
+    print(result)
+    dunn_list.append(result)
+    result = dunn_index(dataset_torch, torch.tensor(label_hierarchical(dataset_torch, 3, 'ward'))).item()
+    print(result)
+    dunn_list.append(result)
+    result = dunn_index(dataset_torch, torch.tensor(label_hierarchical(dataset_torch, 4, 'ward'))).item()
+    print(result)
+    dunn_list.append(result)
+
+    print("\n hierarchical, complete: ")
+    result = dunn_index(dataset_torch, torch.tensor(label_hierarchical(dataset_torch, 2, 'complete'))).item()
+    print(result)
+    dunn_list.append(result)
+    result = dunn_index(dataset_torch, torch.tensor(label_hierarchical(dataset_torch, 3, 'complete'))).item()
+    print(result)
+    dunn_list.append(result)
+    result = dunn_index(dataset_torch, torch.tensor(label_hierarchical(dataset_torch, 4, 'complete'))).item()
+    print(result)
+    dunn_list.append(result)
+
+    print("\n hierarchical, average: ")
+    result = dunn_index(dataset_torch, torch.tensor(label_hierarchical(dataset_torch, 2, 'average'))).item()
+    print(result)
+    dunn_list.append(result)
+    result = dunn_index(dataset_torch, torch.tensor(label_hierarchical(dataset_torch, 3, 'average'))).item()
+    print(result)
+    dunn_list.append(result)
+    result = dunn_index(dataset_torch, torch.tensor(label_hierarchical(dataset_torch, 4, 'average'))).item()
+    print(result)
+    dunn_list.append(result)
+
+    print("\n DBSCAN: ")
     if(dataset==neuroblastoma_dataset):
-        color_dataset = "lightgreen"
-        title = 'dataset neuroblastoma'
-        etichette = ["K-Means \nk=2 \nEU", "K-Means \nk=3 \nEU", "K-Means\nk=4 \nEU",  "K-Means \nk=3 \nMAN", "K-Means \nk=4 \nMAN", "K-Means \nk=2 \nCOS", "K-Means \nk=3 \nCOS", "K-Means \nk=4 \nCOS", "HC \nk=2 \nward", "HC \nk=3 \nward", 
-             "HC \nk=4 \nward", "HC \nk=2 \nCOM", "HC \nk=3 \nCOM", "HC \nk=4 \nCOM", "HC \nk=2 \nAVE", "HC \nk=3 \nAVE", "HC \nk=4 \nAVE", "DB \neps=1 \nmin=2",
-             "DB \neps=3 \nmin=5", "DB \neps=4 \nmin=12", "DB \neps=4 \nmin=20","HDB \neps=5 \nmin=3", "HDB \neps=30 \nmin=7","M-S \nbv=NONE \nbs=False", "M-S \nbv=estimate \nbs=False", "M-S \nbv=estimate \nbs=True","Birch \nk=2", "Birch \nk=3", "Birch \nk=4"]
-    elif(dataset==cardiac_arrest_dataset):
-        color_dataset = "darkred"
-        title = 'dataset cardiac arrest'
-        etichette = ["K-M \nk=2 \nEU", "K-M \nk=3 \nEU", "K-M \nk=4 \nEU", "K-M \nk=2 \nMAN", "K-M \nk=3 \nMAN", "K-M \nk=4 \nMAN", "K-M \nk=2 \nCOS", "K-M \nk=3 \nCOS", "K-M \nk=4 \nCOS", "HC \nk=2 \nward", "HC \nk=3 \nward", 
-             "HC \nk=4 \nward", "HC \nk=2 \nCOM", "HC \nk=3 \nCOM", "HC \nk=4 \nCOM", "HC \nk=2 \nAVE", "HC \nk=3 \nAVE", "HC \nk=4 \nAVE", "DB \neps=1 \nmin=2","DB \neps=4 \nmin=20", "HDB \neps=2 \nmin=2",
-             "HDB \neps=10 \nmin=7", "HDB \neps=30 \nmin=7", "M-S \nbv=NONE \nbs=False", "M-S \nbv=estimate \nbs=False", "M-S \nbv=estimate \nbs=True", "Birch \nk=2", "Birch \nk=3", "Birch \nk=4"]
-    elif(dataset==diabetes_dataset):
-        title = 'dataset diabetes'
-        color_dataset = "orange"
-        etichette = ["K-M \nk=2 \nEU", "K-M \nk=3 \nEU", "K-M \nk=4 \nEU", "K-M \nk=2 \nMAN", "K-M \nk=3 \nMAN", "K-M \nk=4 \nMAN", "K-M \nk=2 \nCOS", "K-M \nk=3 \nCOS", "K-M \nk=4 \nCOS", "HC \nk=2 \nward", "HC \nk=3 \nward", 
-             "HC \nk=4 \nward", "HC \nk=2 \nCOM", "HC \nk=3 \nCOM", "HC \nk=4 \nCOM", "HC \nk=2 \nAVE", "HC \nk=3 \nAVE", "HC \nk=4 \nAVE", "DB \neps=12 \nmin=2", "DB \neps=13 \nmin=3", "DB \neps=13 \nmin=2","HDB \neps=2 \nmin=2", "HDB \neps=3 \nmin=2", 
-              "M-S \nbv=NONE \nbs=False", "M-S \nbv=estimate \nbs=False", "M-S \nbv=estimate \nbs=True", "Birch \nk=2", "Birch \nk=3", "Birch \nk=4"]
-    elif(dataset==sepsis_dataset):
-        title = 'dataset sepsis'
-        color_dataset = "purple"
-        etichette = ["K-M \nk=2 \nEU", "K-M \nk=3 \nEU", "K-M \nk=4 \nEU", "K-M \nk=2 \nMAN", "K-M \nk=3 \nMAN", "K-M \nk=4 \nMAN", "K-M \nk=2 \nCOS", "K-M \nk=3 \nCOS", "K-M \nk=4 \nCOS", "HC \nk=2 \nward", "HC \nk=3 \nward", 
-             "HC \nk=4 \nward", "HC \nk=2 \nCOM", "HC \nk=3 \nCOM", "HC \nk=4 \nCOM", "HC \nk=2 \nAVE", "HC \nk=3 \nAVE", "HC \nk=4 \nAVE", "DB \neps=1 \nmin=2", "DB \neps=2 \nmin=2", "DB \neps=3 \nmin=2", "DB \neps=4 \nmin=2", 
-             "HDB \neps=2 \nmin=2", "HDB \neps=30 \nmin=7", "HDB \neps=50 \nmin=2", "M-S \nbv=NONE \nbs=False", "M-S \nbv=estimate \nbs=False", "M-S \nbv=estimate \nbs=True", "Birch \nk=2", "Birch \nk=3", "Birch \nk=4"]
-    elif(dataset==heart_dataset):
-        title = 'dataset heart'
-        etichette = ["K-M \nk=2 \nEU", "K-M \nk=3 \nEU", "K-M \nk=4 \nEU", "K-M \nk=2 \nMAN", "K-M \nk=3 \nMAN", "K-M \nk=4 \nMAN", "K-M \nk=2 \nCOS", "K-M \nk=3 \nCOS", "K-M \nk=4 \nCOS", "HC \nk=2 \nward", "HC \nk=3 \nward", 
-             "HC \nk=4 \nward", "HC \nk=2 \nCOM", "HC \nk=3 \nCOM", "HC \nk=4 \nCOM", "HC \nk=2 \nAVE", "HC \nk=3 \nAVE", "HC \nk=4 \nAVE", "DB \neps=12 \nmin=2", "DB \neps=13 \nmin=3", "DB \neps=6 \nmin=2","HDB \neps=5 \nmin=3", "HDB \neps=50 \nmin=2", 
-             "M-S \nbv=NONE \nbs=False", "M-S \nbv=estimate \nbs=False", "M-S \nbv=estimate \nbs=True", "Birch \nk=2", "Birch \nk=3", "Birch \nk=4"]
-    
-    # Ordina i valori in ordine decrescente insieme alle etichette
-    data_originated = sorted(zip(dunn_list, etichette), key=lambda x: x[0], reverse=True)
-    decreasing_graph, decreasing_labels = zip(*data_originated)
-    plt.figure(figsize=(20, 7))
-    plt.bar(range(len(decreasing_graph)), decreasing_graph, color=color_dataset, width=1, edgecolor='black')
-    plt.xlabel('Algoritmi')
-    plt.ylabel('Dunn Index')
-    plt.title(title) 
+        dbscan(dataset, 1, 2) 
+        dbscan(dataset, 3, 5)
+        dbscan(dataset, 4, 12)
+        dbscan(dataset, 4, 20)
+        print("\n HDBSCAN: ")
+        hdbscan_(dataset, 5, 3)
+        hdbscan_(dataset, 30, 7)
+    if (dataset==sepsis_dataset):
+        dbscan(dataset, 1, 2) 
+        dbscan(dataset, 2, 2)
+        dbscan(dataset, 3, 2) 
+        dbscan(dataset, 4, 2)
+        print("\n HDBSCAN: ")
+        hdbscan_(dataset, 2, 2)
+        hdbscan_(dataset, 30, 7)
+        hdbscan_(dataset, 50, 2) 
+    if (dataset==cardiac_arrest_dataset):
+        dbscan(dataset, 1, 2)
+        dbscan(dataset, 4, 20)
+        print("\n HDBSCAN: ")
+        hdbscan_(dataset, 2, 2)
+        hdbscan_(dataset, 10, 7)
+        hdbscan_(dataset, 30, 7)
+    if (dataset==diabetes_dataset):
+        dbscan(dataset, 12, 2) 
+        dbscan(dataset, 13, 3) 
+        dbscan(dataset, 13, 2) 
+        print("\n HDBSCAN: ")
+        hdbscan_(dataset, 2, 2)
+        hdbscan_(dataset, 3, 2) 
+    if (dataset==heart_dataset):
+        dbscan(dataset, 12, 2) 
+        dbscan(dataset, 13, 3) 
+        dbscan(dataset, 6, 2)
+        print("\n HDBSCAN: ")
+        hdbscan_(dataset, 5, 3)
+        hdbscan_(dataset, 50, 2) 
 
-    # Imposta le etichette in orizzontale con una dimensione del font ridotta
-    plt.xticks(range(len(decreasing_graph)), decreasing_labels, rotation=90, ha='center', fontsize=13)
-    plt.grid(axis='y')
-    plt.xlim(-0.5, len(decreasing_graph) - 0.5)
-    plt.yticks(fontsize=12)  # Modifica la dimensione dei numeri sull'asse y
-    plt.tight_layout()
+    print("\n Mean-Shift: ")
+    result = dunn_index(dataset_torch, torch.tensor(label_mean_shift(dataset_torch, bandwidth=None, bin_seeding=False))).item()
+    print(result)
+    dunn_list.append(result)
+    # Calcola il bandwidth
+    calculated_bandwidth = estimate_bandwidth(dataset_torch.numpy(), quantile=0.2, n_samples=500)
+    result = dunn_index(dataset_torch, torch.tensor(label_mean_shift(dataset_torch, bandwidth=calculated_bandwidth, bin_seeding=False))).item()
+    print(result)
+    dunn_list.append(result)
+    if(dataset!=diabetes_dataset):
+        result = dunn_index(dataset_torch, torch.tensor(label_mean_shift(dataset_torch, bandwidth=calculated_bandwidth, bin_seeding=True))).item()
+        print(result)
+        dunn_list.append(result)
 
-    #timestamp
-    current_datetime = datetime.datetime.now()
-    # Formatta la data e l'ora
-    formatted_datetime = current_datetime.strftime("%Y-%m-%d_%H-%M-%S")+"_"+title
-    # Sostituisci gli spazi con trattini bassi
-    formatted_datetime_with_underscore = formatted_datetime.replace(' ', '_')
+    print("\n Birch: ")
+    result = dunn_index(dataset_torch, torch.tensor(label_birch(dataset_torch, 2))).item()
+    print(result)
+    dunn_list.append(result)
+    result = dunn_index(dataset_torch, torch.tensor(label_birch(dataset_torch, 3))).item()
+    print(result)
+    dunn_list.append(result)
+    result = dunn_index(dataset_torch, torch.tensor(label_birch(dataset_torch, 4))).item()
+    print(result)
+    dunn_list.append(result)
 
-    #salvataggio
-    if (save_data):
-        plt.savefig(f'C:\\Users\\giuli\\OneDrive\\Desktop\\DunnIndex\\results\\images\\{formatted_datetime_with_underscore}.png')
-        print(f"Dati salvati: il grafico è stato salvato come {formatted_datetime_with_underscore}")
-    else:
-        print("Dati non salvati")
+    ###############################
+    #grafico
+    graph = True
+    save_data = True
+    color_dataset = 'skyblue'
+    print("\n valori dunn: ", dunn_list)
+    if graph == True:
+        if(dataset==neuroblastoma_dataset):
+            color_dataset = "lightgreen"
+            title = 'dataset neuroblastoma'
+            etichette = ["K-Means \nk=2 \nEU", "K-Means \nk=3 \nEU", "K-Means\nk=4 \nEU",  "K-Means \nk=3 \nMAN", "K-Means \nk=4 \nMAN", "K-Means \nk=2 \nCOS", "K-Means \nk=3 \nCOS", "K-Means \nk=4 \nCOS", "HC \nk=2 \nward", "HC \nk=3 \nward", 
+                "HC \nk=4 \nward", "HC \nk=2 \nCOM", "HC \nk=3 \nCOM", "HC \nk=4 \nCOM", "HC \nk=2 \nAVE", "HC \nk=3 \nAVE", "HC \nk=4 \nAVE", "DB \neps=1 \nmin=2",
+                "DB \neps=3 \nmin=5", "DB \neps=4 \nmin=12", "DB \neps=4 \nmin=20","HDB \neps=5 \nmin=3", "HDB \neps=30 \nmin=7","M-S \nbv=NONE \nbs=False", "M-S \nbv=estimate \nbs=False", "M-S \nbv=estimate \nbs=True","Birch \nk=2", "Birch \nk=3", "Birch \nk=4"]
+        elif(dataset==cardiac_arrest_dataset):
+            color_dataset = "darkred"
+            title = 'dataset cardiac arrest'
+            etichette = ["K-M \nk=2 \nEU", "K-M \nk=3 \nEU", "K-M \nk=4 \nEU", "K-M \nk=2 \nMAN", "K-M \nk=3 \nMAN", "K-M \nk=4 \nMAN", "K-M \nk=2 \nCOS", "K-M \nk=3 \nCOS", "K-M \nk=4 \nCOS", "HC \nk=2 \nward", "HC \nk=3 \nward", 
+                "HC \nk=4 \nward", "HC \nk=2 \nCOM", "HC \nk=3 \nCOM", "HC \nk=4 \nCOM", "HC \nk=2 \nAVE", "HC \nk=3 \nAVE", "HC \nk=4 \nAVE", "DB \neps=1 \nmin=2","DB \neps=4 \nmin=20", "HDB \neps=2 \nmin=2",
+                "HDB \neps=10 \nmin=7", "HDB \neps=30 \nmin=7", "M-S \nbv=NONE \nbs=False", "M-S \nbv=estimate \nbs=False", "M-S \nbv=estimate \nbs=True", "Birch \nk=2", "Birch \nk=3", "Birch \nk=4"]
+        elif(dataset==diabetes_dataset):
+            title = 'dataset diabetes'
+            color_dataset = "orange"
+            etichette = ["K-M \nk=2 \nEU", "K-M \nk=3 \nEU", "K-M \nk=4 \nEU", "K-M \nk=2 \nMAN", "K-M \nk=3 \nMAN", "K-M \nk=4 \nMAN", "K-M \nk=2 \nCOS", "K-M \nk=3 \nCOS", "K-M \nk=4 \nCOS", "HC \nk=2 \nward", "HC \nk=3 \nward", 
+                "HC \nk=4 \nward", "HC \nk=2 \nCOM", "HC \nk=3 \nCOM", "HC \nk=4 \nCOM", "HC \nk=2 \nAVE", "HC \nk=3 \nAVE", "HC \nk=4 \nAVE", "DB \neps=12 \nmin=2", "DB \neps=13 \nmin=3", "DB \neps=13 \nmin=2","HDB \neps=2 \nmin=2", "HDB \neps=3 \nmin=2", 
+                "M-S \nbv=NONE \nbs=False", "M-S \nbv=estimate \nbs=False", "M-S \nbv=estimate \nbs=True", "Birch \nk=2", "Birch \nk=3", "Birch \nk=4"]
+        elif(dataset==sepsis_dataset):
+            title = 'dataset sepsis'
+            color_dataset = "purple"
+            etichette = ["K-M \nk=2 \nEU", "K-M \nk=3 \nEU", "K-M \nk=4 \nEU", "K-M \nk=2 \nMAN", "K-M \nk=3 \nMAN", "K-M \nk=4 \nMAN", "K-M \nk=2 \nCOS", "K-M \nk=3 \nCOS", "K-M \nk=4 \nCOS", "HC \nk=2 \nward", "HC \nk=3 \nward", 
+                "HC \nk=4 \nward", "HC \nk=2 \nCOM", "HC \nk=3 \nCOM", "HC \nk=4 \nCOM", "HC \nk=2 \nAVE", "HC \nk=3 \nAVE", "HC \nk=4 \nAVE", "DB \neps=1 \nmin=2", "DB \neps=2 \nmin=2", "DB \neps=3 \nmin=2", "DB \neps=4 \nmin=2", 
+                "HDB \neps=2 \nmin=2", "HDB \neps=30 \nmin=7", "HDB \neps=50 \nmin=2", "M-S \nbv=NONE \nbs=False", "M-S \nbv=estimate \nbs=False", "M-S \nbv=estimate \nbs=True", "Birch \nk=2", "Birch \nk=3", "Birch \nk=4"]
+        elif(dataset==heart_dataset):
+            title = 'dataset heart'
+            etichette = ["K-M \nk=2 \nEU", "K-M \nk=3 \nEU", "K-M \nk=4 \nEU", "K-M \nk=2 \nMAN", "K-M \nk=3 \nMAN", "K-M \nk=4 \nMAN", "K-M \nk=2 \nCOS", "K-M \nk=3 \nCOS", "K-M \nk=4 \nCOS", "HC \nk=2 \nward", "HC \nk=3 \nward", 
+                "HC \nk=4 \nward", "HC \nk=2 \nCOM", "HC \nk=3 \nCOM", "HC \nk=4 \nCOM", "HC \nk=2 \nAVE", "HC \nk=3 \nAVE", "HC \nk=4 \nAVE", "DB \neps=12 \nmin=2", "DB \neps=13 \nmin=3", "DB \neps=6 \nmin=2","HDB \neps=5 \nmin=3", "HDB \neps=50 \nmin=2", 
+                "M-S \nbv=NONE \nbs=False", "M-S \nbv=estimate \nbs=False", "M-S \nbv=estimate \nbs=True", "Birch \nk=2", "Birch \nk=3", "Birch \nk=4"]
+        
+
+
+        # Ordina i dati
+        data_originated = sorted(zip(dunn_list, etichette), key=lambda x: x[0], reverse=False)
+        decreasing_graph, decreasing_labels = zip(*data_originated)
+
+        # Crea il grafico
+        plt.figure(figsize=(7, 25))
+
+        # Usa barh per un grafico a barre orizzontali
+        bars = plt.barh(range(len(decreasing_graph)), decreasing_graph, color=color_dataset, edgecolor='black')
+
+        # Etichette degli assi
+        plt.xlabel('Dunn Index', fontsize=14)
+        plt.ylabel('Algoritmi', fontsize=14)
+
+        # Titolo del grafico
+        plt.title(title, fontsize=15)
+
+        # Imposta le etichette in orizzontale con una dimensione del font ridotta
+        plt.yticks(range(len(decreasing_graph)), decreasing_labels, rotation=0, ha='right', fontsize=10)
+
+        # Aggiungi la griglia per l'asse x
+        plt.grid(axis='x')
+
+        # Imposta i limiti per l'asse x
+        plt.ylim(-0.5, len(decreasing_graph) - 0.5)
+
+        # Modifica la dimensione dei numeri sull'asse x
+        plt.xticks(fontsize=12)
+
+        # Imposta i limiti per l'asse x con un margine extra per evitare che il valore esca dal grafico
+        plt.xlim(0, max(decreasing_graph) * 1.1)  # Aggiungi un 10% di margine extra a destra
+
+        # Aggiungi i numeri sopra le barre, ruotati a destra
+        for bar in bars:
+            width = bar.get_width()
+            plt.text(width + 0.02, bar.get_y() + bar.get_height() / 2, f'{width:.2f}', va='center', ha='left', fontsize=12)
+
+        # Ottimizza il layout
+        plt.tight_layout()
+
+
+
+        #timestamp
+        current_datetime = datetime.datetime.now()
+        # Formatta la data e l'ora
+        formatted_datetime = current_datetime.strftime("%Y-%m-%d_%H-%M-%S")+"_"+title
+        # Sostituisci gli spazi con trattini bassi
+        formatted_datetime_with_underscore = formatted_datetime.replace(' ', '_')
+
+        #salvataggio
+        if (save_data):
+            plt.savefig(f'C:\\Users\\giuli\\OneDrive\\Desktop\\DunnIndex\\results\\images\\{formatted_datetime_with_underscore}.png')
+            print(f"Dati salvati: il grafico è stato salvato come {formatted_datetime_with_underscore}")
+        else:
+            print("Dati non salvati")
 
 # Calcola il tempo di esecuzione
 end_time = time.time()
@@ -350,10 +378,10 @@ formatted_datetime = current_datetime.strftime("%Y-%m-%d_%H-%M-%S")+"_dataset_ti
 formatted_datetime_with_underscore = formatted_datetime.replace(' ', '_')
 #print(formatted_datetime_with_underscore)
 
-save_time = False
-if (save_time):
-    plt.savefig(f'C:\\Users\\giuli\\OneDrive\\Desktop\\DunnIndex\\results\\images\\{formatted_datetime_with_underscore}.png')
-    print(f"Dati salvati: il grafico è stato salvato come {formatted_datetime_with_underscore}")
+save_time_plot = False
+if (save_time_plot):
+    plt.savefig(f'..\\results\\images\\{formatted_datetime_with_underscore}.png')
+    print(f"Dati salvati: il grafico è stato salvato come ..\\results\\images\\{formatted_datetime_with_underscore}.png")
 else:
     print("Dati non salvati")
 plt.show()
