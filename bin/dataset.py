@@ -123,6 +123,10 @@ def dbscan(matrix, ep, ms):
             filtered_X.append(matrix[i])
     filtered_labels = lab[lab != -1]
     #print(lab)
+    unique_numbers = set() #Set è una struttura dati che non consente duplicati
+    for number in lab:
+        unique_numbers.add(number)  # Aggiungo il numero al set (se non è già presente)
+    print("Ci sono", len(unique_numbers), "k cluster.")
     dataset_torch = torch.tensor(filtered_X)
     labels = torch.tensor(filtered_labels)
     result = dunn_index(dataset_torch, labels).item()
@@ -142,6 +146,10 @@ def hdbscan_(matrix, ep, ms):
             filtered_X.append(matrix[i])
     filtered_labels = lab[lab != -1]
     #print(lab)
+    unique_numbers = set() #Set è una struttura dati che non consente duplicati
+    for number in lab:
+        unique_numbers.add(number)  # Aggiungo il numero al set (se non è già presente)
+    print("Ci sono", len(unique_numbers), "k cluster.")
     dataset_torch = torch.tensor(filtered_X)
     labels = torch.tensor(filtered_labels)
     result = dunn_index(dataset_torch, labels).item()
@@ -151,7 +159,7 @@ def hdbscan_(matrix, ep, ms):
 ###############################
 
 dunn_list = []
-datasets = [neuroblastoma_dataset] #QUI
+datasets = [heart_dataset] #QUI
 for dataset in datasets:
     dataset_torch = torch.tensor(dataset)
     dunn_index = DunnIndex(p=2)
