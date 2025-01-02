@@ -14,6 +14,38 @@ from sklearn.cluster import estimate_bandwidth
 import time
 import datetime
 import hdbscan
+import logging
+import sys
+
+
+#timestamp
+current_datetime = datetime.datetime.now()
+# Formatta la data e l'ora
+formatted_datetime = current_datetime.strftime("%Y-%m-%d_%H-%M-%S")+"_test_log"
+# Sostituisci gli spazi con trattini bassi
+formatted_datetime_with_underscore = formatted_datetime.replace(' ', '_')
+#print(formatted_datetime_with_underscore)
+
+# Configura il logging per scrivere nel file di log
+logging.basicConfig(
+    filename=(f'..\\results\\log\\{formatted_datetime_with_underscore}.txt'),
+    level=logging.INFO,  # Usa INFO per evitare messaggi di debug
+    format='%(asctime)s - %(message)s',  # Formato semplificato
+    datefmt='%Y-%m-%d %H:%M:%S',
+    filemode='a'
+)
+# Funzione per reindirizzare il print verso il file di log e la console
+class LogToFileAndConsole:
+    def write(self, message):
+        if message != '\n':  # Ignora le righe vuote
+            logging.info(message.strip())  # Scrive nel file di log
+            sys.__stdout__.write(message)  # Ripristina la stampa sulla console
+    def flush(self):
+        pass  # Necessario per evitare errori di buffering
+
+# Reindirizza sys.stdout (la stampa sulla console) al LogToFileAndConsole
+sys.stdout = LogToFileAndConsole()
+
 
 
 # Memorizziamo il tempo iniziale
@@ -258,7 +290,7 @@ for dataset in datasets:
     ###############################
     #grafico
     graph = True
-    save_data = True
+    save_data = False
     color_dataset = 'skyblue'
     print("\n valori dunn: ", dunn_list)
     if graph == True:

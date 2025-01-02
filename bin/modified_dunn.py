@@ -19,7 +19,7 @@ import torch
 from torch import Tensor
 
 
-def _dunn_index_update(data: Tensor, labels: Tensor, p: float) -> tuple[Tensor, Tensor]:
+def _dunn_index_modified_update(data: Tensor, labels: Tensor, p: float) -> tuple[Tensor, Tensor]:
     """Update and return variables required to compute the Dunn index.
 
     Args:
@@ -47,7 +47,7 @@ def _dunn_index_update(data: Tensor, labels: Tensor, p: float) -> tuple[Tensor, 
     return intercluster_distance, max_intracluster_distance
 
 
-def _dunn_index_compute(intercluster_distance: Tensor, max_intracluster_distance: Tensor) -> Tensor:
+def _dunn_index_modified_compute(intercluster_distance: Tensor, max_intracluster_distance: Tensor) -> Tensor:
     """Compute the Dunn index based on updated state.
 
     Args:
@@ -61,7 +61,7 @@ def _dunn_index_compute(intercluster_distance: Tensor, max_intracluster_distance
     return intercluster_distance.min() / (max_intracluster_distance.max() + intercluster_distance.min())
 
 
-def dunn_index(data: Tensor, labels: Tensor, p: float = 2) -> Tensor:
+def dunn_index_modified(data: Tensor, labels: Tensor, p: float = 2) -> Tensor:
     """Compute the Dunn index.
 
     Args:
@@ -80,11 +80,11 @@ def dunn_index(data: Tensor, labels: Tensor, p: float = 2) -> Tensor:
         tensor(2.)
 
     """
-    pairwise_distance, max_distance = _dunn_index_update(data, labels, p)
-    return _dunn_index_compute(pairwise_distance, max_distance)
+    pairwise_distance, max_distance = _dunn_index_modified_update(data, labels, p)
+    return _dunn_index_modified_compute(pairwise_distance, max_distance)
 
 
 data = torch.tensor([[0, 0], [0.5, 0], [1, 0], [0.5, 1]])
 labels = torch.tensor([0, 0, 0, 1])
-result = dunn_index(data, labels)
+result = dunn_index_modified(data, labels)
 print(result)
