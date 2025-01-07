@@ -6,6 +6,7 @@ import torch
 from torchmetrics.clustering import DunnIndex
 import time
 import datetime
+import modified_dunn
 
 # Memorizziamo il tempo iniziale
 start_time = time.time()
@@ -35,13 +36,12 @@ for i in range(len(data_list)):
     data_list[i] = [random.uniform(0, 1) for _ in range(4)]
     tensor_data = torch.tensor(data_list)
     labels_tensor = torch.tensor(compute_labels(tensor_data))
-    dunn_index = DunnIndex(p=2)
-    result = dunn_index(tensor_data, labels_tensor).item()
+    result = modified_dunn.dunn_index_modified(tensor_data, labels_tensor).item()
     dunn_index_list.append(result)
 ###############################
 
 # Grafico zeri_uni
-save_data_plot = False
+save_data_plot = True
 x_values = range(len(dunn_index_list))
 # Creazione del grafico con solo punti, senza linee
 plt.plot(x_values, dunn_index_list, 'o-', color='black', markersize=3)

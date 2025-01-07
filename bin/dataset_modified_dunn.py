@@ -11,6 +11,7 @@ from sklearn_extra.cluster import KMedoids
 from sklearn.cluster import MeanShift
 from sklearn.cluster import Birch
 from sklearn.cluster import estimate_bandwidth
+import modified_dunn
 import time
 import datetime
 import hdbscan
@@ -114,7 +115,6 @@ def label_birch(matrix, n_clusters):
 # calcolo labels DBSCAN
 def dbscan(matrix, ep, ms):
     filtered_X = []
-    dunn_index = DunnIndex(p=2)
     clustering = DBSCAN(eps=ep, min_samples=ms).fit(matrix)
     lab = clustering.labels_
     #print(lab)
@@ -129,7 +129,7 @@ def dbscan(matrix, ep, ms):
     print("Ci sono", len(unique_numbers), "k cluster.")
     dataset_torch = torch.tensor(filtered_X)
     labels = torch.tensor(filtered_labels)
-    result = dunn_index(dataset_torch, labels).item()
+    result = modified_dunn.dunn_index_modified(dataset_torch, labels).item()
     print(result)
     dunn_list.append(result)
     return result
@@ -137,7 +137,6 @@ def dbscan(matrix, ep, ms):
 # calcolo labels HDBSCAN
 def hdbscan_(matrix, ep, ms):
     filtered_X = []
-    dunn_index = DunnIndex(p=2)
     clustering = hdbscan.HDBSCAN(min_cluster_size=ep, min_samples=ms).fit(matrix)
     lab = clustering.labels_
     #print(lab)
@@ -152,81 +151,80 @@ def hdbscan_(matrix, ep, ms):
     print("Ci sono", len(unique_numbers), "k cluster.")
     dataset_torch = torch.tensor(filtered_X)
     labels = torch.tensor(filtered_labels)
-    result = dunn_index(dataset_torch, labels).item()
+    result = modified_dunn.dunn_index_modified(dataset_torch, labels).item()
     print(result)
     dunn_list.append(result)
     return result
 ###############################
 
-datasets = [neuroblastoma_dataset] #QUI
+datasets = [neuroblastoma_dataset, cardiac_arrest_dataset, diabetes_dataset, sepsis_dataset, heart_dataset]#QUI
 for dataset in datasets:
     dunn_list = []
     dataset_torch = torch.tensor(dataset)
-    dunn_index = DunnIndex(p=2)
     print("\n k-means, euclidean: ")
-    result = dunn_index(dataset_torch, torch.tensor(label_kmeans(dataset_torch, 2))).item()
+    result = modified_dunn.dunn_index_modified(dataset_torch, torch.tensor(label_kmeans(dataset_torch, 2))).item()
     print(result)
     dunn_list.append(result)
-    result = dunn_index(dataset_torch, torch.tensor(label_kmeans(dataset_torch, 3))).item()
+    result = modified_dunn.dunn_index_modified(dataset_torch, torch.tensor(label_kmeans(dataset_torch, 3))).item()
     print(result)
     dunn_list.append(result)
-    result = dunn_index(dataset_torch, torch.tensor(label_kmeans(dataset_torch, 4))).item()
+    result = modified_dunn.dunn_index_modified(dataset_torch, torch.tensor(label_kmeans(dataset_torch, 4))).item()
     print(result)
     dunn_list.append(result)
 
     print("\n k-means, manhattan: ")
     if dataset != neuroblastoma_dataset: #non funziona il dunn index perchè viene identificato un solo cluster 
-        result = dunn_index(dataset_torch, torch.tensor(label_KMedoids(dataset_torch, 2, 'manhattan'))).item()
+        result = modified_dunn.dunn_index_modified(dataset_torch, torch.tensor(label_KMedoids(dataset_torch, 2, 'manhattan'))).item()
         print(result)
         dunn_list.append(result)
-    result = dunn_index(dataset_torch, torch.tensor(label_KMedoids(dataset_torch, 3, 'manhattan'))).item()
+    result = modified_dunn.dunn_index_modified(dataset_torch, torch.tensor(label_KMedoids(dataset_torch, 3, 'manhattan'))).item()
     print(result)
     dunn_list.append(result)
-    result = dunn_index(dataset_torch, torch.tensor(label_KMedoids(dataset_torch, 4, 'manhattan'))).item()
+    result = modified_dunn.dunn_index_modified(dataset_torch, torch.tensor(label_KMedoids(dataset_torch, 4, 'manhattan'))).item()
     print(result)
     dunn_list.append(result)
 
     print("\n k-means, cosine: ")
-    result = dunn_index(dataset_torch, torch.tensor(label_KMedoids(dataset_torch, 2, 'cosine'))).item()
+    result = modified_dunn.dunn_index_modified(dataset_torch, torch.tensor(label_KMedoids(dataset_torch, 2, 'cosine'))).item()
     print(result)
     dunn_list.append(result)
-    result = dunn_index(dataset_torch, torch.tensor(label_KMedoids(dataset_torch, 3, 'cosine'))).item()
+    result = modified_dunn.dunn_index_modified(dataset_torch, torch.tensor(label_KMedoids(dataset_torch, 3, 'cosine'))).item()
     print(result)
     dunn_list.append(result)
-    result = dunn_index(dataset_torch, torch.tensor(label_KMedoids(dataset_torch, 4, 'cosine'))).item()
+    result = modified_dunn.dunn_index_modified(dataset_torch, torch.tensor(label_KMedoids(dataset_torch, 4, 'cosine'))).item()
     print(result)
     dunn_list.append(result)
 
     print("\n hierarchical, ward: ")
-    result = dunn_index(dataset_torch, torch.tensor(label_hierarchical(dataset_torch, 2, 'ward'))).item()
+    result = modified_dunn.dunn_index_modified(dataset_torch, torch.tensor(label_hierarchical(dataset_torch, 2, 'ward'))).item()
     print(result)
     dunn_list.append(result)
-    result = dunn_index(dataset_torch, torch.tensor(label_hierarchical(dataset_torch, 3, 'ward'))).item()
+    result = modified_dunn.dunn_index_modified(dataset_torch, torch.tensor(label_hierarchical(dataset_torch, 3, 'ward'))).item()
     print(result)
     dunn_list.append(result)
-    result = dunn_index(dataset_torch, torch.tensor(label_hierarchical(dataset_torch, 4, 'ward'))).item()
+    result = modified_dunn.dunn_index_modified(dataset_torch, torch.tensor(label_hierarchical(dataset_torch, 4, 'ward'))).item()
     print(result)
     dunn_list.append(result)
 
     print("\n hierarchical, complete: ")
-    result = dunn_index(dataset_torch, torch.tensor(label_hierarchical(dataset_torch, 2, 'complete'))).item()
+    result = modified_dunn.dunn_index_modified(dataset_torch, torch.tensor(label_hierarchical(dataset_torch, 2, 'complete'))).item()
     print(result)
     dunn_list.append(result)
-    result = dunn_index(dataset_torch, torch.tensor(label_hierarchical(dataset_torch, 3, 'complete'))).item()
+    result = modified_dunn.dunn_index_modified(dataset_torch, torch.tensor(label_hierarchical(dataset_torch, 3, 'complete'))).item()
     print(result)
     dunn_list.append(result)
-    result = dunn_index(dataset_torch, torch.tensor(label_hierarchical(dataset_torch, 4, 'complete'))).item()
+    result = modified_dunn.dunn_index_modified(dataset_torch, torch.tensor(label_hierarchical(dataset_torch, 4, 'complete'))).item()
     print(result)
     dunn_list.append(result)
 
     print("\n hierarchical, average: ")
-    result = dunn_index(dataset_torch, torch.tensor(label_hierarchical(dataset_torch, 2, 'average'))).item()
+    result = modified_dunn.dunn_index_modified(dataset_torch, torch.tensor(label_hierarchical(dataset_torch, 2, 'average'))).item()
     print(result)
     dunn_list.append(result)
-    result = dunn_index(dataset_torch, torch.tensor(label_hierarchical(dataset_torch, 3, 'average'))).item()
+    result = modified_dunn.dunn_index_modified(dataset_torch, torch.tensor(label_hierarchical(dataset_torch, 3, 'average'))).item()
     print(result)
     dunn_list.append(result)
-    result = dunn_index(dataset_torch, torch.tensor(label_hierarchical(dataset_torch, 4, 'average'))).item()
+    result = modified_dunn.dunn_index_modified(dataset_torch, torch.tensor(label_hierarchical(dataset_torch, 4, 'average'))).item()
     print(result)
     dunn_list.append(result)
 
@@ -271,34 +269,34 @@ for dataset in datasets:
         hdbscan_(dataset, 50, 2) 
 
     print("\n Mean-Shift: ")
-    result = dunn_index(dataset_torch, torch.tensor(label_mean_shift(dataset_torch, bandwidth=None, bin_seeding=False))).item()
+    result = modified_dunn.dunn_index_modified(dataset_torch, torch.tensor(label_mean_shift(dataset_torch, bandwidth=None, bin_seeding=False))).item()
     print(result)
     dunn_list.append(result)
     # Calcola il bandwidth
     calculated_bandwidth = estimate_bandwidth(dataset_torch.numpy(), quantile=0.2, n_samples=500)
-    result = dunn_index(dataset_torch, torch.tensor(label_mean_shift(dataset_torch, bandwidth=calculated_bandwidth, bin_seeding=False))).item()
+    result = modified_dunn.dunn_index_modified(dataset_torch, torch.tensor(label_mean_shift(dataset_torch, bandwidth=calculated_bandwidth, bin_seeding=False))).item()
     print(result)
     dunn_list.append(result)
     if(dataset!=diabetes_dataset):
-        result = dunn_index(dataset_torch, torch.tensor(label_mean_shift(dataset_torch, bandwidth=calculated_bandwidth, bin_seeding=True))).item()
+        result = modified_dunn.dunn_index_modified(dataset_torch, torch.tensor(label_mean_shift(dataset_torch, bandwidth=calculated_bandwidth, bin_seeding=True))).item()
         print(result)
         dunn_list.append(result)
 
     print("\n Birch: ")
-    result = dunn_index(dataset_torch, torch.tensor(label_birch(dataset_torch, 2))).item()
+    result = modified_dunn.dunn_index_modified(dataset_torch, torch.tensor(label_birch(dataset_torch, 2))).item()
     print(result)
     dunn_list.append(result)
-    result = dunn_index(dataset_torch, torch.tensor(label_birch(dataset_torch, 3))).item()
+    result = modified_dunn.dunn_index_modified(dataset_torch, torch.tensor(label_birch(dataset_torch, 3))).item()
     print(result)
     dunn_list.append(result)
-    result = dunn_index(dataset_torch, torch.tensor(label_birch(dataset_torch, 4))).item()
+    result = modified_dunn.dunn_index_modified(dataset_torch, torch.tensor(label_birch(dataset_torch, 4))).item()
     print(result)
     dunn_list.append(result)
 
     ###############################
     #grafico
     graph = True
-    save_data_plot = False
+    save_data_plot = True
     color_dataset = 'skyblue'
     print("\n valori dunn: ", dunn_list)
     if graph == True:
@@ -339,7 +337,7 @@ for dataset in datasets:
         decreasing_graph, decreasing_labels = zip(*data_originated)
 
         # Crea il grafico
-        plt.figure(figsize=(15, 25))
+        plt.figure(figsize=(7, 25))
 
         # Usa barh per un grafico a barre orizzontali
         bars = plt.barh(range(len(decreasing_graph)), decreasing_graph, color=color_dataset, edgecolor='black')
@@ -369,7 +367,7 @@ for dataset in datasets:
         # Aggiungi i numeri sopra le barre, ruotati a destra
         for bar in bars:
             width = bar.get_width()
-            plt.text(width + 0.02, bar.get_y() + bar.get_height() / 2, f'{width:.2f}', va='center', ha='left', fontsize=12)
+            plt.text(width + 0.002, bar.get_y() + bar.get_height() / 2, f'{width:.2f}', va='center', ha='left', fontsize=12)
 
         # Ottimizza il layout
         plt.tight_layout()

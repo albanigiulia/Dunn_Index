@@ -58,9 +58,8 @@ dunn_result = dunn_index(tensor_matrix, labels_tensor).item()
 print(dunn_result)
 
 # grafico
-graph_clusters_saparated = False
-if graph_clusters_saparated:
-    save_clusters_separated = False
+save_clusters_separated_plot = False
+if save_clusters_separated_plot:
     first_cluster_values = [item[0] for item in clustered_matrix] #valore appartenenti al primo cluster
     second_cluster_values = [item[1] for item in clustered_matrix] #valore appartenenti al secondo cluster
 
@@ -82,9 +81,9 @@ if graph_clusters_saparated:
     #print(formatted_datetime_with_underscore)
 
     #salvataggio
-    if (save_clusters_separated):
-        plt.savefig(f'C:\\Users\\giuli\\OneDrive\\Desktop\\DunnIndex\\results\\Immagini\\{formatted_datetime_with_underscore}.png')
-        print(f"Dati salvati: il grafico è stato salvato come {formatted_datetime_with_underscore}")
+    if (save_clusters_separated_plot):
+        plt.savefig(f'..\\results\\images\\{formatted_datetime_with_underscore}.png')
+        print(f"Dati salvati: il grafico è stato salvato come {formatted_datetime_with_underscore}.png")
     else:
         print("Dati non salvati")
 
@@ -123,9 +122,8 @@ dunn_result = dunn_index(tensor_matrix, labels_tensor).item()
 print(dunn_result)
 
 # Grafico
-graph_random = True
-if graph_random:
-    save_random = False
+graph_random_plot = True
+if graph_random_plot:
     first_cluster_values = [item[0] for item in random_matrix]
     second_cluster_values = [item[1] for item in random_matrix]
 
@@ -146,9 +144,9 @@ if graph_random:
     #print(formatted_datetime_with_underscore)
 
     #salvataggio
-    if (save_random):
-        plt.savefig(f'C:\\Users\\giuli\\OneDrive\\Desktop\\DunnIndex\\results\\Immagini\\{formatted_datetime_with_underscore}.png')
-        print(f"Dati salvati: il grafico è stato salvato come {formatted_datetime_with_underscore}")
+    if (graph_random_plot):
+        plt.savefig(f'..\\results\\images\\{formatted_datetime_with_underscore}.png')
+        print(f"Dati salvati: il grafico è stato salvato come {formatted_datetime_with_underscore}.png")
     else:
         print("Dati non salvati")
     # Calcola il tempo di esecuzione
