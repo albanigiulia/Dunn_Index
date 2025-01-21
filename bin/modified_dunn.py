@@ -58,7 +58,7 @@ def _dunn_index_modified_compute(intercluster_distance: Tensor, max_intracluster
         scalar tensor with the dunn index
 
     """
-    return intercluster_distance.min() / ((max_intracluster_distance.max() + intercluster_distance.min())*5)
+    return intercluster_distance.min() / ((max_intracluster_distance.max() + intercluster_distance.min()))
 
 
 def dunn_index_modified(data: Tensor, labels: Tensor, p: float = 2) -> Tensor:

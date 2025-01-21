@@ -1,5 +1,3 @@
-import numpy as np  # da togliere
-import random
 from sklearn.cluster import KMeans
 import csv
 import matplotlib.pyplot as plt
@@ -332,46 +330,42 @@ for dataset in datasets:
         
 
 
-        # Ordina i dati
-        data_originated = sorted(zip(dunn_list, etichette), key=lambda x: x[0], reverse=False)
-        decreasing_graph, decreasing_labels = zip(*data_originated)
+        # Ordina i dati in ordine decrescente
+        data_originated = sorted(zip(dunn_list, etichette), key=lambda x: x[0], reverse=True)
+        decreasing_graph, decreasing_labels = zip(*data_originated[:5])  # Prendi solo i primi 5 elementi più grandi
 
         # Crea il grafico
-        plt.figure(figsize=(7, 25))
+        plt.figure(figsize=(10, 6))
 
-        # Usa barh per un grafico a barre orizzontali
-        bars = plt.barh(range(len(decreasing_graph)), decreasing_graph, color=color_dataset, edgecolor='black')
+        # Usa bar per un grafico a barre verticali
+        bars = plt.bar(decreasing_labels, decreasing_graph, color=color_dataset, edgecolor='black')
 
         # Etichette degli assi
-        plt.xlabel('Dunn Index', fontsize=14)
-        plt.ylabel('Algoritmi', fontsize=14)
+        plt.ylabel('Dunn Index', fontsize=14)
+        plt.xlabel('Algoritmi di clustering', fontsize=14)
 
         # Titolo del grafico
         plt.title(title, fontsize=15)
 
-        # Imposta le etichette in orizzontale con una dimensione del font ridotta
-        plt.yticks(range(len(decreasing_graph)), decreasing_labels, rotation=0, ha='right', fontsize=10)
+        # Aggiungi la griglia per l'asse y
+        plt.grid(axis='y')
 
-        # Aggiungi la griglia per l'asse x
-        plt.grid(axis='x')
+        # Imposta i limiti per l'asse y con un margine extra per evitare che il valore esca dal grafico
+        plt.ylim(0, max(decreasing_graph) * 1.1)  # Aggiungi un 10% di margine extra sopra
 
-        # Imposta i limiti per l'asse x
-        plt.ylim(-0.5, len(decreasing_graph) - 0.5)
+        # Modifica la dimensione delle etichette sull'asse x
+        plt.xticks(fontsize=13, rotation=0, ha='center')
 
-        # Modifica la dimensione dei numeri sull'asse x
-        plt.xticks(fontsize=12)
+        # Modifica la dimensione dei numeri sull'asse y
+        plt.yticks(fontsize=13) 
 
-        # Imposta i limiti per l'asse x con un margine extra per evitare che il valore esca dal grafico
-        plt.xlim(0, max(decreasing_graph) * 1.1)  # Aggiungi un 10% di margine extra a destra
-
-        # Aggiungi i numeri sopra le barre, ruotati a destra
+        # Aggiungi i numeri sopra le barre
         for bar in bars:
-            width = bar.get_width()
-            plt.text(width + 0.002, bar.get_y() + bar.get_height() / 2, f'{width:.2f}', va='center', ha='left', fontsize=12)
+            height = bar.get_height()
+            plt.text(bar.get_x() + bar.get_width() / 2, height + 0.02, f'{height:.2f}', va='bottom', ha='center', fontsize=12)
 
         # Ottimizza il layout
         plt.tight_layout()
-
 
 
         #timestamp
