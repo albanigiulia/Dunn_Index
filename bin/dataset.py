@@ -304,30 +304,30 @@ for dataset in datasets:
     if graph == True:
         if(dataset==neuroblastoma_dataset):
             color_dataset = "lightgreen"
-            title = 'dataset neuroblastoma'
+            title = 'Dataset neuroblastoma'
             etichette = ["K-Means \nk=2 \nEU", "K-Means \nk=3 \nEU", "K-Means\nk=4 \nEU",  "K-Means \nk=3 \nMAN", "K-Means \nk=4 \nMAN", "K-Means \nk=2 \nCOS", "K-Means \nk=3 \nCOS", "K-Means \nk=4 \nCOS", "HC \nk=2 \nward", "HC \nk=3 \nward", 
                 "HC \nk=4 \nward", "HC \nk=2 \nCOM", "HC \nk=3 \nCOM", "HC \nk=4 \nCOM", "HC \nk=2 \nAVE", "HC \nk=3 \nAVE", "HC \nk=4 \nAVE", "DB \neps=1 \nmin=2",
                 "DB \neps=3 \nmin=5", "DB \neps=4 \nmin=12", "DB \neps=4 \nmin=20","HDB \neps=5 \nmin=3", "HDB \neps=30 \nmin=7","M-S \nbv=NONE \nbs=False", "M-S \nbv=estimate \nbs=False", "M-S \nbv=estimate \nbs=True","Birch \nk=2", "Birch \nk=3", "Birch \nk=4"]
         elif(dataset==cardiac_arrest_dataset):
             color_dataset = "darkred"
-            title = 'dataset cardiac arrest'
+            title = 'Dataset arresto cardiaco'
             etichette = ["K-M \nk=2 \nEU", "K-M \nk=3 \nEU", "K-M \nk=4 \nEU", "K-M \nk=2 \nMAN", "K-M \nk=3 \nMAN", "K-M \nk=4 \nMAN", "K-M \nk=2 \nCOS", "K-M \nk=3 \nCOS", "K-M \nk=4 \nCOS", "HC \nk=2 \nward", "HC \nk=3 \nward", 
                 "HC \nk=4 \nward", "HC \nk=2 \nCOM", "HC \nk=3 \nCOM", "HC \nk=4 \nCOM", "HC \nk=2 \nAVE", "HC \nk=3 \nAVE", "HC \nk=4 \nAVE", "DB \neps=1 \nmin=2","DB \neps=4 \nmin=20", "HDB \neps=2 \nmin=2",
                 "HDB \neps=10 \nmin=7", "HDB \neps=30 \nmin=7", "M-S \nbv=NONE \nbs=False", "M-S \nbv=estimate \nbs=False", "M-S \nbv=estimate \nbs=True", "Birch \nk=2", "Birch \nk=3", "Birch \nk=4"]
         elif(dataset==diabetes_dataset):
-            title = 'dataset diabetes'
+            title = 'Dataset diabete'
             color_dataset = "orange"
             etichette = ["K-M \nk=2 \nEU", "K-M \nk=3 \nEU", "K-M \nk=4 \nEU", "K-M \nk=2 \nMAN", "K-M \nk=3 \nMAN", "K-M \nk=4 \nMAN", "K-M \nk=2 \nCOS", "K-M \nk=3 \nCOS", "K-M \nk=4 \nCOS", "HC \nk=2 \nward", "HC \nk=3 \nward", 
                 "HC \nk=4 \nward", "HC \nk=2 \nCOM", "HC \nk=3 \nCOM", "HC \nk=4 \nCOM", "HC \nk=2 \nAVE", "HC \nk=3 \nAVE", "HC \nk=4 \nAVE", "DB \neps=12 \nmin=2", "DB \neps=13 \nmin=3", "DB \neps=13 \nmin=2","HDB \neps=2 \nmin=2", "HDB \neps=3 \nmin=2", 
                 "M-S \nbv=NONE \nbs=False", "M-S \nbv=estimate \nbs=False", "M-S \nbv=estimate \nbs=True", "Birch \nk=2", "Birch \nk=3", "Birch \nk=4"]
         elif(dataset==sepsis_dataset):
-            title = 'dataset sepsis'
+            title = 'Dataset sepsi'
             color_dataset = "purple"
             etichette = ["K-M \nk=2 \nEU", "K-M \nk=3 \nEU", "K-M \nk=4 \nEU", "K-M \nk=2 \nMAN", "K-M \nk=3 \nMAN", "K-M \nk=4 \nMAN", "K-M \nk=2 \nCOS", "K-M \nk=3 \nCOS", "K-M \nk=4 \nCOS", "HC \nk=2 \nward", "HC \nk=3 \nward", 
                 "HC \nk=4 \nward", "HC \nk=2 \nCOM", "HC \nk=3 \nCOM", "HC \nk=4 \nCOM", "HC \nk=2 \nAVE", "HC \nk=3 \nAVE", "HC \nk=4 \nAVE", "DB \neps=1 \nmin=2", "DB \neps=2 \nmin=2", "DB \neps=3 \nmin=2", "DB \neps=4 \nmin=2", 
                 "HDB \neps=2 \nmin=2", "HDB \neps=30 \nmin=7", "HDB \neps=50 \nmin=2", "M-S \nbv=NONE \nbs=False", "M-S \nbv=estimate \nbs=False", "M-S \nbv=estimate \nbs=True", "Birch \nk=2", "Birch \nk=3", "Birch \nk=4"]
         elif(dataset==heart_dataset):
-            title = 'dataset heart'
+            title = 'Dataset insufficienza cardiaca'
             etichette = ["K-M \nk=2 \nEU", "K-M \nk=3 \nEU", "K-M \nk=4 \nEU", "K-M \nk=2 \nMAN", "K-M \nk=3 \nMAN", "K-M \nk=4 \nMAN", "K-M \nk=2 \nCOS", "K-M \nk=3 \nCOS", "K-M \nk=4 \nCOS", "HC \nk=2 \nward", "HC \nk=3 \nward", 
                 "HC \nk=4 \nward", "HC \nk=2 \nCOM", "HC \nk=3 \nCOM", "HC \nk=4 \nCOM", "HC \nk=2 \nAVE", "HC \nk=3 \nAVE", "HC \nk=4 \nAVE", "DB \neps=12 \nmin=2", "DB \neps=13 \nmin=3", "DB \neps=6 \nmin=2","HDB \neps=5 \nmin=3", "HDB \neps=50 \nmin=2", 
                 "M-S \nbv=NONE \nbs=False", "M-S \nbv=estimate \nbs=False", "M-S \nbv=estimate \nbs=True", "Birch \nk=2", "Birch \nk=3", "Birch \nk=4"]

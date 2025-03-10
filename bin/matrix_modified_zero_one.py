@@ -26,6 +26,7 @@ if num_rows % 2 != 0:
 else:
     # Crea la lista con la prima metà di zeri e la seconda metà di uni
     data_list = [[0, 0, 0, 0] for _ in range(num_rows // 2)] + [[1, 1, 1, 1] for _ in range(num_rows // 2)]
+    np.random.shuffle(data_list)
 # print(data_list)
 ###############################
 
@@ -48,7 +49,7 @@ plt.plot(x_values, dunn_index_list, 'o-', color='black', markersize=3)
 # Aggiunta dei titoli e delle etichette
 plt.title('Grafico dei dati')
 plt.xlabel('# Righe manipolate')
-plt.ylabel('Dunn index')
+plt.ylabel('Dunn index modificato')
 # Imposta le etichette dell'asse x:
 step_size = 200 #qui
 ticks = [0] + list(range(step_size - 1, len(dunn_index_list), step_size))  # Inizia con 0 e poi ogni step_size

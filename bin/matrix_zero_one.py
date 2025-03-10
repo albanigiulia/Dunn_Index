@@ -19,13 +19,14 @@ def compute_labels(matrix):
 ###############################
 
 # Creazione matrice
-num_rows = 1000 #qui
+num_rows = 50 #qui
 if num_rows % 2 != 0:
     print("Il numero di righe deve essere pari.")
 else:
     # Crea la lista con la prima metà di zeri e la seconda metà di uni
     data_list = [[0, 0, 0, 0] for _ in range(num_rows // 2)] + [[1, 1, 1, 1] for _ in range(num_rows // 2)]
-# print(data_list)
+    np.random.shuffle(data_list)
+    print(data_list)
 ###############################
 
 # Sostituzioni
@@ -41,7 +42,7 @@ for i in range(len(data_list)):
 ###############################
 
 # Grafico zeri_uni
-save_data_plot = False
+save_data_plot = True
 x_values = range(len(dunn_index_list))
 # Creazione del grafico con solo punti, senza linee
 plt.plot(x_values, dunn_index_list, 'o-', color='black', markersize=3)
@@ -50,7 +51,7 @@ plt.title('Grafico dei dati')
 plt.xlabel('# Righe manipolate')
 plt.ylabel('Dunn index')
 # Imposta le etichette dell'asse x:
-step_size = 200 #qui
+step_size = 5 #qui
 ticks = [0] + list(range(step_size - 1, len(dunn_index_list), step_size))  # Inizia con 0 e poi ogni step_size
 labels = [1] + [i + 1 for i in range(step_size - 1, len(dunn_index_list), step_size)]  # Prima etichetta è 1, poi ogni step_size
 plt.xticks(ticks=ticks, labels=labels) # utilizzata per impostare i valori e le etichette sull'asse x 
