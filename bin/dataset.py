@@ -303,46 +303,51 @@ for dataset in datasets:
     print("\n valori dunn: ", dunn_list)
     if graph == True:
         if(dataset==neuroblastoma_dataset):
+            position_indices = [0, 15, 20, 22, 25, 28]
             color_dataset = "lightgreen"
             title = 'Dataset neuroblastoma'
             etichette = ["K-Means \nk=2 \nEU", "K-Means \nk=3 \nEU", "K-Means\nk=4 \nEU",  "K-Means \nk=3 \nMAN", "K-Means \nk=4 \nMAN", "K-Means \nk=2 \nCOS", "K-Means \nk=3 \nCOS", "K-Means \nk=4 \nCOS", "HC \nk=2 \nward", "HC \nk=3 \nward", 
                 "HC \nk=4 \nward", "HC \nk=2 \nCOM", "HC \nk=3 \nCOM", "HC \nk=4 \nCOM", "HC \nk=2 \nAVE", "HC \nk=3 \nAVE", "HC \nk=4 \nAVE", "DB \neps=1 \nmin=2",
                 "DB \neps=3 \nmin=5", "DB \neps=4 \nmin=12", "DB \neps=4 \nmin=20","HDB \neps=5 \nmin=3", "HDB \neps=30 \nmin=7","M-S \nbv=NONE \nbs=False", "M-S \nbv=estimate \nbs=False", "M-S \nbv=estimate \nbs=True","Birch \nk=2", "Birch \nk=3", "Birch \nk=4"]
         elif(dataset==cardiac_arrest_dataset):
+            position_indices = [2, 12, 18, 22, 25, 27]
             color_dataset = "darkred"
             title = 'Dataset arresto cardiaco'
             etichette = ["K-M \nk=2 \nEU", "K-M \nk=3 \nEU", "K-M \nk=4 \nEU", "K-M \nk=2 \nMAN", "K-M \nk=3 \nMAN", "K-M \nk=4 \nMAN", "K-M \nk=2 \nCOS", "K-M \nk=3 \nCOS", "K-M \nk=4 \nCOS", "HC \nk=2 \nward", "HC \nk=3 \nward", 
                 "HC \nk=4 \nward", "HC \nk=2 \nCOM", "HC \nk=3 \nCOM", "HC \nk=4 \nCOM", "HC \nk=2 \nAVE", "HC \nk=3 \nAVE", "HC \nk=4 \nAVE", "DB \neps=1 \nmin=2","DB \neps=4 \nmin=20", "HDB \neps=2 \nmin=2",
                 "HDB \neps=10 \nmin=7", "HDB \neps=30 \nmin=7", "M-S \nbv=NONE \nbs=False", "M-S \nbv=estimate \nbs=False", "M-S \nbv=estimate \nbs=True", "Birch \nk=2", "Birch \nk=3", "Birch \nk=4"]
         elif(dataset==diabetes_dataset):
+            position_indices = [0, 16, 18, 22, 23, 27]
             title = 'Dataset diabete'
             color_dataset = "orange"
             etichette = ["K-M \nk=2 \nEU", "K-M \nk=3 \nEU", "K-M \nk=4 \nEU", "K-M \nk=2 \nMAN", "K-M \nk=3 \nMAN", "K-M \nk=4 \nMAN", "K-M \nk=2 \nCOS", "K-M \nk=3 \nCOS", "K-M \nk=4 \nCOS", "HC \nk=2 \nward", "HC \nk=3 \nward", 
                 "HC \nk=4 \nward", "HC \nk=2 \nCOM", "HC \nk=3 \nCOM", "HC \nk=4 \nCOM", "HC \nk=2 \nAVE", "HC \nk=3 \nAVE", "HC \nk=4 \nAVE", "DB \neps=12 \nmin=2", "DB \neps=13 \nmin=3", "DB \neps=13 \nmin=2","HDB \neps=2 \nmin=2", "HDB \neps=3 \nmin=2", 
                 "M-S \nbv=NONE \nbs=False", "M-S \nbv=estimate \nbs=False", "M-S \nbv=estimate \nbs=True", "Birch \nk=2", "Birch \nk=3", "Birch \nk=4"]
         elif(dataset==sepsis_dataset):
+            position_indices = [0, 17, 19, 23, 27, 28]
             title = 'Dataset sepsi'
             color_dataset = "purple"
             etichette = ["K-M \nk=2 \nEU", "K-M \nk=3 \nEU", "K-M \nk=4 \nEU", "K-M \nk=2 \nMAN", "K-M \nk=3 \nMAN", "K-M \nk=4 \nMAN", "K-M \nk=2 \nCOS", "K-M \nk=3 \nCOS", "K-M \nk=4 \nCOS", "HC \nk=2 \nward", "HC \nk=3 \nward", 
                 "HC \nk=4 \nward", "HC \nk=2 \nCOM", "HC \nk=3 \nCOM", "HC \nk=4 \nCOM", "HC \nk=2 \nAVE", "HC \nk=3 \nAVE", "HC \nk=4 \nAVE", "DB \neps=1 \nmin=2", "DB \neps=2 \nmin=2", "DB \neps=3 \nmin=2", "DB \neps=4 \nmin=2", 
                 "HDB \neps=2 \nmin=2", "HDB \neps=30 \nmin=7", "HDB \neps=50 \nmin=2", "M-S \nbv=NONE \nbs=False", "M-S \nbv=estimate \nbs=False", "M-S \nbv=estimate \nbs=True", "Birch \nk=2", "Birch \nk=3", "Birch \nk=4"]
         elif(dataset==heart_dataset):
+            position_indices = [1, 12, 20, 22, 24, 26]
             title = 'Dataset insufficienza cardiaca'
             etichette = ["K-M \nk=2 \nEU", "K-M \nk=3 \nEU", "K-M \nk=4 \nEU", "K-M \nk=2 \nMAN", "K-M \nk=3 \nMAN", "K-M \nk=4 \nMAN", "K-M \nk=2 \nCOS", "K-M \nk=3 \nCOS", "K-M \nk=4 \nCOS", "HC \nk=2 \nward", "HC \nk=3 \nward", 
                 "HC \nk=4 \nward", "HC \nk=2 \nCOM", "HC \nk=3 \nCOM", "HC \nk=4 \nCOM", "HC \nk=2 \nAVE", "HC \nk=3 \nAVE", "HC \nk=4 \nAVE", "DB \neps=12 \nmin=2", "DB \neps=13 \nmin=3", "DB \neps=6 \nmin=2","HDB \neps=5 \nmin=3", "HDB \neps=50 \nmin=2", 
                 "M-S \nbv=NONE \nbs=False", "M-S \nbv=estimate \nbs=False", "M-S \nbv=estimate \nbs=True", "Birch \nk=2", "Birch \nk=3", "Birch \nk=4"]
         
-
-
-        # Ordina i dati in ordine decrescente
-        data_originated = sorted(zip(dunn_list, etichette), key=lambda x: x[0], reverse=True)
-        decreasing_graph, decreasing_labels = zip(*data_originated[:5])  # Prendi solo i primi 5 elementi più grandi
+        
+    
+        selected_data = [(dunn_list[i], etichette[i]) for i in position_indices] 
+        sorted_data = sorted(selected_data, key=lambda x: x[0], reverse=True)
+        sorted_graph, sorted_labels = zip(*sorted_data)
 
         # Crea il grafico
         plt.figure(figsize=(10, 6))
 
         # Usa bar per un grafico a barre verticali
-        bars = plt.bar(decreasing_labels, decreasing_graph, color=color_dataset, edgecolor='black')
+        bars = plt.bar(sorted_labels, sorted_graph, color=color_dataset, edgecolor='black')
 
         # Etichette degli assi
         plt.ylabel('Dunn Index', fontsize=14)
@@ -355,7 +360,7 @@ for dataset in datasets:
         plt.grid(axis='y')
 
         # Imposta i limiti per l'asse y con un margine extra per evitare che il valore esca dal grafico
-        plt.ylim(0, max(decreasing_graph) * 1.1)  # Aggiungi un 10% di margine extra sopra
+        plt.ylim(0, max(sorted_graph) * 1.1)  # Aggiungi un 10% di margine extra sopra
 
         # Modifica la dimensione delle etichette sull'asse x
         plt.xticks(fontsize=13, rotation=0, ha='center')
