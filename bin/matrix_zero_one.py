@@ -19,26 +19,35 @@ def compute_labels(matrix):
 ###############################
 
 # Creazione matrice
-num_rows = 50 #qui
+num_rows = 1000 #qui
 if num_rows % 2 != 0:
     print("Il numero di righe deve essere pari.")
 else:
-    # Crea la lista con la prima metà di zeri e la seconda metà di uni
-    data_list = [[0, 0, 0, 0] for _ in range(num_rows // 2)] + [[1, 1, 1, 1] for _ in range(num_rows // 2)]
-    np.random.shuffle(data_list)
-    print(data_list)
+    # Crea una matrice con `num_rows` righe e colonne
+    data_list = [[0 for _ in range(num_rows)] for _ in range(num_rows // 2)] + \
+        [[1 for _ in range(num_rows)] for _ in range(num_rows // 2)]
+    #print(data_list)
 ###############################
 
 # Sostituzioni
 dunn_index_list = []
-for i in range(len(data_list)):
-    # Sostituisci la riga con 4 valori casuali tra 0 e 1
-    data_list[i] = [random.uniform(0, 1) for _ in range(4)]
+counter = 0
+available_rows = set(range(num_rows))
+while counter<num_rows:
+    casual_row = random.choice(list(available_rows))
+    available_rows.remove(casual_row)
+    counter +=1
+
+    # Sostituisci la riga con num_rows valori casuali tra 0 e 1
+    data_list[casual_row] = [random.uniform(0, 1) for _ in range(num_rows)]
     tensor_data = torch.tensor(data_list)
     labels_tensor = torch.tensor(compute_labels(tensor_data))
     dunn_index = DunnIndex(p=2)
     result = dunn_index(tensor_data, labels_tensor).item()
     dunn_index_list.append(result)
+
+    # Stampa progressi
+    print(f"Riga casuale sostituita: {casual_row}")
 ###############################
 
 # Grafico zeri_uni
@@ -51,7 +60,7 @@ plt.title('Grafico dei dati')
 plt.xlabel('# Righe manipolate')
 plt.ylabel('Dunn index')
 # Imposta le etichette dell'asse x:
-step_size = 5 #qui
+step_size = 200 #qui
 ticks = [0] + list(range(step_size - 1, len(dunn_index_list), step_size))  # Inizia con 0 e poi ogni step_size
 labels = [1] + [i + 1 for i in range(step_size - 1, len(dunn_index_list), step_size)]  # Prima etichetta è 1, poi ogni step_size
 plt.xticks(ticks=ticks, labels=labels) # utilizzata per impostare i valori e le etichette sull'asse x 
@@ -80,10 +89,10 @@ plt.show()
 
 
 save_time_plot = False
-time_50_rowls = 0.5153484344482422
-time_100_rowls = 0.7125399112701416
-time_500_rowls = 3.0276362895965576
-time_1000_rowls = 5.6470112800598145
+time_50_rowls = 0.7272336483001709
+time_100_rowls = 1.146848201751709 
+time_500_rowls = 27.960906267166138
+time_1000_rowls = 185.20275497436523
 
 
 execution_graph_data = [[time_50_rowls, 50], [time_100_rowls, 100], [time_500_rowls, 500], [time_1000_rowls, 1000]]
@@ -98,8 +107,8 @@ plt.xlabel("# punti", fontsize=12)
 plt.ylabel("Tempo (secondi)", fontsize=12)
 # Imposta le etichette sull'asse X
 plt.xticks(sample_counts, labels=sample_counts)
-# Imposta le etichette sull'asse Y
-plt.ylim(0, 16)
+# Limiti dinamici sull'asse Y
+plt.ylim(0, max(execution_times) * 1.1)
 plt.grid(alpha=0.4)
 
 #timestamp
