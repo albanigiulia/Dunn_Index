@@ -19,7 +19,7 @@ def compute_labels(matrix):
 ###############################
 
 # Creazione matrice
-num_rows = 1000 #qui
+num_rows = 50 #qui
 if num_rows % 2 != 0:
     print("Il numero di righe deve essere pari.")
 else:
@@ -60,7 +60,7 @@ plt.title('Grafico dei dati')
 plt.xlabel('# Righe manipolate')
 plt.ylabel('Dunn index')
 # Imposta le etichette dell'asse x:
-step_size = 200 #qui
+step_size = 5 #qui
 ticks = [0] + list(range(step_size - 1, len(dunn_index_list), step_size))  # Inizia con 0 e poi ogni step_size
 labels = [1] + [i + 1 for i in range(step_size - 1, len(dunn_index_list), step_size)]  # Prima etichetta è 1, poi ogni step_size
 plt.xticks(ticks=ticks, labels=labels) # utilizzata per impostare i valori e le etichette sull'asse x 
@@ -88,7 +88,7 @@ print(f"Tempo di esecuzione: {execution_time} secondi")
 plt.show()
 
 
-save_time_plot = False
+save_time_plot = True
 time_50_rowls = 0.7272336483001709
 time_100_rowls = 1.146848201751709 
 time_500_rowls = 27.960906267166138

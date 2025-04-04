@@ -305,34 +305,34 @@ for dataset in datasets:
             title = 'Dataset neuroblastoma'
             etichette = ["K-Means \nk=2 \nd=Euclidean", "K-Means \nk=3 \nEU", "K-Means\nk=4 \nEU",  "K-Means \nk=3 \nMAN", "K-Means \nk=4 \nMAN", "K-Means \nk=2 \nCOS", "K-Means \nk=3 \nCOS", "K-Means \nk=4 \nCOS", "HC \nk=2 \nward", "HC \nk=3 \nward", 
                 "HC \nk=4 \nward", "HC \nk=2 \nCOM", "HC \nk=3 \nCOM", "HC \nk=4 \nCOM", "HC \nk=2 \nAVE", "Hierarchical C.\nk=3 \nl=Average", "HC \nk=4 \nAVE", "DB \neps=1 \nmin=2",
-                "DB \neps=3 \nmin=5", "DB \neps=4 \nmin=12", "DBSCAN \nEpsilon=4 \nMin Points=20","HDB \neps=5 \nmin=3", "HDBSCAN \nEpsilon=30 \nMin Points=7","M-S \nbw=NONE \nbs=False", "Mean-Shift \nbw=estimate \nbs=False", "Mean-Shift \nbw=Estimate \nbs=True","Birch \nk=2", "Birch \nk=3", "Birch \nk=4"]
+                "DB \neps=3 \nmin=5", "DB \neps=4 \nmin=12", "DBSCAN \nEpsilon=4 \nMin Points=20","HDB \neps=5 \nmin=3", "HDBSCAN \nEpsilon=30 \nMin Points=7","M-S \nbw=NONE \nbs=False", "Mean-Shift \nbw=estimate \nbs=False", "Mean-Shift \nbw=Estimate \nbs=True","BIRCH \nk=2", "BIRCH \nk=3", "BIRCH \nk=4"]
         elif(dataset==cardiac_arrest_dataset):
             position_indices = [2, 12, 18, 22, 25, 27]
             color_dataset = "darkred"
             title = 'Dataset arresto cardiaco'
             etichette = ["K-Means \nk=2 \nEU", "K-M \nk=3 \nEU", "K-Means \nk=4 \nd=Euclidean", "K-M \nk=2 \nMAN", "K-M \nk=3 \nMAN", "K-M \nk=4 \nMAN", "K-M \nk=2 \nCOS", "K-M \nk=3 \nCOS", "K-M \nk=4 \nCOS", "HC \nk=2 \nward", "HC \nk=3 \nward", 
                 "HC \nk=4 \nward", "Hierarchical C. \nk=2 \nl=Complete", "HC \nk=3 \nCOM", "HC \nk=4 \nCOM", "HC \nk=2 \nAVE", "HC \nk=3 \nAVE", "HC \nk=4 \nAVE", "DBSCAN \nEpsilon=1 \nMin Points=2","DB \neps=4 \nmin=20", "HDB \neps=2 \nmin=2",
-                "HDB \neps=10 \nmin=7", "HDBSCAN \nEpsilon=30 \nMin Points=7", "M-S \nbw=NONE \nbs=False", "M-S \nbw=estimate \nbs=False", "Mean-Shift \nbw=Estimate \nbs=True", "Birch \nk=2", "Birch \nk=3", "Birch \nk=4"]
+                "HDB \neps=10 \nmin=7", "HDBSCAN \nEpsilon=30 \nMin Points=7", "M-S \nbw=NONE \nbs=False", "M-S \nbw=estimate \nbs=False", "Mean-Shift \nbw=Estimate \nbs=True", "BIRCH \nk=2", "BIRCH \nk=3", "BIRCH \nk=4"]
         elif(dataset==diabetes_dataset):
             position_indices = [0, 16, 18, 22, 23, 27]
             title = 'Dataset diabete'
             color_dataset = "orange"
             etichette = ["K-M \nkeans=2 \nd=Euclidean", "K-M \nk=3 \nEU", "K-M \nk=4 \nEU", "K-M \nk=2 \nMAN", "K-M \nk=3 \nMAN", "K-M \nk=4 \nMAN", "K-M \nk=2 \nCOS", "K-M \nk=3 \nCOS", "K-M \nk=4 \nCOS", "HC \nk=2 \nward", "HC \nk=3 \nward", 
                 "HC \nk=4 \nward", "HC \nk=2 \nCOM", "HC \nk=3 \nCOM", "HC \nk=4 \nCOM", "HC \nk=2 \nAVE", "Hierarchical C. \nk=3 \nl=Average", "HC \nk=4 \nAVE", "DBSCAN \nEpsilon=12 \nMin Points=2", "DB \neps=13 \nmin=3", "DB \neps=13 \nmin=2","HDB \neps=2 \nmin=2", "HDBSCAN \nEpsilon=3 \nMin Points=2", 
-                "Mean-Shift \nbw=NONE \nbs=False", "M-S \nbw=estimate \nbs=False", "M-S \nbw=estimate \nbs=True", "Birch \nk=2", "Birch \nk=3", "Birch \nk=4"]
+                "Mean-Shift \nbw=NONE \nbs=False", "M-S \nbw=estimate \nbs=False", "M-S \nbw=estimate \nbs=True", "BIRCH \nk=2", "BIRCH \nk=3", "BIRCH \nk=4"]
         elif(dataset==sepsis_dataset):
             position_indices = [0, 17, 19, 23, 27, 28]
             title = 'Dataset sepsi'
             color_dataset = "purple"
             etichette = ["K-Means \nk=2 \nd=Euclidean", "K-M \nk=3 \nEU", "K-M \nk=4 \nEU", "K-M \nk=2 \nMAN", "K-M \nk=3 \nMAN", "K-M \nk=4 \nMAN", "K-M \nk=2 \nCOS", "K-M \nk=3 \nCOS", "K-M \nk=4 \nCOS", "HC \nk=2 \nward", "HC \nk=3 \nward", 
                 "HC \nk=4 \nward", "HC \nk=2 \nCOM", "HC \nk=3 \nCOM", "HC \nk=4 \nCOM", "HC \nk=2 \nAVE", "HC \nk=3 \nAVE", "Hierarchical C. \nk=4 \nl=Average", "DB \neps=1 \nmin=2", "DBSCAN \nEpsilon=2 \nMin Points=2", "DB \neps=3 \nmin=2", "DB \neps=4 \nmin=2", 
-                "HDBSCAN \nEpsilon=2 \nMin Points=2", "HDBSCAN \nEpsilon=30 \nMin Points=7", "HDB \neps=50 \nmin=2", "M-S \nbv=NONE \nbs=False", "M-S \nbv=estimate \nbs=False", "Mean-Shift \nbw=Estimate \nbs=True", "Birch \nk=2", "Birch \nk=3", "Birch \nk=4"]
+                "HDBSCAN \nEpsilon=2 \nMin Points=2", "HDBSCAN \nEpsilon=30 \nMin Points=7", "HDB \neps=50 \nmin=2", "M-S \nbv=NONE \nbs=False", "M-S \nbv=estimate \nbs=False", "Mean-Shift \nbw=Estimate \nbs=True", "BIRCH \nk=2", "BIRCH \nk=3", "BIRCH \nk=4"]
         elif(dataset==heart_dataset):
             position_indices = [1, 12, 20, 22, 24, 26]
             title = 'Dataset insufficienza cardiaca'
             etichette = ["K-M \nk=2 \nEU", "K-Means \nk=3 \nd=Euclidean", "K-M \nk=4 \nEU", "K-M \nk=2 \nMAN", "K-M \nk=3 \nMAN", "K-M \nk=4 \nMAN", "K-M \nk=2 \nCOS", "K-M \nk=3 \nCOS", "K-M \nk=4 \nCOS", "HC \nk=2 \nward", "HC \nk=3 \nward", 
                 "HC \nk=4 \nward", "Hierarchical C. \nk=2 \nl=Complete", "HC \nk=3 \nCOM", "HC \nk=4 \nCOM", "HC \nk=2 \nAVE", "HC \nk=3 \nAVE", "HC \nk=4 \nAVE", "DB \neps=12 \nmin=2", "DB \neps=13 \nmin=3", "DBSCAN \nEpsilon=6 \nMin Points=2","HDB \neps=5 \nmin=3", "HDBSCAN \nEpsilon=50 \nMin Points=2", 
-                "M-S \nbw=NONE \nbs=False", "Mean-Shift \nbw=Estimate \nbs=False", "M-S \nbw=Estimate \nbs=True", "Birch \nk=2", "Birch \nk=3", "Birch \nk=4"]
+                "M-S \nbw=NONE \nbs=False", "Mean-Shift \nbw=Estimate \nbs=False", "M-S \nbw=Estimate \nbs=True", "BIRCH \nk=2", "BIRCH \nk=3", "BIRCH \nk=4"]
     
 
 
@@ -348,7 +348,6 @@ for dataset in datasets:
 
         # Etichette degli assi
         plt.ylabel('Dunn Index Modificato', fontsize=14)
-        plt.xlabel('Algoritmi di clustering e relativi iperparametri', fontsize=14)
 
         # Titolo del grafico
         plt.title(title, fontsize=15)
