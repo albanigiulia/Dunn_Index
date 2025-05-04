@@ -9,3 +9,5 @@ L’obbiettivo `e osservare l’andamento del Dunn Index all’aumentare delle r
 Il Dunn Index viene calcolato su diversi datasets e algoritmi di clustering differenti.
 ## Informazioni aggiuntive
 Gli scripts vengono lanciati da terminale
+## Contatti
+Per ogni domanda e richiesta è possibile contattarmi al seguente indirizzo e-mail: giuliaalbani2003@gmail.com
